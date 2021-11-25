@@ -23,7 +23,7 @@ jobs:
           node-version: 16
 
       - name: Install Node.js dependencies
-        run: npm i
+        run: cd ./about && npm i
 
       - name: Build about project
         run: |
