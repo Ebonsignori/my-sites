@@ -1,0 +1,45 @@
+name: Deploy All
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-linters:
+    name: Deploy All
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Install Node.js dependencies
+        run: npm i
+
+      - name: Build about project
+        run: |
+          cd ./about && npm run build
+      
+      # Push to repo will trigger github deploy action in that repo
+      - name: Push about build files to hosting repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'about/build'
+          destination-github-username: 'ebonsignori'
+          destination-repository-name: 'my-about'
+          user-email: evanabonsignori@gmail.com
+          target-branch: main
+          
+
+

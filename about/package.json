@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "open http://localhost:3080 && next dev -p 3080",
-    "build": "next export",
+    "build": "next build && next export -o build/",
     "lint": "next lint"
   },
   "dependencies": {
