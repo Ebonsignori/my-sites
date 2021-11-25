@@ -30,12 +30,13 @@ jobs:
       - name: Install Node.js dependencies
         run: cd ./${{ matrix.project }} && npm i
 
-      - name: Build about project
+      - name: Build project and copy images if there are any
         run: |
           cd ./${{ matrix.project }} && npm run build
+          cp -r ./${{matrix.project}}/public/images/ ./${{matrix.project}}/build/images/
       
       # Push to repo will trigger github deploy action in that repo
-      - name: Push about build files to hosting repo
+      - name: Push project build files to hosting repo
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
