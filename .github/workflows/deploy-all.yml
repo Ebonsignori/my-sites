@@ -8,15 +8,15 @@ on:
     branches:
       - main
 
-# Used to loop through each project and deploy it
-strategy:
-  matrix:
-    project: ["about", "writing"]
-
 jobs:
-  run-linters:
+  deploy-all:
     name: Deploy All
     runs-on: ubuntu-latest
+
+    # Used to loop through each project and deploy it
+    strategy:
+      matrix:
+        project: ["about", "writing"]
 
     steps:
       - name: Check out Git repository
