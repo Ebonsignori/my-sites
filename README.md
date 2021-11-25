@@ -16,7 +16,7 @@ Content management will be done by modifying asset files in this repo (e.g. mark
 
 ## [About](./about)
 
-Landing page is for "about me" content. All pages will link back to this page, and this page links out to all pages.
+Landing page for "about me" content. All pages will link back to this page, and this page links out to all pages.
 
 #### Assets
 

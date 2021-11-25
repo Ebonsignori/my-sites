@@ -8,6 +8,11 @@ on:
     branches:
       - main
 
+# Used to loop through each project and deploy it
+strategy:
+  matrix:
+    project: ["about", "writing"]
+
 jobs:
   run-linters:
     name: Deploy All
@@ -23,11 +28,11 @@ jobs:
           node-version: 16
 
       - name: Install Node.js dependencies
-        run: cd ./about && npm i
+        run: cd ./${{ matrix.project }} && npm i
 
       - name: Build about project
         run: |
-          cd ./about && npm run build
+          cd ./${{ matrix.project }} && npm run build
       
       # Push to repo will trigger github deploy action in that repo
       - name: Push about build files to hosting repo
@@ -35,9 +40,9 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: 'about/build'
+          source-directory: '${{ matrix.project }}/build'
           destination-github-username: 'ebonsignori'
-          destination-repository-name: 'my-about'
+          destination-repository-name: 'my-${{ matrix.project }}'
           user-email: evanabonsignori@gmail.com
           target-branch: main
           
