@@ -1,0 +1,32 @@
+{
+  "name": "my-sites",
+  "description": "Monorepo of my personal sites",
+  "keywords": [
+    "portfolio",
+    "blog",
+    "music",
+    "photography"
+  ],
+  "scripts": {
+    "lint-about": "cd ./about && npm run lint && cd -",
+    "lint-music": "cd ./music && npm run lint && cd -",
+    "lint-photos": "cd ./photos && npm run lint && cd -",
+    "lint-writing": "cd ./writing && npm run lint && cd -",
+    "lint": "npm run lint-about"
+  },
+  "author": "Evan Bonsignori",
+  "license": "ISC",
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^12.0.4",
+    "babel-eslint": "^10.1.0",
+    "eslint": "7.23",
+    "eslint-config-next": "^12.0.4",
+    "eslint-plugin-github": "^4.2.0",
+    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-next": "^0.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "next": "^12.0.4"
+  }
+}
