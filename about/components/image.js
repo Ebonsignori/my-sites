@@ -13,7 +13,7 @@ export default function Image({ src, alt, width, height }) {
   }
 
   return (
-    <NextImage loader={loader} src={src} alt={alt} width={width} height={height} />
+    <NextImage priority={true} loader={loader} src={src} alt={alt} width={width} height={height} />
   )
 }
 
