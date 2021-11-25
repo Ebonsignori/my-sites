@@ -8,6 +8,8 @@ export default function Image({ src, alt, width, height }) {
     loader = ({ src, width, quality }) => {
       return `https://ebonsignori.github.io/my-about/images/${src}`
     }
+  } else {
+    src = `/images/${src}`
   }
 
   return (
