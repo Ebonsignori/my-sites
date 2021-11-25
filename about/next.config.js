@@ -2,9 +2,10 @@ const options = {
   reactStrictMode: true, 
 };
 
+// In development use loader in components/image.js
 if (process.env.NODE_ENV !== "development") {
-  options.loader = ({ src, width, quality }) => {
-    return `https://ebonsignori.github.io/my-about/images/${src}`
+  options.images = {
+    loader: "custom",
   }
 }
 
