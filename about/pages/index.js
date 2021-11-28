@@ -1,23 +1,39 @@
-import Head from 'next/head'
-import styled from "styled-components"
+import styled from "styled-components";
 
-import Image from '../components/image'
+import {
+  getImageSetSrc,
+  responsiveBackgroundImageUrl,
+} from "../../shared/utils/image";
 
 export default function Home() {
   return (
     <PageWrapper>
-      <Head>
-        <title>Evan Bonsignori</title>
-        <meta name="description" content="About landing page for Evan Bonsignori" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <h1>Landing page!</h1>
-      <Image src="evan-profile.jpg" alt="Evan Bonsignori" width="640" height="640" />
+      <PageHeader>
+        <StyledProfileImg
+          srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
+          alt="Evan Bonsignori"
+        />
+      </PageHeader>
     </PageWrapper>
-  )
+  );
 }
+
+const PageHeader = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  ${responsiveBackgroundImageUrl("stary-night-prineville-sky", true)}
+  z-index: -1;
+`;
 
 const PageWrapper = styled.div`
   background-color: black;
   color: white;
-`
+`;
+
+const StyledProfileImg = styled.img`
+  width: 50vw;
+  max-width: 50vw;
+`;

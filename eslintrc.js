@@ -1,5 +1,6 @@
 module.exports = {
   env: {
+    node: true,
     browser: true,
     es6: true,
     "jest/globals": true
@@ -13,6 +14,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:@next/next/recommended",
+    "plugin:github/recommended"
   ],
   settings: {
     react: {
@@ -45,6 +47,8 @@ module.exports = {
     'sort-imports': 0,
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 0,
+    'import/no-commonjs': 0,
+    '@next/next/no-img-element': 0
   },
 };
 
