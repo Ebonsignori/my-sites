@@ -12,7 +12,7 @@
     "lint-music": "cd ./music && npm run lint && cd -",
     "lint-photos": "cd ./photos && npm run lint && cd -",
     "lint-writing": "cd ./writing && npm run lint && cd -",
-    "lint-all": "npm run lint-about"
+    "lint": "npm run lint-about && npm run lint-music && npm run lint-photos && npm run lint-writing"
   },
   "author": "Evan Bonsignori",
   "license": "ISC",

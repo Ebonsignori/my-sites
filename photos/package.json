@@ -1,5 +1,5 @@
 {
-  "name": "writing",
+  "name": "photos",
   "private": true,
   "scripts": {
     "start": "open http://localhost:3081 && next dev -p 3081",

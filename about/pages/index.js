@@ -48,7 +48,7 @@ export default function Home({ content }) {
         <ProfileImageWrapper>
           <StyledProfileImg
             srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
-            alt="Evan Bonsignori"
+            alt="Evan Bonsignori's profile"
           />
         </ProfileImageWrapper>
         <GreetingText>
