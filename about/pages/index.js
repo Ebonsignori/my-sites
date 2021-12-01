@@ -7,7 +7,7 @@ import {
   getImageSetSrc,
   responsiveBackgroundImageUrl,
 } from "../../shared/utils/image";
-import AboutSection from "../src/components/about-section";
+// import AboutSection from "../src/components/about-section";
 import ShootingStars from "../src/components/shooting-stars";
 import WaveHand from "../src/components/wave-hand";
 import fetchContent from "../src/utils/fetch-content";
@@ -359,8 +359,7 @@ const PageLink = styled.a`
     -webkit-text-fill-color: transparent;
 
     animation: shine 3s linear infinite;
-    box-shadow: inset 0 0px 0 white,
-      inset 0 -3px 0 rgba(95, 145, 225, .5) !important;
+    box-shadow: inset 0 0px 0 white, inset 0 -3px 0 rgba(95, 145, 225, 0.5) !important;
   }
 
   @keyframes shine {
