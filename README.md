@@ -2,10 +2,10 @@
 
 Monorepo of my personal sites, each living on their own domain:
 
-- [About](#about) at [TODO.com]()
-- [Writing (TODO)](#writing) at [TODO.com]()
-- [Photos (TODO)](#photos) at [TODO.com]()
-- [Music (TODO)](#music) at [TODO.com]()
+- [About](#about) at [evan.bio](https://evan.bio)
+- [Writing](#writing) at [writing.evan.bio](https://writing.evan.bio)
+- [Photography](#photography) at [photos.evan.bio](https://photos.evan.bio)
+- [Music (TODO)](#music) at [music.evan.bio](https://music.evan.bio)
 
 Each page is hosted on GitHub Pages from their own repo.
 
@@ -29,7 +29,6 @@ Landing page for "about me" content. All pages will link back to this page, and 
 
 ## [Writing](./writing)
 
-[TODO.com]()
 
 A blog on no particular theme for all writing content.
 
@@ -38,9 +37,8 @@ A blog on no particular theme for all writing content.
 - [entries/](./writing/entries/): Markdown content for blog entires
 
 
-## [Photos](./photos)
+## [Photography](./photos)
 
-[TODO.com]()
 
 Feed of freely-downloadable photos. Photos are served as assets from this repo.
 
