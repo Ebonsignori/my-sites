@@ -15,6 +15,8 @@ Content management will be done by modifying asset files in this repo (e.g. mark
 
 Pushing to `main` triggers an action that builds and deploys each project to its own repo. The naming scheme of each repo is `ebonsignori/my-{project}` where project is one of `[about, writing, photos, music]`
 
+Uses https://github.com/Ebonsignori/image-resize-upload-aws for local picture uploads to AWS.
+
 
 ## [About](./about)
 

@@ -28,21 +28,27 @@ export function getImageSource(name, breakpoint, isAsset = false) {
 
 export function responsiveBackgroundImageUrl(name, isAsset) {
   let cssStr = `
-      @media screen and (max-width: ${BREAKPOINTS[0]}px) {
+      @media (max-width: ${BREAKPOINTS[0]}px) {
         background-image: url(${getImageSource(name, BREAKPOINTS[1], isAsset)});
       }
   `;
-  for (let i = 1; i < BREAKPOINTS.length - 1; i++) {
+  for (let i = 0; i < BREAKPOINTS.length - 1; i++) {
     const maxWidth = BREAKPOINTS[i + 1];
     const minWidth = BREAKPOINTS[i] + 1;
     cssStr += `
-      @media screen and (max-width: ${maxWidth}px) and (min-width: ${minWidth}px) {
+      @media (max-width: ${maxWidth}px) and (min-width: ${minWidth}px) {
         background-image: url(${getImageSource(name, maxWidth, isAsset)});
       }
     `;
-    cssStr += `
-      background-image: url("${getImageSource(name, "original", isAsset)}");
-    `;
   }
+  const lastBreakpointImage = getImageSource(
+    name,
+    BREAKPOINTS[BREAKPOINTS.length - 1],
+    isAsset
+  );
+  cssStr += `
+      background-image: url("${lastBreakpointImage}");
+    `;
+
   return cssStr;
 }
