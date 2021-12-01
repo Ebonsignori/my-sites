@@ -33,13 +33,6 @@ jobs:
       - name: Build project and copy images if there are any
         run: |
           cd ./${{ matrix.project }} && npm run build
-          if [[ -d public/images ]]
-          then
-            echo "Copying images to build dir"
-            cp -r public/images/ build/images/
-          else
-            echo "No images to be copied"
-          fi
       
       # Push to Netlify
       - name: Push project build files to Netlify

@@ -28,8 +28,8 @@ jobs:
           node-version: 16
 
       - name: Install Node.js dependencies
-        run: npm i
+        run: cd ./${{ matrix.project }} && npm i
 
       - name: Run linters
-        run: npm run lint
+        run: cd ./${{ matrix.project }} && npm run lint
 
