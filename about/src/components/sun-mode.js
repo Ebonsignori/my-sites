@@ -59,7 +59,7 @@ export default function SunMode() {
   if (numberOfStars >= MAX_STARS) {
     ChangeSectionRender = (
       <p>
-        Ok, ok, if you want to keep being entertained,{" "}
+        Ok, ok, if you want to keep being entertained{" "}
         <a href="https://www.youtube.com/playlist?list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo">
           go here.
         </a>

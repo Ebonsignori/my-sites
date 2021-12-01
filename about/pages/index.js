@@ -33,7 +33,7 @@ export default function Home({ content }) {
     }, LOAD_TIME);
   }, []);
 
-  const isSunMode = imageClickCount >= 4;
+  const isSunMode = imageClickCount >= 3;
 
   let PageRender = (
     <>
@@ -272,6 +272,10 @@ const StyledProfileImg = styled.img`
     `,
   })}
 
+  :hover {
+    cursor: grab;
+  }
+
   transition: transform 3s;
   ${(props) => {
     let styles = "";
@@ -287,16 +291,12 @@ const StyledProfileImg = styled.img`
     } else if (props.clickCount === 2) {
       styles = `
         transform: rotateZ(-180deg);
-        animation: rotate-full 2s ease-out 1 forwards;
+        animation: rotate-full 2s ease-out 1 forwards, toBW 2s linear 1 forwards;
         @keyframes rotate-full {
           to {
             transform: rotateZ(-360deg);
           }
         }
-      `;
-    } else if (props.clickCount === 3) {
-      styles = `
-        animation: toBW 2s linear 1 forwards;
         @keyframes toBW {
           0%    { filter: grayscale(0%); }
           25%   { filter: grayscale(25%); }
@@ -304,8 +304,8 @@ const StyledProfileImg = styled.img`
           75%   { filter: grayscale(75%); }
           100%  { filter: grayscale(100%); }
         }
-    `;
-    } else if (props.clickCount >= 4) {
+      `;
+    } else if (props.clickCount >= 3) {
       styles = `
         filter: grayscale(100%);
       `;
