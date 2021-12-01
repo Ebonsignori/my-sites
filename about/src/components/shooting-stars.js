@@ -3,15 +3,16 @@ import styled from "styled-components";
 
 import { getRandomStarProps } from "../utils/star-helpers";
 
-const initialStars = getRandomStarProps();
-const initialAnimations = initialStars.map(() => false);
-
-export default memo(function ShootingStars() {
-  const [starProps, setStarProps] = useState(initialStars);
-  const [animationsDone, setAnimationsDone] = useState(initialAnimations);
+export default memo(function ShootingStars({ numberOfStars }) {
+  const [starProps, setStarProps] = useState(() =>
+    getRandomStarProps(numberOfStars)
+  );
+  const [animationsDone, setAnimationsDone] = useState(
+    starProps.map(() => false)
+  );
 
   if (animationsDone.every((el) => el === true)) {
-    const newStars = getRandomStarProps();
+    const newStars = getRandomStarProps(numberOfStars);
     const newAnimations = newStars.map(() => false);
     setStarProps(newStars);
     setAnimationsDone(newAnimations);
@@ -141,16 +142,6 @@ const StyledShootingStar = styled.div`
 
     100% {
       transform: translateX(${(props) => props.shotLength * 3}vw);
-    }
-  }
-
-  @keyframes sky {
-    0% {
-      transform: rotate(45deg);
-    }
-
-    100% {
-      transform: rotate(45 + 360deg);
     }
   }
 `;

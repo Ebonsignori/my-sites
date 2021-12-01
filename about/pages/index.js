@@ -9,6 +9,7 @@ import {
 } from "../../shared/utils/image";
 // import AboutSection from "../src/components/about-section";
 import ShootingStars from "../src/components/shooting-stars";
+import SunMode from "../src/components/sun-mode";
 import WaveHand from "../src/components/wave-hand";
 import fetchContent from "../src/utils/fetch-content";
 
@@ -18,6 +19,8 @@ const LOAD_TIME = 2200;
 export default function Home({ content }) {
   const [introLoadFinished, setIntroLoadFinished] = useState(false);
   const [postLoadingFinished, setPostLoadingFinished] = useState(false);
+  const [imageClickCount, setImageClickCount] = useState(0);
+  const [imageAnimating, setImageAnimating] = useState(false);
 
   // Kick off loading countdown on first render
   const startPostLoading = () =>
@@ -30,38 +33,56 @@ export default function Home({ content }) {
     }, LOAD_TIME);
   }, []);
 
+  const isSunMode = imageClickCount >= 4;
+
+  let PageRender = (
+    <>
+      <GreetingTitleSection>
+        {!isSunMode && postLoadingFinished && <ShootingStars />}
+        <WaveHand introLoadFinished={introLoadFinished} />
+        <GreetingTitle doneLoading={introLoadFinished}>
+          <LetterOne>H</LetterOne>
+          <LetterTwo>i</LetterTwo>
+          <LetterThree postLoading={postLoadingFinished}>,</LetterThree>
+        </GreetingTitle>
+      </GreetingTitleSection>
+      <ProfileImageWrapper>
+        <StyledProfileImg
+          clickCount={imageClickCount}
+          onAnimationStart={() => setImageAnimating(true)}
+          onAnimationEnd={() => setImageAnimating(false)}
+          onClick={() =>
+            !imageAnimating &&
+            imageClickCount <= 5 &&
+            setImageClickCount((prevCount) => prevCount + 1)
+          }
+          srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
+          alt="Evan Bonsignori's profile"
+        />
+      </ProfileImageWrapper>
+      <GreetingText>
+        I'm <strong>Evan Bonsignori</strong>, a digital nomad travelling the
+        west. When I'm not writing code for {content.currentCompany} or
+        practicing mindfulness, I'm enjoying one of my hobbies,
+      </GreetingText>
+      <PageLinks>
+        <PageLink href={process.env.WRITING_PAGE_URL}>Writing</PageLink>
+        <PageLink href={process.env.PHOTOS_PAGE_URL}>Photography</PageLink>
+        <PageLink href={process.env.MUSIC_PAGE_URL}>Music</PageLink>
+      </PageLinks>
+    </>
+  );
+
+  if (isSunMode) {
+    PageRender = <SunMode />;
+  }
+
   return (
     <PageWrapper
       doneLoading={introLoadFinished}
       postLoading={postLoadingFinished}
     >
-      <ShootingStars />
-      <PageHeader>
-        <GreetingTitleSection>
-          <WaveHand introLoadFinished={introLoadFinished} />
-          <GreetingTitle doneLoading={introLoadFinished}>
-            <LetterOne>H</LetterOne>
-            <LetterTwo>i</LetterTwo>
-            <LetterThree postLoading={postLoadingFinished}>,</LetterThree>
-          </GreetingTitle>
-        </GreetingTitleSection>
-        <ProfileImageWrapper>
-          <StyledProfileImg
-            srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
-            alt="Evan Bonsignori's profile"
-          />
-        </ProfileImageWrapper>
-        <GreetingText>
-          I'm <strong>Evan Bonsignori</strong>, a digital nomad travelling the
-          west. When I'm not writing code for {content.currentCompany} or
-          practicing mindfulness, I'm enjoying one of my hobbies,
-        </GreetingText>
-        <PageLinks>
-          <PageLink href={process.env.WRITING_PAGE_URL}>Writing</PageLink>
-          <PageLink href={process.env.PHOTOS_PAGE_URL}>Photography</PageLink>
-          <PageLink href={process.env.MUSIC_PAGE_URL}>Music</PageLink>
-        </PageLinks>
-      </PageHeader>
+      <PageHeader>{PageRender}</PageHeader>
     </PageWrapper>
   );
 }
@@ -93,6 +114,16 @@ const PageWrapper = styled.div`
     transition: opacity 1s ease-in;
     opacity: 1 !important;
   `}
+
+  /* Used by child components */
+  @keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 `;
 
 const PageHeader = styled.header`
@@ -171,12 +202,7 @@ const GreetingTitle = styled.h1`
   margin-left: 0.5em;
   font-size: inherit;
   font-weight: 700;
-  color: black;
-  ${(props) =>
-    props.doneLoading &&
-    `
-    color: white;
-  `}
+  color: white;
 
   @keyframes fadeIn {
     0% {
@@ -221,6 +247,7 @@ const ProfileImageWrapper = styled.div`
 `;
 
 const StyledProfileImg = styled.img`
+  z-index: 2;
   border: 3px solid white;
   border-radius: 100%;
   width: 25vw;
@@ -244,6 +271,47 @@ const StyledProfileImg = styled.img`
       width: 22vw;
     `,
   })}
+
+  transition: transform 3s;
+  ${(props) => {
+    let styles = "";
+    if (props.clickCount === 1) {
+      styles = `
+        animation: rotate-half 2s ease-out 1 forwards;
+        @keyframes rotate-half {
+          to {
+            transform: rotateZ(-180deg);
+          }
+        }
+      `;
+    } else if (props.clickCount === 2) {
+      styles = `
+        transform: rotateZ(-180deg);
+        animation: rotate-full 2s ease-out 1 forwards;
+        @keyframes rotate-full {
+          to {
+            transform: rotateZ(-360deg);
+          }
+        }
+      `;
+    } else if (props.clickCount === 3) {
+      styles = `
+        animation: toBW 2s linear 1 forwards;
+        @keyframes toBW {
+          0%    { filter: grayscale(0%); }
+          25%   { filter: grayscale(25%); }
+          50%   { filter: grayscale(50%); }
+          75%   { filter: grayscale(75%); }
+          100%  { filter: grayscale(100%); }
+        }
+    `;
+    } else if (props.clickCount >= 4) {
+      styles = `
+        filter: grayscale(100%);
+      `;
+    }
+    return styles;
+  }}
 `;
 
 const GreetingText = styled.p`

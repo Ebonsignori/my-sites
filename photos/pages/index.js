@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { setEachBreakpoint } from "../../shared/utils/breakpoints";
+
 export default function Home() {
   return (
     <PageWrapper>
@@ -42,4 +44,43 @@ const PreviewWrapper = styled.div`
       opacity: 0.7;
     }
   }
+
+  ${setEachBreakpoint({
+    xs: `
+      h1 {
+        font-size: 3em;
+      }
+
+      p {
+        font-size: 1.5em;
+      }
+     `,
+    sm: `
+      h1 {
+        font-size: 5em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+     `,
+    md: `
+      h1 {
+        font-size: 5em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+      `,
+    lg: `
+      h1 {
+        font-size: 6em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+      `,
+  })}
 `;

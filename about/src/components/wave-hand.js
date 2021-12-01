@@ -10,15 +10,11 @@ const StyledWaveIcon = styled(WaveIcon)`
   min-width: 1em;
   visibility: visible;
   path {
-    transition: fill 1s ease;
     fill: white;
   }
   ${(props) =>
     props.wave &&
     `
-    path {
-      fill: black;
-    }
     animation-name: wave-animation; 
   `}
   :hover {
