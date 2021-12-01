@@ -30,15 +30,18 @@ jobs:
       - name: Install Node.js dependencies
         run: cd ./${{ matrix.project }} && npm i
 
-      - name: Build project and copy images if there are any
+      - name: Build Using Next.js Static Export
         run: |
           cd ./${{ matrix.project }} && npm run build
       
-      # Push to Netlify
-      - name: Push project build files to Netlify
-        uses: jsmrcaga/action-netlify-deploy@v1.1.0
+      # Push to repo will trigger Netlify deploy action in that repo
+      - name: Push project build files to hosting repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          NETLIFY_SITE_ID: "f121e096-98fa-4318-86d9-a44c89d6c708" 
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_PAT }}
-          NETLIFY_DEPLOY_TO_PROD: true
-          build_directory: '${{ matrix.project }}/build'
+          source-directory: '${{ matrix.project }}/build'
+          destination-github-username: 'ebonsignori'
+          destination-repository-name: 'my-${{ matrix.project }}'
+          user-email: evanabonsignori@gmail.com
+          target-branch: main
