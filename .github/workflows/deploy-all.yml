@@ -16,7 +16,7 @@ jobs:
     # Used to loop through each project and deploy it
     strategy:
       matrix:
-        project: ["about"]
+        project: ["about", "writing", "photos", "music"]
 
     steps:
       - name: Check out Git repository
