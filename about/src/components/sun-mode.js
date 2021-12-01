@@ -472,8 +472,8 @@ const Sun = styled.div`
 
   animation: sun-glow 10s linear infinite,
     sunrise 2s infinite linear forwards,
-  rays 2s 2s infinite linear,
-  fadeInAnimation ease 3s forwards;
+    rays 2s infinite linear,
+    fadeInAnimation ease 3s forwards;
 
   background: #f1c40f;
   @keyframes sun-glow {

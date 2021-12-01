@@ -7,6 +7,7 @@ export default function WaveHand({ introLoadFinished }) {
 }
 
 const StyledWaveIcon = styled(WaveIcon)`
+  z-index: 4;
   min-width: 1em;
   visibility: visible;
   path {

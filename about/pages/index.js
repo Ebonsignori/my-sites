@@ -198,36 +198,31 @@ const GreetingTitleSection = styled.div`
 `;
 
 const GreetingTitle = styled.h1`
+  z-index: 3;
   margin: 0;
   margin-left: 0.5em;
   font-size: inherit;
   font-weight: 700;
   color: white;
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
 `;
 
 const LetterOne = styled.span`
+  user-select: none;
   opacity: 0;
   animation-duration: 1s;
-  animation-name: fadeIn;
+  animation-name: fadeInAnimation;
   animation-fill-mode: forwards;
 `;
 const LetterTwo = styled.span`
+  user-select: none;
   opacity: 0;
   animation-delay: 0.3s;
   animation-duration: 1s;
-  animation-name: fadeIn;
+  animation-name: fadeInAnimation;
   animation-fill-mode: forwards;
 `;
 const LetterThree = styled.span`
+  user-select: none;
   ${(props) =>
     props.postLoading
       ? `
@@ -247,6 +242,7 @@ const ProfileImageWrapper = styled.div`
 `;
 
 const StyledProfileImg = styled.img`
+  user-select: none;
   z-index: 2;
   border: 3px solid white;
   border-radius: 100%;
@@ -315,6 +311,7 @@ const StyledProfileImg = styled.img`
 `;
 
 const GreetingText = styled.p`
+  user-select: none;
   grid-row: 3 / 4;
   grid-column: 2 / 5;
   font-size: 2em;
@@ -360,6 +357,7 @@ const GreetingText = styled.p`
 `;
 
 const PageLinks = styled.div`
+  user-select: none;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
