@@ -41,17 +41,11 @@ jobs:
             echo "No images to be copied"
           fi
       
-      # Push to repo will trigger github deploy action in that repo
-      - name: Push project build files to hosting repo
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      # Push to Netlify
+      - name: Push project build files to Netlify
+        uses: jsmrcaga/action-netlify-deploy@v1.1.0
         with:
-          source-directory: '${{ matrix.project }}/build'
-          destination-github-username: 'ebonsignori'
-          destination-repository-name: 'my-${{ matrix.project }}'
-          user-email: evanabonsignori@gmail.com
-          target-branch: main
-          
-
-
+          NETLIFY_SITE_ID: "f121e096-98fa-4318-86d9-a44c89d6c708" 
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_PAT }}
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_directory: '${{ matrix.project }}/build'
