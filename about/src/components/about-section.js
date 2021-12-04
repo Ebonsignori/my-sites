@@ -20,8 +20,10 @@ export default function AboutSection({ content, innerRef }) {
       <AboutWorkItem key={job.company}>
         <AboutWorkItemDate>{job.dates}</AboutWorkItemDate>
         <AboutCompanyLocationContainer>
-          <AboutWorkItemCompany href={job.companyUrl}>
-            {job.company}
+          <AboutWorkItemCompany>
+            <a target="_blank" href={job.companyUrl} rel="noreferrer">
+              {job.company}
+            </a>
           </AboutWorkItemCompany>
           <AboutWorkItemLocation>{job.location}</AboutWorkItemLocation>
         </AboutCompanyLocationContainer>
@@ -447,13 +449,22 @@ const AboutWorkItemDate = styled.span`
   color: #999;
 `;
 
-const AboutWorkItemCompany = styled.h4`
+const AboutWorkItemCompany = styled.a`
   line-height: 1.2em;
   font-size: 1.2em;
   margin-top: 0.4em;
   margin-bottom: 0;
   margin-right: 0.7em;
   min-width: fit-content;
+
+  a {
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+    :hover {
+      color: rgb(95, 145, 255);
+    }
+  }
 `;
 const AboutWorkItemLocation = styled.span`
   margin-top: 0.4em;
