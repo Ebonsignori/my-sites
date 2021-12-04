@@ -25,6 +25,15 @@ const BREAKPOINT_KEY_MAP = {
   xxl: BREAKPOINT_XXL,
 };
 
+const KEY_BREAKPOINT_MAP = {
+  [BREAKPOINTS[0]]: "xs",
+  [BREAKPOINTS[1]]: "sm",
+  [BREAKPOINTS[2]]: "md",
+  [BREAKPOINTS[3]]: "lg",
+  [BREAKPOINTS[4]]: "xl",
+  [BREAKPOINTS[5]]: "xxl",
+};
+
 export function setEachBreakpoint(
   args = {
     xs: "",
@@ -44,4 +53,33 @@ ${BREAKPOINT_KEY_MAP[key]} {
     `;
   }
   return cssString;
+}
+
+function getCurrentBreakpoint(width) {
+  let currentBreakpoint;
+  for (const breakpoint of BREAKPOINTS) {
+    if (width <= breakpoint) {
+      currentBreakpoint = breakpoint;
+      break;
+    }
+  }
+  if (!currentBreakpoint) {
+    currentBreakpoint = BREAKPOINTS[BREAKPOINTS.length - 1];
+  }
+  return currentBreakpoint;
+}
+
+export function getStringAtBreakpoint(
+  dimensions,
+  args = {
+    xs: "",
+    sm: "",
+    md: "",
+    lg: "",
+    xl: "",
+    xxl: "",
+  }
+) {
+  const currentKey = KEY_BREAKPOINT_MAP[getCurrentBreakpoint(dimensions.width)];
+  return args[currentKey];
 }

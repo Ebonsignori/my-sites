@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
@@ -7,7 +7,7 @@ import {
   getImageSetSrc,
   responsiveBackgroundImageUrl,
 } from "../../shared/utils/image";
-// import AboutSection from "../src/components/about-section";
+import AboutSection from "../src/components/about-section";
 import ShootingStars from "../src/components/shooting-stars";
 import SunMode from "../src/components/sun-mode";
 import WaveHand from "../src/components/wave-hand";
@@ -17,6 +17,7 @@ import fetchContent from "../src/utils/fetch-content";
 const LOAD_TIME = 2200;
 
 export default function Home({ content }) {
+  const aboutSectionRef = useRef(null);
   const [introLoadFinished, setIntroLoadFinished] = useState(false);
   const [postLoadingFinished, setPostLoadingFinished] = useState(false);
   const [imageClickCount, setImageClickCount] = useState(0);
@@ -70,11 +71,22 @@ export default function Home({ content }) {
         <PageLink href={process.env.PHOTOS_PAGE_URL}>Photography</PageLink>
         <PageLink href={process.env.MUSIC_PAGE_URL}>Music</PageLink>
       </PageLinks>
+      <ScrollDownArrowWrapper
+        onClick={() =>
+          aboutSectionRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            inline: "nearest",
+          })
+        }
+      >
+        <ScrollDownArrow />
+      </ScrollDownArrowWrapper>
     </>
   );
 
   if (isSunMode) {
-    PageRender = <SunMode />;
+    PageRender = <SunMode content={content} />;
   }
 
   return (
@@ -83,6 +95,9 @@ export default function Home({ content }) {
       postLoading={postLoadingFinished}
     >
       <PageHeader>{PageRender}</PageHeader>
+      {!isSunMode && (
+        <AboutSection innerRef={aboutSectionRef} content={content} />
+      )}
     </PageWrapper>
   );
 }
@@ -431,6 +446,72 @@ const PageLink = styled.a`
   @keyframes shine {
     to {
       background-position: 200% center;
+    }
+  }
+`;
+
+const ScrollDownArrowWrapperBreakpoints = setEachBreakpoint({
+  xs: `
+    left: 75%;
+  `,
+  sm: `
+    left: 80%;
+  `,
+});
+const ScrollDownArrowWrapper = styled.div`
+  ${ScrollDownArrowWrapperBreakpoints}
+  top: calc(100vh - 6em);
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 49%;
+  min-width: 5em;
+  min-height: 5em;
+  z-index: 3;
+  :hover {
+    cursor: pointer;
+    span {
+      border-left: 1px solid rgb(95, 145, 255);
+      border-bottom: 1px solid rgb(95, 145, 255);
+    }
+  }
+`;
+const ScrollDownArrow = styled.span`
+  z-index: 2;
+  position: absolute;
+  width: 3em;
+  height: 3em;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-animation: sdb05 1.5s infinite;
+  animation: sdb05 1.5s infinite;
+  box-sizing: border-box;
+  @-webkit-keyframes sdb05 {
+    0% {
+      -webkit-transform: rotate(-45deg) translate(0, 0);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: rotate(-45deg) translate(-20px, 20px);
+      opacity: 0;
+    }
+  }
+  @keyframes sdb05 {
+    0% {
+      transform: rotate(-45deg) translate(0, 0);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(-45deg) translate(-20px, 20px);
+      opacity: 0;
     }
   }
 `;

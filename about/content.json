@@ -12,7 +12,7 @@
       "dates": "2020 - 2021",
       "company": "Moz",
       "companyUrl": "https://moz.com/",
-      "title": "Software Engineer",
+      "title": "Backend Software Engineer",
       "location": "Seattle / Fully Remote"
     },
     {
@@ -20,14 +20,181 @@
       "company": "Cognizant Softvision",
       "companyUrl": "https://www.cognizantsoftvision.com/",
       "title": "Senior Consultant",
-      "location": "Atlanta GA / Remote"
+      "location": "Atlanta GA / Partially Remote"
     },
     {
       "dates": "2019",
       "company": "SalesVista",
       "companyUrl": "https://www.salesvista.com/",
       "title": "Backend Node.js Developer",
-      "location": "Atlanta GA / Remote"
+      "location": "Atlanta GA / Partially Remote"
+    },
+    {
+      "dates": "2018 - 2019",
+      "company": "Agorex",
+      "companyUrl": "https://github.com/Agorex-io",
+      "title": "Full Stack / Ethereum Developer",
+      "location": "Fully Remote"
+    }
+  ],
+  "sunModeImages": [
+    {
+      "end": 0,
+      "url": "https://emojis.slackmojis.com/emojis/images/1589877402/9116/excuseme.gif?1589877402"
+    },
+    {
+      "start": 1,
+      "end": 1,
+      "url": ""
+    },
+    {
+      "start": 1,
+      "end": 3,
+      "url": "https://emojis.slackmojis.com/emojis/images/1572027761/6878/blob_neutral.png?1572027761"
+    },
+    {
+      "start": 3,
+      "end": 5,
+      "url": "https://emojis.slackmojis.com/emojis/images/1629848413/49026/neutral_blob_vibrating.gif?1629848413"
+    },
+    {
+      "start": 5,
+      "end": 8,
+      "url": "https://emojis.slackmojis.com/emojis/images/1572027834/6910/blob_smile.png?1572027834"
+    },
+    {
+      "start": 8,
+      "end": 10,
+      "url": "https://emojis.slackmojis.com/emojis/images/1584725500/8268/blob-hype.gif?1584725500"
+    },
+    {
+      "start": 10,
+      "end": 15,
+      "url": "https://emojis.slackmojis.com/emojis/images/1562883039/5948/bongo_blob.gif?1562883039"
+    },
+    {
+      "start": 15,
+      "end": 20,
+      "url": "https://emojis.slackmojis.com/emojis/images/1547582922/5197/party_blob.gif?1547582922"
+    },
+    {
+      "start": 20,
+      "end": 25,
+      "url": "https://emojis.slackmojis.com/emojis/images/1627571184/48081/hyper_blob-dance.gif?1627571184"
+    },
+    {
+      "start": 25,
+      "end": 30,
+      "url": "https://emojis.slackmojis.com/emojis/images/1597320283/10003/catjam.gif?1597320283"
+    },
+    {
+      "start": 30,
+      "end": 35,
+      "url": "https://emojis.slackmojis.com/emojis/images/1520808873/3643/cool-doge.gif?1520808873"
+    },
+    {
+      "start": 35,
+      "end": 40,
+      "url": "https://emojis.slackmojis.com/emojis/images/1632358912/49550/stonkazoid.gif?1632358912"
+    },
+    {
+      "start": 40,
+      "end": 45,
+      "url": "https://emojis.slackmojis.com/emojis/images/1625751875/47107/friday_dog.gif?1625751875"
+    },
+    {
+      "start": 45,
+      "end": 50,
+      "url": "https://emojis.slackmojis.com/emojis/images/1518311667/3526/walkbear.gif?1518311667"
+    },
+    {
+      "start": 50,
+      "end": 55,
+      "url": "https://emojis.slackmojis.com/emojis/images/1498861986/2544/nyancat.gif?1498861986"
+    },
+    {
+      "start": 55,
+      "end": 60,
+      "url": "https://emojis.slackmojis.com/emojis/images/1450694616/220/bananadance.gif?1450694616"
+    },
+    {
+      "start": 60,
+      "end": 65,
+      "url": "https://emojis.slackmojis.com/emojis/images/1584726180/8270/blob-dance.gif?1584726180"
+    },
+    {
+      "start": 65,
+      "end": 70,
+      "url": "https://emojis.slackmojis.com/emojis/images/1539890226/4845/rickroll.gif?1539890226"
+    },
+    {
+      "start": 70,
+      "end": 73,
+      "url": "https://emojis.slackmojis.com/emojis/images/1605479308/11044/among_us_yellow.png?1605479308"
+    },
+    {
+      "start": 73,
+      "end": 76,
+      "url": "https://emojis.slackmojis.com/emojis/images/1613270271/12726/space_float.gif?1613270271"
+    },
+    {
+      "start": 76,
+      "end": 80,
+      "url": "https://emojis.slackmojis.com/emojis/images/1581521481/7799/kek.gif?1581521481"
+    },
+    {
+      "start": 80,
+      "end": 85,
+      "url": "https://emojis.slackmojis.com/emojis/images/1572027841/6924/blob_stop.png?1572027841"
+    },
+    {
+      "start": 85,
+      "end": 90,
+      "url": "https://emojis.slackmojis.com/emojis/images/1633720986/49815/kekwtf.png?1633720986"
+    },
+    {
+      "start": 90,
+      "end": 95,
+      "url": "https://emojis.slackmojis.com/emojis/images/1599212740/10402/awkward_monkey_look.gif?1599212740"
+    },
+    {
+      "start": 95,
+      "end": 100,
+      "url": "https://emojis.slackmojis.com/emojis/images/1558099591/5711/ahhhhhhhhh.gif?1558099591"
+    },
+    {
+      "start": 100,
+      "end": 110,
+      "url": "https://emojis.slackmojis.com/emojis/images/1555780768/5641/surprised-pikachu.png?1555780768"
+    },
+    {
+      "start": 110,
+      "end": 125,
+      "url": "https://emojis.slackmojis.com/emojis/images/1628546365/48515/thisisfine.gif?1628546365"
+    },
+    {
+      "start": 125,
+      "end": 140,
+      "url": "https://emojis.slackmojis.com/emojis/images/1579644131/7581/elmofire.gif?1579644131"
+    },
+    {
+      "start": 140,
+      "end": 160,
+      "url": "https://emojis.slackmojis.com/emojis/images/1491942364/2018/dramatic.gif?1491942364"
+    },
+    {
+      "start": 160,
+      "end": 185,
+      "url": "https://emojis.slackmojis.com/emojis/images/1511398636/3220/mind-explosion.gif?1511398636"
+    },
+    {
+      "start": 185,
+      "end": 200,
+      "url": "https://emojis.slackmojis.com/emojis/images/1572027745/6841/blob_dead.png?1572027745"
+    },
+    {
+      "start": 200,
+      "url": "https://emojis.slackmojis.com/emojis/images/1620204659/35978/flowey_undertale.png?1620204659"
     }
   ]
 }

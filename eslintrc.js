@@ -28,6 +28,9 @@ module.exports = {
     indent: [
       'error',
       2,
+      {
+        "ignoredNodes": ["TemplateLiteral"]
+      }
     ],
     'linebreak-style': [
       'error',
