@@ -452,7 +452,7 @@ const PageLink = styled.a`
 
 const ScrollDownArrowWrapperBreakpoints = setEachBreakpoint({
   xs: `
-    left: 75%;
+    display: none;
   `,
   sm: `
     left: 80%;

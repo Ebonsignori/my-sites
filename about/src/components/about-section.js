@@ -66,7 +66,7 @@ export default function AboutSection({ content, innerRef }) {
       </EyeOfSauronWrapper>
       <AboutHeaderSection>
         <StyledLaptopIcon />
-        <AboutHeaderTitle>Developer About</AboutHeaderTitle>
+        <AboutHeaderTitle>About</AboutHeaderTitle>
         <Link href="/resume" passHref>
           <AboutHeaderResumeLink>
             Full resume
@@ -76,25 +76,25 @@ export default function AboutSection({ content, innerRef }) {
       </AboutHeaderSection>
       <AboutContentSection>
         <AboutBioSection>
-          <AboutBioTitle>My Story</AboutBioTitle>
+          <AboutBioTitle isFirst>My Story</AboutBioTitle>
           <AboutBioText isOn={showEye}>
             Despite what the fancy CSS star animations suggest, most of my
             experience has been in backend and full-stack development. I've been
             on projects dealing entirely with microservices and cloud
             migrations, and others that required me to design responsive and
-            highly stateful frontends. At GitHub, I'm helping build out internal
+            highly stateful frontends. At GitHub, I'm helping build internal
             tooling that does a little of everything; like helping ICs with
             agile automations, managers with Slack notifications/updates, and
             VPs with responsive HTML reports.
             <br />
             <br />
             In every project, I strive to learn the ever-changing and unique
-            requirements to best contribute. In my current role, I've been
-            learning to resist the developer's impulse to tunnel vision into
-            creating a robustly engineered system while losing sight of shipping
-            an MVP. In this way, developers are like Frodo, and the temptation
-            to continuously lessen tech debt is a ring we must keep close.
-            Sometimes you need to wear it, but it can come with a price.{" "}
+            requirements to best contribute. Lately, I've been learning to
+            resist the developer's impulse to tunnel vision into creating a
+            robustly engineered system while losing sight of an MVP. In this
+            way, developers are like Frodo, and removing tech debt is a ring we
+            must keep close. Sometimes you need to wear it, but it may come with
+            a cost.{" "}
             <span onClick={() => setShowEye((prev) => !prev)}>
               <RingIcon />
             </span>
@@ -164,6 +164,8 @@ const AboutSectionWrapper = styled.div`
 `;
 
 const AboutHeaderSectionSmall = `
+  margin-top: .5em;
+  margin-bottom: .5em;
   width: auto;
 `;
 const AboutHeaderSectionBreakpoints = setEachBreakpoint({
@@ -172,7 +174,6 @@ const AboutHeaderSectionBreakpoints = setEachBreakpoint({
   md: AboutHeaderSectionSmall,
 });
 const AboutHeaderSection = styled.div`
-  width: 90%;
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -194,11 +195,15 @@ const StyledLaptopIcon = styled(LaptopIcon)`
 
 const AboutHeaderTitleBreakpoints = setEachBreakpoint({
   xs: `
-  font-size: 1.2em;
+  font-size: 1.6em;
   line-height: 1.3em;
   `,
   sm: `
-  font-size: 1.6em;
+  font-size: 2em;
+  line-height: 1.6em;
+  `,
+  md: `
+  font-size: 2.2em;
   line-height: 1.6em;
   `,
   xl: `
@@ -274,8 +279,8 @@ const AboutContentSection = styled.div`
 const AboutBioBreakpoints = setEachBreakpoint({
   xs: `
   padding: 0;
-  width: 88%;
-  font-size: 1em;
+  width: 90%;
+  font-size: .8em;
   p {
     line-height: 1.5em !important;
   }
@@ -283,7 +288,7 @@ const AboutBioBreakpoints = setEachBreakpoint({
   sm: `
   padding: 0;
   width: 80%;
-  font-size: 1.3em;
+  font-size: 1.2em;
   p {
     line-height: 1.4em !important;
   }
@@ -323,23 +328,34 @@ const AboutBioSection = styled.div`
   ${AboutBioBreakpoints}
 `;
 
-const AboutBioTitleBreakpoints = setEachBreakpoint({
-  xs: `
-  font-size: 1.5em;
+const AboutBioTitleBreakpoints = (props) =>
+  setEachBreakpoint({
+    xs: `
+  ${
+    props.isFirst
+      ? `
+    margin-top: .5em;
+    margin-bottom: .3em;
+  `
+      : `
+    margin-top: 1em;
+    margin-bottom: .5em;
+  `
+  }
+  font-size: 5.5vw;
+  line-height: 1.5em;
+  `,
+    sm: `
+  font-size: 4.0vw;
   line-height: 1.5em;
   margin-bottom: .5em;
   `,
-  sm: `
-  font-size: 1.5em;
-  line-height: 1.5em;
-  margin-bottom: .5em;
-  `,
-  md: `
-  font-size: 1.4em;
+    md: `
+  font-size: 3.0vw;
   line-height: 1.4em;
   margin-bottom: .7em;
   `,
-});
+  });
 const AboutBioTitle = styled.h3`
   line-height: 1.5em;
   font-size: 1.5em;
@@ -350,6 +366,7 @@ const AboutBioTitle = styled.h3`
 `;
 
 const AboutBioText = styled.p`
+  font-weight: 300;
   margin: 0;
   line-height: 1.3em;
   font-size: 1.2em;
@@ -390,8 +407,8 @@ const AboutBioText = styled.p`
 const AboutWorkSectionBreakpoints = setEachBreakpoint({
   xs: `
   padding: 0;
-  width: 88%;
-  font-size: 1.1em;
+  width: 90%;
+  font-size: .9em;
   p {
     line-height: 1.4em !important;
   }
@@ -399,7 +416,7 @@ const AboutWorkSectionBreakpoints = setEachBreakpoint({
   sm: `
   padding: 0;
   width: 80%;
-  font-size: 1.3em;
+  font-size: 1.2em;
   p {
     line-height: 1.4em !important;
   }
@@ -407,7 +424,7 @@ const AboutWorkSectionBreakpoints = setEachBreakpoint({
   md: `
   padding: 0;
   width: 73%;
-  font-size: 1.3em;
+  font-size: 1.2em;
 `,
   lg: `
   font-size: 1.1em;
