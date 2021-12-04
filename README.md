@@ -39,5 +39,6 @@ Shooting Star animation: https://codepen.io/YusukeNakaya/pen/XyOaBj
 
 Sun mode shine animation: https://codepen.io/hirokbanik/pen/pozYZgP
 
+Eye of Sauron: https://codepen.io/0_vortex/pen/WdEKOq
 
 
