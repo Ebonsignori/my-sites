@@ -116,6 +116,14 @@ export const LeftContentSection = styled.div`
   ${LeftContentSectionBreakpoints}
 `;
 
+const SectionTextProps = (props) =>
+  !props.isOn &&
+  `
+    path:nth-of-type(2) {
+      fill: #e8ac17;
+    }
+
+`;
 export const SectionText = styled.p`
   font-weight: 300;
   margin: 0;
@@ -143,15 +151,9 @@ export const SectionText = styled.p`
   }
 
   svg {
+    ${SectionTextProps}
     vertical-align: middle;
     width: 1.7em;
-    ${(props) =>
-  !props.isOn &&
-      `
-    path:nth-of-type(2) {
-      fill: #e8ac17;
-    }
-    `}
   }
 `;
 

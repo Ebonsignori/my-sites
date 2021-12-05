@@ -136,18 +136,20 @@ export async function getStaticProps() {
   };
 }
 
+const PageWrapperProps = (props) =>
+  props.doneLoading
+    ? `
+visibility: visible;
+`
+    : `
+visibility: hidden;
+
+`;
 const PageWrapper = styled.div`
   position: relative;
   overflow: hidden;
   z-index: 1;
-  ${(props) =>
-    props.doneLoading
-      ? `
-    visibility: visible;
-  `
-      : `
-    visibility: hidden;
-  `}
+  ${PageWrapperProps}
 
   /* Used by child components */
   @keyframes fadeInAnimation {
@@ -160,15 +162,16 @@ const PageWrapper = styled.div`
   }
 `;
 
-const BackgroundImage = styled.div`
-  ${OPACITY_TRANSITION}
-  ${(props) =>
+const BackgroundImageProps = (props) =>
   props.postLoadingFinished &&
-    `
+  `
   width: 100vw;
   height: 100%;
   min-height: 100vh;
-`}
+`;
+const BackgroundImage = styled.div`
+  ${OPACITY_TRANSITION}
+  ${BackgroundImageProps}
   position: absolute;
   z-index: -1;
   background-size: cover;
@@ -177,6 +180,24 @@ const BackgroundImage = styled.div`
   ${responsiveBackgroundImageUrl("stary-night-prineville-sky", true)}
 `;
 
+const PageHeaderBreakpoints = setEachBreakpoint({
+  xs: `
+      min-height: 100vh;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+     `,
+  sm: `
+      min-height: 100vh;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+     `,
+});
 const PageHeader = styled.header`
   position: relative;
   display: grid;
@@ -188,26 +209,33 @@ const PageHeader = styled.header`
   color: white;
   z-index: 1;
 
-  ${setEachBreakpoint({
-    xs: `
-      min-height: 100vh;
-      height: auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-     `,
-    sm: `
-      min-height: 100vh;
-      height: auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-     `,
-  })}
+  ${PageHeaderBreakpoints}
 `;
 
+const GreetingTitleSectionBreakpoints = setEachBreakpoint({
+  xs: `
+      margin-top: 5%;
+      font-size: 4em;
+      justify-content: center;
+     `,
+  sm: `
+      margin-top: 5%;
+      font-size: 6em;
+      justify-content: center;
+     `,
+  md: `
+      font-size: 6em;
+      `,
+  lg: `
+      font-size: 8em;
+      `,
+  xl: `
+      font-size: 9em;
+      `,
+  xxl: `
+      font-size: 10em;
+      `,
+});
 const GreetingTitleSection = styled.div`
   visibility: visible !important;
   display: flex;
@@ -221,30 +249,7 @@ const GreetingTitleSection = styled.div`
   z-index: 5;
   font-size: 8em;
   opacity: 1 !important;
-  ${setEachBreakpoint({
-    xs: `
-      margin-top: 5%;
-      font-size: 4em;
-      justify-content: center;
-     `,
-    sm: `
-      margin-top: 5%;
-      font-size: 6em;
-      justify-content: center;
-     `,
-    md: `
-      font-size: 6em;
-      `,
-    lg: `
-      font-size: 8em;
-      `,
-    xl: `
-      font-size: 9em;
-      `,
-    xxl: `
-      font-size: 10em;
-      `,
-  })}
+  ${GreetingTitleSectionBreakpoints}
 `;
 
 const GreetingTitle = styled.h1`
@@ -292,42 +297,10 @@ const ProfileImageWrapper = styled.div`
   opacity: 1;
 `;
 
-const StyledProfileImg = styled.img`
-  user-select: none;
-  border: 3px solid white;
-  border-radius: 100%;
-  width: 25vw;
-  height: auto !important;
-  ${setEachBreakpoint({
-    xs: `
-      width: 40vw;
-     `,
-    sm: `
-      width: 35vw;
-     `,
-    md: `
-      width: 32vw;
-      `,
-    lg: `
-      width: 28vw;
-    `,
-    xl: `
-      width: 25vw;
-    `,
-    xxl: `
-      width: 22vw;
-    `,
-  })}
-
-  :hover {
-    cursor: grab;
-  }
-
-  transition: transform 3s;
-  ${(props) => {
-    let styles = "";
-    if (props.clickCount === 1) {
-      styles = `
+const StyledProfileImgProps = (props) => {
+  let styles = "";
+  if (props.clickCount === 1) {
+    styles = `
         animation: rotate-half 2s ease-out 1 forwards;
         @keyframes rotate-half {
           to {
@@ -335,8 +308,8 @@ const StyledProfileImg = styled.img`
           }
         }
       `;
-    } else if (props.clickCount === 2) {
-      styles = `
+  } else if (props.clickCount === 2) {
+    styles = `
         transform: rotateZ(-180deg);
         animation: rotate-full 2s ease-out 1 forwards, toBW 2s linear 1 forwards;
         @keyframes rotate-full {
@@ -352,15 +325,77 @@ const StyledProfileImg = styled.img`
           100%  { filter: grayscale(100%); }
         }
       `;
-    } else if (props.clickCount >= 3) {
-      styles = `
+  } else if (props.clickCount >= 3) {
+    styles = `
         filter: grayscale(100%);
       `;
-    }
-    return styles;
-  }}
+  }
+  return styles;
+};
+const StyledProfileImgBreakpoints = setEachBreakpoint({
+  xs: `
+      width: 40vw;
+     `,
+  sm: `
+      width: 35vw;
+     `,
+  md: `
+      width: 32vw;
+      `,
+  lg: `
+      width: 28vw;
+    `,
+  xl: `
+      width: 25vw;
+    `,
+  xxl: `
+      width: 22vw;
+    `,
+});
+const StyledProfileImg = styled.img`
+  user-select: none;
+  border: 3px solid white;
+  border-radius: 100%;
+  width: 25vw;
+  height: auto !important;
+  transition: transform 3s;
+  ${StyledProfileImgBreakpoints}
+  ${StyledProfileImgProps}
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
+const GreetingTextBreakpoints = setEachBreakpoint({
+  xs: `
+      padding-left: 10%;
+      padding-right: 10%;
+      justify-content: center;
+      text-align: center;
+      font-size: 2.7vh;
+      line-height: 4vh;
+     `,
+  sm: `
+      padding-left: 10%;
+      padding-right: 10%;
+      justify-content: center;
+      text-align: center;
+      font-size: 2.8vh;
+      line-height: 4.5vh;
+     `,
+  md: `
+      font-size: 1.5em;
+      `,
+  lg: `
+      font-size: 1.5em;
+      `,
+  xl: `
+      font-size: 2em;
+      line-height: 1.5em;
+      `,
+  xxl: "",
+});
 const GreetingText = styled.p`
   ${OPACITY_TRANSITION}
   user-select: none;
@@ -378,37 +413,23 @@ const GreetingText = styled.p`
     font-weight: 900;
   }
 
-  ${setEachBreakpoint({
-    xs: `
-      padding-left: 10%;
-      padding-right: 10%;
-      justify-content: center;
-      text-align: center;
-      font-size: 2.7vh;
-      line-height: 4vh;
-     `,
-    sm: `
-      padding-left: 10%;
-      padding-right: 10%;
-      justify-content: center;
-      text-align: center;
-      font-size: 2.8vh;
-      line-height: 4.5vh;
-     `,
-    md: `
-      font-size: 1.5em;
-      `,
-    lg: `
-      font-size: 1.5em;
-      `,
-    xl: `
-      font-size: 2em;
-      line-height: 1.5em;
-      `,
-    xxl: "",
-  })}
+  ${GreetingTextBreakpoints}
 `;
 
+const PageLinksBreakpoints = setEachBreakpoint({
+  xs: `
+      flex-direction: column;
+      align-content: center;
+     `,
+  sm: `
+      flex-direction: column;
+      align-content: center;
+     `,
+  md: "",
+  lg: "",
+  xl: "",
+  xxl: "",
+});
 const PageLinks = styled.div`
   ${OPACITY_TRANSITION}
   user-select: none;
@@ -419,22 +440,27 @@ const PageLinks = styled.div`
   grid-column: 2 / 7;
   z-index: 5;
 
-  ${setEachBreakpoint({
-    xs: `
-      flex-direction: column;
-      align-content: center;
-     `,
-    sm: `
-      flex-direction: column;
-      align-content: center;
-     `,
-    md: "",
-    lg: "",
-    xl: "",
-    xxl: "",
-  })}
+  ${PageLinksBreakpoints}
 `;
 
+const PageLinkBreakpoints = setEachBreakpoint({
+  xs: `
+      font-size: 2em;
+      margin-bottom: 4vh;
+      box-shadow: inset 0 0px 0 white, inset 0 -1px 0 white;
+     `,
+  sm: `
+      font-size: 2.8em;
+      margin-bottom: 3vh;
+     `,
+  md: `
+      font-size: 3em;
+      margin-bottom: 5vh;
+    `,
+  lg: "",
+  xl: "",
+  xxl: "",
+});
 const PageLink = styled.a`
   color: white;
   text-decoration: none;
@@ -444,24 +470,7 @@ const PageLink = styled.a`
   font-weight: 900;
   box-shadow: inset 0 0px 0 white, inset 0 -2px 0 white;
 
-  ${setEachBreakpoint({
-    xs: `
-      font-size: 2em;
-      margin-bottom: 4vh;
-      box-shadow: inset 0 0px 0 white, inset 0 -1px 0 white;
-     `,
-    sm: `
-      font-size: 2.8em;
-      margin-bottom: 3vh;
-     `,
-    md: `
-      font-size: 3em;
-      margin-bottom: 5vh;
-    `,
-    lg: "",
-    xl: "",
-    xxl: "",
-  })}
+  ${PageLinkBreakpoints}
 
   :hover {
     cursor: pointer;
