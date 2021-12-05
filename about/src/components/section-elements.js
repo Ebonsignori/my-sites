@@ -16,14 +16,17 @@ const SectionBreakpoints = setEachBreakpoint({
   padding-right: 5vw;
   `,
   lg: `
+  padding-top: 3%;
   padding-left: 15vw;
   padding-right: 15vw;
   `,
   xl: `
+  padding-top: 3%;
   padding-left: 20vw;
   padding-right: 20vw;
   `,
   xxl: `
+  padding-top: 2%;
   padding-left: 25vw;
   padding-right: 25vw;
   `,

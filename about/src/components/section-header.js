@@ -12,7 +12,7 @@ export default function SectionHeader({
 }) {
   const StyledIcon = Icon ? getStyledIcon(Icon) : null;
   return (
-    <AboutHeaderSection>
+    <AboutHeaderSection id={headerTitle}>
       <StyledIcon />
       <AboutHeaderTitle>{headerTitle}</AboutHeaderTitle>
       {linkUrl && (

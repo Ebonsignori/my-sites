@@ -357,6 +357,7 @@ const ChangeCountBreakpoints = setEachBreakpoint({
     `,
 });
 const ChangeCountRow = styled.div`
+  user-select: none;
   display: flex;
   flex-direction: row;
   font-size: 5em;

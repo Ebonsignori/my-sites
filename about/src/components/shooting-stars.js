@@ -3,16 +3,14 @@ import styled from "styled-components";
 
 import { getRandomStarProps } from "../utils/star-helpers";
 
-export default memo(function ShootingStars({ numberOfStars }) {
-  const [starProps, setStarProps] = useState(() =>
-    getRandomStarProps(numberOfStars)
-  );
+export default memo(function ShootingStars() {
+  const [starProps, setStarProps] = useState(() => getRandomStarProps(7));
   const [animationsDone, setAnimationsDone] = useState(
     starProps.map(() => false)
   );
 
   if (animationsDone.every((el) => el === true)) {
-    const newStars = getRandomStarProps(numberOfStars);
+    const newStars = getRandomStarProps();
     const newAnimations = newStars.map(() => false);
     setStarProps(newStars);
     setAnimationsDone(newAnimations);

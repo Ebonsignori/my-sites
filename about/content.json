@@ -1,7 +1,11 @@
 {
   "repoUrl": "https://github.com/Ebonsignori/my-sites",
   "socialLinks":  {
-    "linkedin": "https://www.linkedin.com/in/ebonsignori/"
+    "github": "https://github.com/Ebonsignori",
+    "linkedin": "https://www.linkedin.com/in/ebonsignori/",
+    "instagram": "https://www.instagram.com/ebonsignori/",
+    "goodreads": "https://www.goodreads.com/user/show/19530662-evan-bonsignori",
+    "lastfm": "https://www.last.fm/user/ebonsignori"
   },
   "currentCompany": "GitHub",
   "jobs": [
