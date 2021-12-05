@@ -8,6 +8,7 @@ import {
   responsiveBackgroundImageUrl,
 } from "../../shared/utils/image";
 import ShootingStars from "../src/components/shooting-stars";
+import SocialIcons from "../src/components/social-icons";
 import WaveHand from "../src/components/wave-hand";
 import AboutSection from "../src/sections/about-section";
 import ContactSection from "../src/sections/contact-section";
@@ -16,7 +17,7 @@ import UsageSection from "../src/sections/usage-section";
 import fetchContent from "../src/utils/fetch-content";
 
 // Total time in ms to show wave intro before displaying full page
-const LOAD_TIME = 2200;
+const LOAD_TIME = 2300;
 
 export default function Home({ content }) {
   const aboutSectionRef = useRef(null);
@@ -27,7 +28,7 @@ export default function Home({ content }) {
 
   // Kick off loading countdown on first render
   const startPostLoading = () =>
-    setTimeout(() => setPostLoadingFinished(true), 1);
+    setTimeout(() => setPostLoadingFinished(true), 1000);
   useEffect(() => {
     setTimeout(() => {
       setIntroLoadFinished(true);
@@ -41,15 +42,15 @@ export default function Home({ content }) {
   let PageRender = (
     <>
       <GreetingTitleSection>
-        {!isSunMode && postLoadingFinished && <ShootingStars />}
         <WaveHand introLoadFinished={introLoadFinished} />
-        <GreetingTitle doneLoading={introLoadFinished}>
+        <GreetingTitle>
+          {!isSunMode && postLoadingFinished && <ShootingStars />}
           <LetterOne>H</LetterOne>
           <LetterTwo>i</LetterTwo>
-          <LetterThree postLoading={postLoadingFinished}>,</LetterThree>
+          <LetterThree postLoadingFinished={postLoadingFinished}>,</LetterThree>
         </GreetingTitle>
       </GreetingTitleSection>
-      <ProfileImageWrapper>
+      <ProfileImageWrapper postLoadingFinished={postLoadingFinished}>
         <StyledProfileImg
           clickCount={imageClickCount}
           onAnimationStart={() => setImageAnimating(true)}
@@ -63,17 +64,22 @@ export default function Home({ content }) {
           alt="Evan Bonsignori's profile"
         />
       </ProfileImageWrapper>
-      <GreetingText>
+      <GreetingText postLoadingFinished={postLoadingFinished}>
         I'm <strong>Evan Bonsignori</strong>, a digital nomad travelling the
         west. When I'm not writing code for {content.currentCompany} or
         practicing mindfulness, I'm enjoying one of my hobbies,
       </GreetingText>
-      <PageLinks>
+      <PageLinks postLoadingFinished={postLoadingFinished}>
         <PageLink href={process.env.WRITING_PAGE_URL}>Writing</PageLink>
         <PageLink href={process.env.PHOTOS_PAGE_URL}>Photography</PageLink>
         <PageLink href={process.env.MUSIC_PAGE_URL}>Music</PageLink>
       </PageLinks>
+      <StyledSocialIcons
+        content={content}
+        postLoadingFinished={postLoadingFinished}
+      />
       <ScrollDownArrowWrapper
+        postLoadingFinished={postLoadingFinished}
         onClick={() =>
           aboutSectionRef.current.scrollIntoView({
             behavior: "smooth",
@@ -92,11 +98,11 @@ export default function Home({ content }) {
   }
 
   return (
-    <PageWrapper
-      doneLoading={introLoadFinished}
-      postLoading={postLoadingFinished}
-    >
-      <PageHeader>{PageRender}</PageHeader>
+    <PageWrapper doneLoading={introLoadFinished}>
+      <PageHeader postLoadingFinished={postLoadingFinished}>
+        {PageRender}
+        <BackgroundImage postLoadingFinished={postLoadingFinished} />
+      </PageHeader>
       {!isSunMode && (
         <>
           <AboutSection innerRef={aboutSectionRef} content={content} />
@@ -107,6 +113,17 @@ export default function Home({ content }) {
     </PageWrapper>
   );
 }
+
+const OPACITY_TRANSITION = (props) => `
+  opacity: 0;
+  transition: opacity 2s ease-in;
+  ${
+    props.postLoadingFinished &&
+    `
+    opacity: 1;
+  `
+  }
+`;
 
 export async function getStaticProps() {
   const content = fetchContent();
@@ -120,20 +137,14 @@ export async function getStaticProps() {
 const PageWrapper = styled.div`
   position: relative;
   overflow: hidden;
+  z-index: 1;
   ${(props) =>
     props.doneLoading
       ? `
     visibility: visible;
-    opacity: 0;
   `
       : `
     visibility: hidden;
-  `}
-  ${(props) =>
-    props.postLoading &&
-    `
-    transition: opacity 1s ease-in;
-    opacity: 1 !important;
   `}
 
   /* Used by child components */
@@ -147,19 +158,33 @@ const PageWrapper = styled.div`
   }
 `;
 
+const BackgroundImage = styled.div`
+  ${OPACITY_TRANSITION}
+  ${(props) =>
+  props.postLoadingFinished &&
+    `
+  width: 100vw;
+  height: 100vh;
+
+`}
+  position: absolute;
+  z-index: -1;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  ${responsiveBackgroundImageUrl("stary-night-prineville-sky", true)}
+`;
+
 const PageHeader = styled.header`
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(5, fr);
   width: 100vw;
   height: 100vh;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
   background-color: black;
   color: white;
-  z-index: -1;
-  ${responsiveBackgroundImageUrl("stary-night-prineville-sky", true)}
+  z-index: 1;
 
   ${setEachBreakpoint({
     xs: `
@@ -182,6 +207,7 @@ const PageHeader = styled.header`
 `;
 
 const GreetingTitleSection = styled.div`
+  visibility: visible !important;
   display: flex;
   flex-direction: row;
   color: black;
@@ -190,8 +216,9 @@ const GreetingTitleSection = styled.div`
   grid-row: 2 / 3;
   grid-column: 2 / 4;
   align-items: flex-end;
-  z-index: 1;
+  z-index: 5;
   font-size: 8em;
+  opacity: 1 !important;
   ${setEachBreakpoint({
     xs: `
       margin-top: 5%;
@@ -230,6 +257,7 @@ const GreetingTitle = styled.h1`
 const LetterOne = styled.span`
   user-select: none;
   opacity: 0;
+  animation-delay: 1s;
   animation-duration: 1s;
   animation-name: fadeInAnimation;
   animation-fill-mode: forwards;
@@ -237,20 +265,18 @@ const LetterOne = styled.span`
 const LetterTwo = styled.span`
   user-select: none;
   opacity: 0;
-  animation-delay: 0.3s;
+  animation-delay: 1.5s;
   animation-duration: 1s;
   animation-name: fadeInAnimation;
   animation-fill-mode: forwards;
 `;
 const LetterThree = styled.span`
+  opacity: 0;
   user-select: none;
-  ${(props) =>
-    props.postLoading
-      ? `
-      visibility: visible;
-
-  `
-      : `visibility: hidden;`}
+  animation-delay: 2s;
+  animation-duration: 1s;
+  animation-name: fadeInAnimation;
+  animation-fill-mode: forwards;
 `;
 
 const ProfileImageWrapper = styled.div`
@@ -259,12 +285,13 @@ const ProfileImageWrapper = styled.div`
   grid-row: 2 / 4;
   grid-column: 5 / 7;
   justify-content: center;
-  z-index: 1;
+  z-index: 5;
+  ${OPACITY_TRANSITION}
+  opacity: 1;
 `;
 
 const StyledProfileImg = styled.img`
   user-select: none;
-  z-index: 2;
   border: 3px solid white;
   border-radius: 100%;
   width: 25vw;
@@ -332,6 +359,7 @@ const StyledProfileImg = styled.img`
 `;
 
 const GreetingText = styled.p`
+  ${OPACITY_TRANSITION}
   user-select: none;
   grid-row: 3 / 4;
   grid-column: 2 / 5;
@@ -340,6 +368,7 @@ const GreetingText = styled.p`
   color: white;
   padding-left: 5%;
   padding-right: 5%;
+  z-index: 1;
 
   strong {
     font-family: cursive;
@@ -378,12 +407,14 @@ const GreetingText = styled.p`
 `;
 
 const PageLinks = styled.div`
+  ${OPACITY_TRANSITION}
   user-select: none;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   grid-row: 4 / 5;
   grid-column: 2 / 7;
+  z-index: 5;
 
   ${setEachBreakpoint({
     xs: `
@@ -465,6 +496,7 @@ const ScrollDownArrowWrapperBreakpoints = setEachBreakpoint({
   `,
 });
 const ScrollDownArrowWrapper = styled.div`
+  ${OPACITY_TRANSITION}
   ${ScrollDownArrowWrapperBreakpoints}
   top: calc(100vh - 6em);
   display: flex;
@@ -473,7 +505,7 @@ const ScrollDownArrowWrapper = styled.div`
   left: 49%;
   min-width: 5em;
   min-height: 5em;
-  z-index: 3;
+  z-index: 5;
   :hover {
     cursor: pointer;
     span {
@@ -483,7 +515,6 @@ const ScrollDownArrowWrapper = styled.div`
   }
 `;
 const ScrollDownArrow = styled.span`
-  z-index: 2;
   position: absolute;
   width: 3em;
   height: 3em;
@@ -491,8 +522,8 @@ const ScrollDownArrow = styled.span`
   border-bottom: 1px solid #fff;
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
-  -webkit-animation: sdb05 1.5s infinite;
-  animation: sdb05 1.5s infinite;
+  -webkit-animation: sdb05 1s infinite;
+  animation: sdb05 1s infinite;
   box-sizing: border-box;
   @-webkit-keyframes sdb05 {
     0% {
@@ -520,4 +551,9 @@ const ScrollDownArrow = styled.span`
       opacity: 0;
     }
   }
+`;
+
+const StyledSocialIcons = styled(SocialIcons)`
+  z-index: 5;
+  ${OPACITY_TRANSITION}
 `;
