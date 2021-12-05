@@ -6,7 +6,9 @@ export default function WaveHand({ introLoadFinished }) {
   return <StyledWaveIcon wave={!introLoadFinished} />;
 }
 
-const StyledWaveIconProps = (props) => props.wave`
+const StyledWaveIconProps = (props) =>
+  props.wave &&
+  `
   animation-name: wave-animation; 
 `;
 const StyledWaveIcon = styled(WaveIcon)`
