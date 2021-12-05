@@ -297,6 +297,7 @@ const StyledProfileImg = styled.img`
   border: 3px solid white;
   border-radius: 100%;
   width: 25vw;
+  height: auto !important;
   ${setEachBreakpoint({
     xs: `
       width: 40vw;

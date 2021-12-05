@@ -73,7 +73,7 @@ export default function AboutSection({ content, innerRef }) {
       <SectionHeader
         headerTitle="About"
         linkTitle="Full Resume"
-        linkUrl="/resume"
+        linkUrl="https://evan-bio-assets.s3.amazonaws.com/Resume+-+Evan+Bonsignori.pdf"
         Icon={LaptopIcon}
       />
       <ContentSection>

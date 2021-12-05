@@ -31,9 +31,11 @@ They are resized and uploaded locally using https://github.com/Ebonsignori/image
 
 ## Acknowledgements
 
-"My Work" section inspiration: https://www.vancedesignsproducts.com/#section-about
+About section inspiration: https://www.vancedesignsproducts.com/#section-about
 
-Icons: https://fonts.google.com/icons
+Icons: https://fonts.google.com/icons, https://icons8.com/icons/
+
+#### CSS
 
 Shooting Star animation: https://codepen.io/YusukeNakaya/pen/XyOaBj
 
