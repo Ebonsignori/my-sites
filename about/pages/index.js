@@ -166,8 +166,8 @@ const BackgroundImage = styled.div`
   props.postLoadingFinished &&
     `
   width: 100vw;
-  height: 100vh;
-
+  height: 100%;
+  min-height: 100vh;
 `}
   position: absolute;
   z-index: -1;

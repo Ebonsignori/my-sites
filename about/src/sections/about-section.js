@@ -15,6 +15,7 @@ import SectionHeader from "../components/section-header";
 import LaptopIcon from "../svgs/laptop";
 import RingIcon from "../svgs/ring";
 
+const sauronAudio = "https://evan-bio-assets.s3.amazonaws.com/sauron-voice.m4a";
 let audioPlaying = false;
 let audio;
 
@@ -39,14 +40,19 @@ export default function AboutSection({ content, innerRef }) {
   });
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      audio = new Audio(
-        "https://evan-bio-assets.s3.amazonaws.com/sauron-voice.m4a"
-      );
-    }
+    // Start preload of audio 6 seconds after page load
+    setTimeout(() => {
+      if (typeof window !== "undefined") {
+        audio = new Audio(sauronAudio);
+      }
+    }, 6000);
   }, []);
 
   if (showEye) {
+    // If pressed before preload, load at press
+    if (!audio) {
+      audio = new Audio(sauronAudio);
+    }
     if (!audioPlaying) {
       audioPlaying = true;
       audio.play();
