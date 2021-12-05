@@ -7,10 +7,12 @@ import {
   getImageSetSrc,
   responsiveBackgroundImageUrl,
 } from "../../shared/utils/image";
-import AboutSection from "../src/components/about-section";
 import ShootingStars from "../src/components/shooting-stars";
-import SunMode from "../src/components/sun-mode";
 import WaveHand from "../src/components/wave-hand";
+import AboutSection from "../src/sections/about-section";
+import ContactSection from "../src/sections/contact-section";
+import SunMode from "../src/sections/sun-mode";
+import UsageSection from "../src/sections/usage-section";
 import fetchContent from "../src/utils/fetch-content";
 
 // Total time in ms to show wave intro before displaying full page
@@ -96,7 +98,11 @@ export default function Home({ content }) {
     >
       <PageHeader>{PageRender}</PageHeader>
       {!isSunMode && (
-        <AboutSection innerRef={aboutSectionRef} content={content} />
+        <>
+          <AboutSection innerRef={aboutSectionRef} content={content} />
+          <UsageSection content={content} />
+          <ContactSection content={content} />
+        </>
       )}
     </PageWrapper>
   );
