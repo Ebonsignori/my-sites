@@ -61,6 +61,8 @@ export default function Home({ content }) {
             setImageClickCount((prevCount) => prevCount + 1)
           }
           srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
+          width="250"
+          height="250"
           alt="Evan Bonsignori's profile"
         />
       </ProfileImageWrapper>
