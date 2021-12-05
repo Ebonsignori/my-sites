@@ -21,7 +21,7 @@ export function getImageSource(name, breakpoint, isAsset = false) {
   }
   let source = `${baseUrl}/${name}/${name}-original.jpg`;
   if (breakpoint) {
-    source = `${baseUrl}/${name}/${name}-${breakpoint}.jpg`;
+    source = `${baseUrl}/${name}/${name}-${breakpoint}.webp`;
   }
   return source;
 }
