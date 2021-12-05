@@ -462,28 +462,8 @@ const PageLink = styled.a`
 
   :hover {
     cursor: pointer;
-    background: linear-gradient(
-      to left,
-      #fff 20%,
-      rgba(0, 0, 225, 0.2) 40%,
-      rgba(95, 145, 225, 1) 60%,
-      #fff 80%
-    );
-    background-size: 200% auto;
-
-    background-clip: text;
-    text-fill-color: transparent;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    animation: shine 3s linear infinite;
-    box-shadow: inset 0 0px 0 white, inset 0 -3px 0 rgba(95, 145, 225, 0.5) !important;
-  }
-
-  @keyframes shine {
-    to {
-      background-position: 200% center;
-    }
+    color: rgb(95, 145, 255);
+    box-shadow: none;
   }
 `;
 
