@@ -16,11 +16,8 @@ function MyApp({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <Head>
-        <title>Writing - Evan Bonsignori</title>
-        <meta name="description" content="Personal blog of Evan Bonsignori" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Writing - Evan Bonsignori" />
         <meta property="og:type" content="image/jpeg" />
         <meta property="og:image" content={imagePreviewUrl} />
         <meta property="og:image:secure_url" content={imagePreviewUrl} />
