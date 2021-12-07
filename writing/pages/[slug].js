@@ -24,6 +24,13 @@ const components = {
 };
 
 export default function Post({ source, metadata }) {
+  const ShowWip = metadata.isWip ? (
+    <>
+      &nbsp;|&nbsp; <span style={{ color: "red" }}>WIP</span>
+    </>
+  ) : (
+    ""
+  );
   return (
     <>
       <Head>
@@ -48,6 +55,7 @@ export default function Post({ source, metadata }) {
                 <Link href={`/#${metadata.category.toLowerCase()}`} passHref>
                   <PostCategory>{metadata.category}</PostCategory>
                 </Link>
+                {ShowWip}
               </SubPostTitle>
             </PostHeader>
           </SubHeadingContent>
