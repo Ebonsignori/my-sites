@@ -8,6 +8,10 @@
     "photography"
   ],
   "scripts": {
+    "start-about": "cd ./about && npm start && cd -",
+    "start-music": "cd ./music && npm start && cd -",
+    "start-photos": "cd ./photos && npm start && cd -",
+    "start-writing": "cd ./writing && npm run start && cd -",
     "lint-about": "cd ./about && npm run lint && cd -",
     "lint-music": "cd ./music && npm run lint && cd -",
     "lint-photos": "cd ./photos && npm run lint && cd -",

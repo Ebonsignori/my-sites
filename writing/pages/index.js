@@ -151,6 +151,7 @@ export async function getStaticProps() {
   for (const entry of Object.values(entries)) {
     if (!categories[entry.data.category]) {
       categories[entry.data.category] = true;
+      console.log(entry)
     }
   }
   const sortedEntries = Object.values(entries)

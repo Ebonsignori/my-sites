@@ -11,7 +11,10 @@ export function fetchEntries() {
       path.join(entriesPath, entry),
       "utf-8"
     );
-    const metadata = matter(fileContents);
+    const metadata = matter(fileContents, {
+      // eslint-disable-next-line camelcase
+      excerpt_separator: "<!-- end-preview -->",
+    });
     // Validate entry
     let isMissing = "";
     if (!metadata.data.slug) {
@@ -26,7 +29,7 @@ export function fetchEntries() {
         isMissing += ", ";
       }
       isMissing += "date";
-    } else if (!metadata.data.preview) {
+    } else if (!metadata.excerpt) {
       if (isMissing) {
         isMissing += ", ";
       }
@@ -40,6 +43,7 @@ export function fetchEntries() {
     if (isMissing) {
       throw new Error(`Entry, ${entry} missing metadata fields: ${isMissing}`);
     }
+    metadata.data.preview = metadata.excerpt;
 
     entriesMap[metadata.data.slug] = metadata;
   }

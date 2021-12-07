@@ -32,8 +32,9 @@ title: ${args.title}
 slug: ${args.slug}
 category: ${args.category}
 date: ${datePart}
-preview: ${args.preview}
----`
+---
+
+${args.preview}<!-- env-preview -->`
   );
 
   console.log(`Created new entry, ${filepath}`);
