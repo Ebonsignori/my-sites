@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <PageWrapper>
       <PreviewWrapper>
-        <h1>Coming Soon</h1>
+        <h1>Coming by 2024!</h1>
         <p>
           Back to <a href="https://evan.bio">evan.bio</a>
         </p>
@@ -25,6 +25,44 @@ const PageWrapper = styled.div`
   color: black;
 `;
 
+const PreviewWrapperBreakpoints = setEachBreakpoint({
+  xs: `
+      h1 {
+        font-size: 3em;
+      }
+
+      p {
+        font-size: 1.5em;
+      }
+     `,
+  sm: `
+      h1 {
+        font-size: 5em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+     `,
+  md: `
+      h1 {
+        font-size: 5em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+      `,
+  lg: `
+      h1 {
+        font-size: 6em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+      `,
+});
 const PreviewWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,42 +83,5 @@ const PreviewWrapper = styled.div`
     }
   }
 
-  ${setEachBreakpoint({
-    xs: `
-      h1 {
-        font-size: 3em;
-      }
-
-      p {
-        font-size: 1.5em;
-      }
-     `,
-    sm: `
-      h1 {
-        font-size: 5em;
-      }
-
-      p {
-        font-size: 3em;
-      }
-     `,
-    md: `
-      h1 {
-        font-size: 5em;
-      }
-
-      p {
-        font-size: 3em;
-      }
-      `,
-    lg: `
-      h1 {
-        font-size: 6em;
-      }
-
-      p {
-        font-size: 3em;
-      }
-      `,
-  })}
+  ${PreviewWrapperBreakpoints}
 `;

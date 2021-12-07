@@ -1,7 +1,5 @@
 # Writing
 
-[TODO.com]()
-
 A blog on no particular theme for all writing content.
 
 #### Assets

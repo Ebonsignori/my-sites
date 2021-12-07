@@ -1,5 +1,6 @@
 import Head from "next/head";
 
+import Analytics from "../../shared/components/analytics";
 import { BREAKPOINTS } from "../../shared/utils/breakpoints";
 import { getImageSource } from "../../shared/utils/image";
 import GlobalStyle from "../src/utils/global-styles";
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:image:secure_url" content={imagePreviewUrl} />
         <meta property="og:image:alt" content="Night sky with stars" />
       </Head>
+      <Analytics trackingId={process.env.WRITING_TRACKING_ID} />
       <Component {...pageProps} />
     </>
   );

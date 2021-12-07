@@ -21,11 +21,11 @@ export default function SocialIcons({ content, className }) {
       <IconLink href={socialLinks.linkedin}>
         <LinkedinIcon />
       </IconLink>
-      <IconLink href={socialLinks.goodreads}>
-        <GoodreadsIcon />
-      </IconLink>
       <IconLink href={socialLinks.instagram}>
         <InstagramIcon />
+      </IconLink>
+      <IconLink href={socialLinks.goodreads}>
+        <GoodreadsIcon />
       </IconLink>
       <IconLink href={socialLinks.lastfm}>
         <LastfmIcon />

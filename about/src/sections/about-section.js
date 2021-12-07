@@ -84,7 +84,7 @@ export default function AboutSection({ content, innerRef }) {
       />
       <ContentSection>
         <LeftContentSection>
-          <Title isFirst>My Story</Title>
+          <Title isFirst>Developer Story</Title>
           <SectionText isOn={showEye}>
             Despite what the CSS star animations may suggest, most of my
             experience has been in backend and full-stack development. I've been
@@ -128,12 +128,13 @@ export default function AboutSection({ content, innerRef }) {
   );
 }
 
-const EyeOfSauronWrapper = styled.div`
-  ${(props) =>
+const EyeOfSauronWrapperProps = (props) =>
   !props.isOn &&
-    `
-    display: none;
-  `}
+  `
+   display: none;
+`;
+const EyeOfSauronWrapper = styled.div`
+  ${EyeOfSauronWrapperProps}
   position: fixed;
   top: 20%;
   left: calc(50% - 250px);
