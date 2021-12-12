@@ -15,10 +15,6 @@ export function fetchEntries() {
       // eslint-disable-next-line camelcase
       excerpt_separator: "<!-- end-preview -->",
     });
-    // In production, only add to entries if not a WIP post
-    if (process.env.NODE_ENV === "production" && metadata.data.isWip) {
-      continue;
-    }
     // Validate entry
     let isMissing = "";
     if (!metadata.data.slug) {

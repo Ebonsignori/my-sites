@@ -14,6 +14,12 @@ module.exports = {
     if (loc === "/") {
       priority = 1;
     }
+    // TODO: Get .mdx isWip metadata from loc
+    // In production, only add to entries to sitemap if not a WIP post
+    // if (process.env.NODE_ENV === "production") {
+      // return null;
+    // }
+
     // Use default transformation for all other cases
     return {
       loc,

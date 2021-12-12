@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { toReadableDateString } from "../../shared/utils/dates";
-import { getImageSetSrc } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
 import {
   AboutLink,
@@ -186,11 +185,16 @@ export async function getStaticProps() {
   }
   const sortedEntries = Object.values(entries)
     .map((entry) => {
+      // In production, only add to entries to index page if they are not a WIP post
+      if (process.env.NODE_ENV === "production" && entry.data.isWip) {
+        return null;
+      }
       return {
         ...entry.data,
         date: entry.data.date.toString(),
       };
     })
+    .filter((x) => x)
     .sort((a, b) => a.date > b.date);
   return {
     props: { entries: sortedEntries, categories: Object.keys(categories) },
