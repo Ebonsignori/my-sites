@@ -7,6 +7,9 @@ export function fetchEntries() {
   const entriesMap = {};
   const entries = fs.readdirSync(entriesPath);
   for (const entry of entries) {
+    if (!entry.endsWith(".mdx")) {
+      continue;
+    }
     const fileContents = fs.readFileSync(
       path.join(entriesPath, entry),
       "utf-8"
