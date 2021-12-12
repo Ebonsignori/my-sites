@@ -1,12 +1,14 @@
-import Head from "next/head";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
+import { useState } from "react";
+import emoji from "remark-emoji";
 import styled from "styled-components";
 
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { isValidDate, toReadableDateString } from "../../shared/utils/dates";
 import { capitalizeAll } from "../../shared/utils/strings";
+import Figure from "../src/components/figure";
 import {
   AboutLink,
   HeadingContent,
@@ -15,15 +17,27 @@ import {
   Title,
   TitleWrapper,
 } from "../src/components/heading";
+import Meta from "../src/components/meta";
+import Modal from "../src/components/modal";
+import ShareLinks from "../src/components/share-links";
+import Tooltip from "../src/components/tooltip";
+import LeftArrow from "../src/svgs/left-arrow";
+import RightArrow from "../src/svgs/right-arrow";
+import AppContext from "../src/utils/app-context";
 import { fetchEntries, getEntryBySlug } from "../src/utils/fetch-entries";
+import { linkStyles } from "../src/utils/global-styles";
 
 const components = {
-  Heading: styled.h2`
-    color: red;
-  `,
+  Figure,
+  Tooltip,
 };
 
-export default function Post({ source, metadata }) {
+export default function Post({ source, metadata, prev, next }) {
+  const [modalContents, setModalContents] = useState(undefined);
+  const appState = {
+    modalContents,
+    setModalContents,
+  };
   const ShowWip = metadata.isWip ? (
     <>
       &nbsp;|&nbsp; <span style={{ color: "red" }}>WIP</span>
@@ -33,51 +47,96 @@ export default function Post({ source, metadata }) {
   );
   return (
     <>
-      <Head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.preview} />
-        <meta property="og:title" content={metadata.title} />
-      </Head>
-      <PageWrapper>
-        <HeadingContent>
-          <Link href="/" passHref>
-            <StyledTitleWrapper>
-              <Title>Writing</Title>
-              <SubTitle>by Evan Bonsignori</SubTitle>
-            </StyledTitleWrapper>
-          </Link>
-          <AboutLink href={process.env.ABOUT_PAGE_URL}>About</AboutLink>
-          <SubHeadingContent>
-            <PostHeader>
-              <PostTitle>{metadata.title}</PostTitle>
-              <SubPostTitle>
-                <PostDate>{metadata.date}</PostDate>&nbsp;|&nbsp;
-                <Link href={`/#${metadata.category.toLowerCase()}`} passHref>
-                  <PostCategory>{metadata.category}</PostCategory>
-                </Link>
-                {ShowWip}
-              </SubPostTitle>
-            </PostHeader>
-          </SubHeadingContent>
-        </HeadingContent>
-        <MainContentWrapper>
-          <MDXRemote {...source} components={components} />
-        </MainContentWrapper>
-      </PageWrapper>
+      <Meta
+        title={metadata.title}
+        description={metadata.description}
+        keywords={metadata.keywords}
+        image={metadata.image}
+        imageAlt={metadata.imageAlt}
+      />
+      <AppContext.Provider value={appState}>
+        <Modal modalContents={modalContents} />
+        <PageWrapper>
+          <HeadingContent>
+            <Link href="/" passHref>
+              <StyledTitleWrapper>
+                <Title>Writing</Title>
+                <SubTitle>by Evan Bonsignori</SubTitle>
+              </StyledTitleWrapper>
+            </Link>
+            <AboutLink href={process.env.ABOUT_PAGE_URL}>About</AboutLink>
+            <SubHeadingContent>
+              <PostHeader>
+                <PostTitle>{metadata.title}</PostTitle>
+                <SubPostTitle>
+                  <Link href={`/#${metadata.category.toLowerCase()}`} passHref>
+                    <PostCategory>{metadata.category}</PostCategory>
+                  </Link>
+                  &nbsp; | &nbsp;
+                  <PostDate>{metadata.date}</PostDate>
+                  {ShowWip}
+                </SubPostTitle>
+                <ShareLinks slug={metadata.slug} />
+              </PostHeader>
+            </SubHeadingContent>
+          </HeadingContent>
+          <MainContentContainer>
+            <MainContent>
+              <Figure
+                image={metadata.image}
+                imageAlt={metadata.imageAlt}
+                caption={metadata.imageCaption}
+                priority
+              />
+              <MDXRemote {...source} components={components} />
+              <hr />
+              <BottomHeading>More Reads</BottomHeading>
+              <BottomCTA href={process.env.ABOUT_PAGE_URL}>
+                About Author
+              </BottomCTA>
+              <PrevNextOpts>
+                {prev?.data && (
+                  <Link href={`/${prev.data.slug}`} passHref>
+                    <Prev>
+                      <LeftArrow />
+                      <h5>{prev.data.title}</h5>
+                    </Prev>
+                  </Link>
+                )}
+                {next?.data && (
+                  <Link href={`/${next.data.slug}`} passHref>
+                    <Next>
+                      <h5>{next.data.title}</h5>
+                      <RightArrow />
+                    </Next>
+                  </Link>
+                )}
+              </PrevNextOpts>
+            </MainContent>
+          </MainContentContainer>
+        </PageWrapper>
+      </AppContext.Provider>
     </>
   );
 }
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  const entry = getEntryBySlug(slug);
-  const mdxSource = await serialize(entry.content);
-  delete entry.content;
-  if (isValidDate(entry.data.date)) {
-    entry.data.date = toReadableDateString(entry.data.date);
+  const entries = getEntryBySlug(slug);
+  const mdxSource = await serialize(entries.current.content, {
+    mdxOptions: {
+      remarkPlugins: [emoji],
+    },
+  });
+  for (const entry of Object.values(entries)) {
+    delete entry.content;
+    if (isValidDate(entry.data.date)) {
+      entry.data.date = toReadableDateString(entry.data.date);
+    }
+    entry.data.category = capitalizeAll(entry.data.category);
   }
-  entry.data.category = capitalizeAll(entry.data.category);
-  return { props: { source: mdxSource, metadata: entry.data } };
+  const { current, prev = {}, next = {} } = entries;
+  return { props: { source: mdxSource, metadata: current.data, prev, next } };
 }
 
 export async function getStaticPaths() {
@@ -87,7 +146,6 @@ export async function getStaticPaths() {
     paths: Object.values(entries).map((entry) => {
       return {
         params: {
-          // Explicit for clarity
           slug: entry.data.slug,
         },
       };
@@ -96,104 +154,89 @@ export async function getStaticPaths() {
   };
 }
 
-const PageWrapper = styled.div``;
+const PageWrapper = styled.div`
+  max-width: 100vw;
+  overflow: hidden;
+`;
 
-const MainContentWrapper = styled.div`
+const MainContentContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const MainContentBreakpoints = setEachBreakpoint({
+  xs: `
+  font-size: 18px;
+  line-height: 28px;
+
+  p, figure {
+    margin-top: 1.4rem;
+  }
+  figcaption {
+    font-size: 16px;
+  }
+  `,
+  sm: `
+  font-size: 21px;
+  line-height: 33px;
+
+  p, figure {
+    margin-top: 1.7rem;
+  }
+  figcaption {
+    font-size: 18px;
+  }
+  `,
+  md: `
+  font-size: 21px;
+  line-height: 33px;
+
+  p, figure {
+    margin-top: 1.7rem;
+  }
+  `,
+  lg: `
+  font-size: 21px;
+  line-height: 33px;
+
+  p, figure {
+    margin-top: 1.7rem;
+  }
+  `,
+  xl: `
+  max-width: 1200px;
+  font-size: 36px;
+  line-height: 56px;
+
+  p, figure {
+    margin-top: 1.7rem;
+  }
+  `,
+  xxl: `
+  max-width: 1200px;
+  font-size: 36px;
+  line-height: 56px;
+
+  p, figure {
+    margin-top: 1.8rem;
+  }
+  `,
+});
+const MainContent = styled.section`
   background-color: var(--background);
   color: var(--font);
   word-wrap: break-word;
-  margin: 0 auto;
-  padding: 1.5em;
-
-  @media (min-width: 768px) {
-    font-size: 125%;
-    max-width: 42em;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 2.5rem 0 1.5rem 0;
-    line-height: 1.25;
-  }
+  max-width: 680px;
+  margin: 0 24px;
+  ${MainContentBreakpoints}
 
   p {
-    margin: 1em 0;
-    line-height: 1.5;
-  }
-  p code {
-    background-color: #eee;
-    padding: 0.05em 0.2em;
-    border: 1px solid #ccc;
-  }
-
-  ol,
-  ul {
-    margin: 1em;
-  }
-  ol li ol,
-  ol li ul,
-  ul li ol,
-  ul li ul {
-    margin: 0 2em;
-  }
-  ol li p,
-  ul li p {
-    margin: 0;
-  }
-
-  dl {
-    font-family: monospace, monospace;
-  }
-  dl dt {
-    font-weight: bold;
-  }
-  dl dd {
-    margin: -1em 0 1em 1em;
-  }
-
-  img {
-    max-width: 100%;
-    display: block;
-    margin: 0 auto;
-    padding: 0.5em;
+    margin-bottom: 0;
   }
 
   blockquote {
     padding-left: 1em;
     font-style: italic;
-    border-left: solid 1px #fa6432;
-  }
-
-  table {
-    font-size: 1rem;
-    text-align: left;
-    caption-side: bottom;
-    margin-bottom: 2em;
-  }
-  table * {
-    border: none;
-  }
-  table thead,
-  table tr {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-  }
-  table tr:nth-child(even) {
-    background-color: rgba(200, 200, 200, 0.2);
-  }
-  table tbody {
-    display: block;
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-  table td,
-  table th {
-    padding: 0.25em;
+    border-left: solid 1px var(--primary);
   }
 
   pre {
@@ -201,9 +244,27 @@ const MainContentWrapper = styled.div`
     margin: 1em 0;
     padding: 1em;
     overflow: auto;
-    font-size: 0.85rem;
     font-family: monospace, monospace;
     background: var(--background-accent);
+  }
+
+  sup {
+    position: relative;
+    line-height: normal;
+    margin-left: 0.1em;
+  }
+
+  hr {
+    margin: 2em 0;
+  }
+
+  .footnotes {
+    .footnote-backref {
+      margin-left: 0.5rem;
+    }
+    ol {
+      color: var(--font-secondary);
+    }
   }
 `;
 
@@ -214,42 +275,62 @@ const StyledTitleWrapper = styled(TitleWrapper)`
   }
 `;
 
+const PostHeaderBreakpoints = setEachBreakpoint({
+  xs: `
+  margin: 0;
+  `,
+  xl: `
+  max-width: 1200px;
+  width: 1200px;
+  `,
+  xxl: `
+  max-width: 1200px;
+  width: 1200px;
+  `,
+});
 const PostHeader = styled.div`
+  max-width: 680px;
+  width: 680px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: baseline;
+  margin: 0 24px;
+  ${PostHeaderBreakpoints}
 `;
 
 const PostTitleBreakpoints = setEachBreakpoint({
   xs: `
-  font-size: 3.75rem;
-  `,
-  sm: `
-  font-size: 5rem;
-  `,
-  md: `
-  font-size: 3rem;
-  `,
-  lg: `
-  font-size: 2.5rem;
-  `,
-  xl: `
   font-size: 3.0rem;
   `,
+  sm: `
+  font-size: 4.0rem;
+  `,
+  md: `
+  font-size: 4.0rem;
+  `,
+  lg: `
+  font-size: 4.0rem;
+  `,
+  xl: `
+  font-size: 6rem;
+  `,
   xxl: `
-  font-size: 3.5rem;
+  font-size: 6.4rem;
   `,
 });
 const PostTitle = styled.h2`
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 5rem;
   font-weight: 900;
   color: var(--font);
+  margin-bottom: 0.15em;
   ${PostTitleBreakpoints}
 `;
 const SubPostTitleBreakpoints = setEachBreakpoint({
   xs: `
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  margin-left: .1em;
   `,
   sm: `
   font-size: 1.75rem;
@@ -271,13 +352,61 @@ const SubPostTitle = styled.div`
   display: flex;
   flex-direction: row;
   color: var(--font-secondary);
+  font-weight: 100;
   ${SubPostTitleBreakpoints}
 `;
-const PostDate = styled.div`
-  font-weight: 100;
-  color: var(--font-secondary);
-`;
+const PostDate = styled.div``;
 const PostCategory = styled.div`
-  font-weight: 100;
-  color: var(--secondary);
+  font-weight: 500 !important;
+  ${linkStyles}
+`;
+
+const BottomHeading = styled.h4`
+  font-size: larger;
+  margin: 0;
+  margin-top: 1em;
+  text-align: center;
+`;
+const BottomCTA = styled.a`
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5em;
+  text-align: center;
+`;
+
+const PrevNextOpts = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  :hover {
+    svg {
+      fill: var(--secondary);
+    }
+  }
+
+  svg {
+    width: 2em;
+    margin: 0 0.3em;
+    fill: var(--primary);
+  }
+
+  h5 {
+    margin: 0;
+  }
+
+  margin-bottom: 1em;
+`;
+
+const Prev = styled.a`
+  width: 45%;
+  display: flex;
+  align-items: center;
+  text-align: left;
+`;
+const Next = styled.a`
+  width: 45%;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  text-align: right;
 `;

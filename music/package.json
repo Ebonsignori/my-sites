@@ -2,7 +2,7 @@
   "name": "music",
   "private": true,
   "scripts": {
-    "start": "open http://localhost:3081 && next dev -p 3081",
+    "start": "node ../shared/open.js 3083 && next dev -p 3083",
     "build": "next build && next export -o build/",
     "lint": "next lint"
   },

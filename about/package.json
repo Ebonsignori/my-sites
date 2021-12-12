@@ -2,7 +2,7 @@
   "name": "about",
   "private": true,
   "scripts": {
-    "start": "open http://localhost:3080 && next dev -p 3080",
+    "start": "node ../shared/open.js 3080 && next dev -p 3080",
     "build": "next build && next export -o build/",
     "lint": "next lint"
   },

@@ -39,9 +39,11 @@ export default class MyDocument extends Document {
             crossOrigin="true"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500&display=swap"
-            rel="stylesheet"
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="true"
           />
+          <link href={process.env.FONT_URL} rel="stylesheet" />
         </Head>
         <body>
           <Main />

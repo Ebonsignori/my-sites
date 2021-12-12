@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:title" content="About Evan Bonsignori" />
-        <meta property="og:type" content="image/jpeg" />
+        <meta property="og:type" content="website" />
         <meta property="og:image" content={imagePreviewUrl} />
         <meta property="og:image:secure_url" content={imagePreviewUrl} />
         <meta property="og:image:alt" content="Night sky with stars" />

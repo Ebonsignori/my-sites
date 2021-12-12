@@ -1,12 +1,13 @@
 import { BREAKPOINTS } from "../utils/breakpoints";
 
-export function getImageSetSrc(name, isAsset) {
+export function getImageSetSrc(name, isAsset, prefixFolder) {
   let srcSetStr = "";
   for (const breakpoint of BREAKPOINTS) {
     srcSetStr += `${getImageSource(
       name,
       breakpoint,
-      isAsset
+      isAsset,
+      prefixFolder
     )} ${breakpoint}w, `;
   }
   // Remove last ", "
@@ -14,14 +15,23 @@ export function getImageSetSrc(name, isAsset) {
   return srcSetStr;
 }
 
-export function getImageSource(name, breakpoint, isAsset = false) {
+export function getImageSource(
+  name,
+  breakpoint,
+  isAsset = false,
+  prefixFolder = ""
+) {
   let baseUrl = process.env.BASE_PHOTO_URL;
   if (isAsset) {
     baseUrl = process.env.BASE_ASSET_URL;
   }
-  let source = `${baseUrl}/${name}/${name}-original.jpg`;
+  let folderPart = `${baseUrl}/${name}`;
+  if (prefixFolder) {
+    folderPart = `${baseUrl}/${prefixFolder}/${name}`;
+  }
+  let source = `${folderPart}/${name}-original.jpg`;
   if (breakpoint) {
-    source = `${baseUrl}/${name}/${name}-${breakpoint}.webp`;
+    source = `${folderPart}/${name}-${breakpoint}.webp`;
   }
   return source;
 }

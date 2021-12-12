@@ -31,7 +31,7 @@ const SectionBreakpoints = setEachBreakpoint({
   padding-right: 25vw;
   `,
 });
-export const SectionWrapper = styled.div`
+export const SectionWrapper = styled.section`
   display: block;
   padding-top: 5%;
   padding-left: 5vw;
@@ -42,7 +42,6 @@ export const SectionWrapper = styled.div`
   position: relative;
   overflow: hidden;
   z-index: 2;
-  font-family: "Helvetica Now", sans-serif;
   ${SectionBreakpoints}
   :last-of-type {
     padding-bottom: 50px;

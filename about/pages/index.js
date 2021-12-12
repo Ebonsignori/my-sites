@@ -42,9 +42,9 @@ export default function Home({ content }) {
   let PageRender = (
     <>
       <GreetingTitleSection>
+        {!isSunMode && postLoadingFinished && <ShootingStars />}
         <WaveHand introLoadFinished={introLoadFinished} />
         <GreetingTitle>
-          {!isSunMode && postLoadingFinished && <ShootingStars />}
           <LetterOne>H</LetterOne>
           <LetterTwo>i</LetterTwo>
           <LetterThree postLoadingFinished={postLoadingFinished}>,</LetterThree>
@@ -396,7 +396,9 @@ const GreetingTextBreakpoints = setEachBreakpoint({
       `,
   xxl: "",
 });
-const GreetingText = styled.p`
+const GreetingText = styled.main`
+  margin-block-start: 1em;
+  margin-block-end: 1em;
   ${OPACITY_TRANSITION}
   user-select: none;
   grid-row: 3 / 4;
@@ -407,11 +409,6 @@ const GreetingText = styled.p`
   padding-left: 5%;
   padding-right: 5%;
   z-index: 1;
-
-  strong {
-    font-family: cursive;
-    font-weight: 900;
-  }
 
   ${GreetingTextBreakpoints}
 `;

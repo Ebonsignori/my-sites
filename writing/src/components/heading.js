@@ -7,30 +7,36 @@ export const HeadingContentBreakpoints = setEachBreakpoint({
   xs: `
   max-width: 90vw;
   width: 90vw;
-  padding: 5vw;
-  row-gap: 7.5vw;
+  padding: 5vw 24px;
+  row-gap: 6.5vw;
   padding-bottom: 3vw;
   `,
+  sm: `
+  padding: 3vw 24px;
+  row-gap: 6.5vw;
+    `,
+  md: `
+  row-gap: 5.5vw;
+    `,
   lg: `
+  row-gap: 2.0vw;
   max-width: 96vw;
   width: 96vw;
   padding: 2vw;
-  row-gap: 1vw;
-  grid-template-rows: 1fr;
   `,
   xl: `
   max-width: 96vw;
   width: 96vw;
   padding: 2vw;
   padding-bottom: 1vw;
-  row-gap: 1vw;
+  row-gap: 1.5vw;
   grid-template-rows: 1fr;
   `,
   xxl: `
   max-width: 96vw;
   width: 96vw;
   padding: 1.75vw;
-  row-gap: 1vw;
+  row-gap: 1.5vw;
   padding-bottom: 1vw;
   grid-template-rows: 1fr;
   `,
@@ -39,12 +45,10 @@ export const HeadingContent = styled.div`
   align-self: center;
   display: grid;
   align-items: baseline;
-  grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(3, 1fr);
   max-width: 94vw;
   width: 94vw;
   padding: 3vw;
-  row-gap: 2.5vw;
   padding-bottom: 2vw;
   ${HeadingContentBreakpoints}
 `;
@@ -58,7 +62,7 @@ const TitleWrapperBreakpoints = setEachBreakpoint({
 export const TitleWrapper = styled.div`
   display: flex;
   grid-row: 1;
-  grid-column: 1;
+  grid-column: 1 / 3;
   flex-direction: row;
   align-items: baseline;
   ${TitleWrapperBreakpoints}
@@ -135,17 +139,13 @@ export const AboutLink = styled.a`
 
 const SubHeadingContentBreakpoints = setEachBreakpoint({
   xs: `
-  grid-row: 2;
-  grid-column: 1 / 4;
   font-size: 1.1rem;
+  align-items: baseline;
   `,
   sm: `
-  grid-row: 2;
   font-size: 1.1rem;
-  grid-column: 1 / 4;
   `,
   md: `
-  grid-row: 2;
   font-size: 1.1rem;
   `,
   lg: `
@@ -165,7 +165,8 @@ export const SubHeadingContent = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 1em;
-  grid-column: 2;
-  grid-row: 1;
+  grid-row: 2;
+  grid-column: 1 / 4;
+  align-items: center;
   ${SubHeadingContentBreakpoints}
 `;

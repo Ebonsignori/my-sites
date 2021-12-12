@@ -29,6 +29,10 @@ Images are hosted on S3 (only paid service for this project).
 
 They are resized and uploaded locally using https://github.com/Ebonsignori/image-resize-upload-aws.
 
+## Development
+
+Run `npm install` in each child directory, including `shared`
+
 ## Acknowledgements
 
 About section inspiration: https://www.vancedesignsproducts.com/#section-about

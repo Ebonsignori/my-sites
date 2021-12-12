@@ -18,7 +18,18 @@ async function main() {
   await checkRequestArg("slug", true);
   await checkRequestArg("category");
   await checkRequestArg("preview");
-  if (!args.title || !args.slug || !args.category || !args.preview) {
+  await checkRequestArg("keywords");
+  await checkRequestArg("image");
+  await checkRequestArg("imageAlt");
+  if (
+    !args.title ||
+    !args.slug ||
+    !args.category ||
+    !args.preview ||
+    !args.keywords ||
+    !args.image ||
+    !args.imageAlt
+  ) {
     return console.log("Not creating new post.");
   }
 

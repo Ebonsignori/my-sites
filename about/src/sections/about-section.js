@@ -223,6 +223,7 @@ const JobLocation = styled.span`
   min-width: fit-content;
 `;
 const JobTitle = styled.h5`
+    font-family: var(--body-family);
   line-height: 1.2em;
   font-size: 1.2em;
   font-weight: normal;

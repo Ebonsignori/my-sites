@@ -7,3 +7,8 @@ export function capitalize(str) {
 export function capitalizeAll(str, splitOn = " ") {
   return str.split(splitOn).map(capitalize).join(" ");
 }
+
+// Is string a numeric string
+export function isNumeric(value) {
+  return /^\d+$/.test(value);
+}

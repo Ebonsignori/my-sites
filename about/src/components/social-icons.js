@@ -67,20 +67,20 @@ const IconsWrapper = styled.div`
 
 const IconLinkBreakpoints = setEachBreakpoint({
   xs: `
+  margin: 0 1.6vw;
   margin-bottom: 3%;
-  margin-right: 3.2vw;
   svg {
     width: 8.2vw;
   }
   `,
   sm: `
-  margin-right: 2.2vw;
+  margin: 0 1.1vw;
   svg {
     width: 5vw;
   }
   `,
   md: `
-  margin-right: 2vw;
+  margin: 0 1vw;
   svg {
     width: 4.0vw;
   }

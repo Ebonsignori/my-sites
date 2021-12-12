@@ -57,5 +57,19 @@ export function fetchEntries() {
 // We fetch each entry again so we don't have to name mdx files by slug
 export function getEntryBySlug(slug) {
   const entriesMap = fetchEntries();
-  return entriesMap[slug];
+  const res = {};
+  const entries = Object.entries(entriesMap);
+  for (let i = 0; i < entries.length; i++) {
+    if (entries[i][0] === slug) {
+      res.current = entries[i][1];
+      if (i - 1 >= 0) {
+        res.prev = entries[i - 1][1];
+      }
+      if (i + 1 < entries.length) {
+        res.next = entries[i + 1][1];
+      }
+      break;
+    }
+  }
+  return res;
 }

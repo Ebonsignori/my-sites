@@ -5,10 +5,10 @@ module.exports = {
     es6: true,
     "jest/globals": true
   },
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "sourceType": "module",
-    "allowImportExportEverywhere": true
+  parser: "babel-eslint",
+  parserOptions: {
+    sourceType: "module",
+    allowImportExportEverywhere: true
   },
   extends: [
     "plugin:react/recommended",
@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   plugins: ['github', 'jest', 'simple-import-sort'],
-  "ignorePatterns": ["jest.config.js"],
+  ignorePatterns: ["jest.config.js"],
   rules: {
     'max-len': [2, { code: 120, tabWidth: 4, ignoreUrls: true }],
     indent: [
@@ -51,7 +51,8 @@ module.exports = {
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 0,
     'import/no-commonjs': 0,
-    '@next/next/no-img-element': 0
+    '@next/next/no-img-element': 0,
+    'i18n-text/no-en': 0,
   },
 };
 

@@ -2,12 +2,14 @@
   "name": "writing",
   "private": true,
   "scripts": {
-    "start": "open http://localhost:3081 && cross-env PORT=3081 next-remote-watch ./entries",
+    "start": "node ../shared/open.js 3081 && cross-env PORT=3081 next-remote-watch ./entries",
     "build": "next build && next export -o build/",
+    "postbuild": "next-sitemap",
     "lint": "next lint",
     "new": "node --es-module-specifier-resolution=node ./src/new-post.mjs"
   },
   "dependencies": {
+    "copy-to-clipboard": "^3.3.1",
     "dotenv": "^10.0.0",
     "fuzzysort": "^1.1.4",
     "gray-matter": "^4.0.3",
@@ -15,11 +17,14 @@
     "next-mdx-remote": "^3.0.8",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-lazy-load-image-component": "^1.5.1",
+    "remark-emoji": "^3.0.2",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
     "next-remote-watch": "^1.0.0",
+    "next-sitemap": "^1.6.203",
     "next-transpile-modules": "^9.0.0",
     "prompts": "^2.4.2",
     "yargs": "^17.3.0"

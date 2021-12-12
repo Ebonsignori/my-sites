@@ -1,12 +1,12 @@
 import fuzzysort from "fuzzysort";
-import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { toReadableDateString } from "../../shared/utils/dates";
+import { getImageSetSrc } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
 import {
   AboutLink,
@@ -16,20 +16,48 @@ import {
   Title,
   TitleWrapper,
 } from "../src/components/heading";
-import SearchIcon from "../src/components/svg/search-icon";
+import Meta from "../src/components/meta";
+import SearchIcon from "../src/svgs/search-icon";
 import { fetchEntries } from "../src/utils/fetch-entries";
 import { linkStyles } from "../src/utils/global-styles";
 
 const ALL_CATEGORY = "all";
+const ITEMS_PER_PAGE = 5;
+const PAGINATE_OFFSET = 200;
 
 export default function Home({ entries, categories }) {
   const router = useRouter();
+  // Pagination
+  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE);
+  const entriesRef = useRef(null);
+  const headerRef = useRef(null);
+  const maxPages = entries.length + ITEMS_PER_PAGE;
+
+  const onScroll = (e) => {
+    if (paginationCount > maxPages) {
+      return;
+    }
+    const node = e.target;
+    if (entriesRef.current && headerRef.current) {
+      const totalHeight =
+        entriesRef.current.scrollHeight + headerRef.current.scrollHeight;
+      const currentScroll = node.scrollTop + node.clientHeight;
+      if (totalHeight - PAGINATE_OFFSET <= currentScroll) {
+        setPaginationCount((prev) => prev + ITEMS_PER_PAGE);
+      }
+    }
+  };
+
   // Load category from URL #/{category} path or default to ALL
   const [selectedCategory, setSelectedCategory] = useState(
     router.asPath !== "/" ? router.asPath.replace("/#", "") : ALL_CATEGORY
   );
   const [searchQuery, setSearchQuery] = useState("");
-  let filteredEntries = entries;
+  // Paginate entries
+  let filteredEntries = useMemo(
+    () => entries.slice(0, paginationCount),
+    [entries, paginationCount]
+  );
   if (searchQuery) {
     filteredEntries = fuzzysort
       .go(searchQuery, entries, {
@@ -116,13 +144,16 @@ export default function Home({ entries, categories }) {
   );
   return (
     <>
-      <Head>
-        <title>Writing - Evan Bonsignori</title>
-        <meta name="description" content="Personal blog of Evan Bonsignori" />
-        <meta property="og:title" content="Writing - Evan Bonsignori" />
-      </Head>
-      <PageWrapper>
-        <HeadingContent>
+      <Meta
+        title="Writing - Evan Bonsignori"
+        description="A blog covering life, tech, and music by Evan Bonsignori"
+        keywords="Writing, Blog, Evan Bonsignori"
+        image="https://evan-bio-assets.s3.amazonaws.com/blog-themed-pencil-icon.jpg"
+        imageAlt="Pencil icon with colors matching the theme of the blog"
+        type="blog"
+      />
+      <PageWrapper onScroll={onScroll}>
+        <HeadingContent isHome ref={headerRef}>
           <TitleWrapper>
             <Title>Writing</Title>
             <SubTitle>by Evan Bonsignori</SubTitle>
@@ -139,7 +170,7 @@ export default function Home({ entries, categories }) {
             </SearchWrapper>
           </SubHeadingContent>
         </HeadingContent>
-        <Entries>{EntriesRender}</Entries>
+        <Entries ref={entriesRef}>{EntriesRender}</Entries>
       </PageWrapper>
     </>
   );
@@ -168,7 +199,9 @@ export async function getStaticProps() {
 
 const PageWrapper = styled.div`
   position: relative;
-  overflow: hidden;
+  max-height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
   width: 100vw;
   max-width: 100vw;
 `;
