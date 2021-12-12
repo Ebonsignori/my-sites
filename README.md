@@ -27,7 +27,9 @@ Content management is done locally by modifying asset files in this repo (e.g. m
 
 Images are hosted on S3 (only paid service for this project).
 
-They are resized and uploaded locally using https://github.com/Ebonsignori/image-resize-upload-aws.
+They are resized and uploaded locally using [Uploader](./uploader).
+
+See [Photo README](./photos) for more details.
 
 ## Development
 
