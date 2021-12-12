@@ -12,11 +12,13 @@
     "start-music": "cd ./music && npm start && cd -",
     "start-photos": "cd ./photos && npm start && cd -",
     "start-writing": "cd ./writing && npm run start && cd -",
+    "start-uploader": "cd ./uploader && npm run start && cd -",
     "lint-about": "cd ./about && npm run lint && cd -",
     "lint-music": "cd ./music && npm run lint && cd -",
     "lint-photos": "cd ./photos && npm run lint && cd -",
     "lint-writing": "cd ./writing && npm run lint && cd -",
-    "lint": "npm run lint-about && npm run lint-music && npm run lint-photos && npm run lint-writing"
+    "lint-uploader": "cd ./uploader && npm run lint && cd -",
+    "lint": "npm run lint-about && npm run lint-music && npm run lint-photos && npm run lint-writing && npm run lint-uploader"
   },
   "author": "Evan Bonsignori",
   "license": "ISC",

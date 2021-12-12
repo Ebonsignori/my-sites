@@ -27,6 +27,9 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install shared deps
+        run: cd ./shared && npm i && cd -
+
       - name: Install Node.js dependencies
         run: cd ./${{ matrix.project }} && npm i
 

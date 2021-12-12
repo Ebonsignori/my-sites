@@ -25,6 +25,44 @@ const PageWrapper = styled.div`
   color: black;
 `;
 
+const PreviewWrapperBreakpoints = setEachBreakpoint({
+  xs: `
+      h1 {
+        font-size: 3em;
+      }
+
+      p {
+        font-size: 1.5em;
+      }
+     `,
+  sm: `
+      h1 {
+        font-size: 5em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+     `,
+  md: `
+      h1 {
+        font-size: 5em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+      `,
+  lg: `
+      h1 {
+        font-size: 6em;
+      }
+
+      p {
+        font-size: 3em;
+      }
+      `,
+});
 const PreviewWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,42 +83,5 @@ const PreviewWrapper = styled.div`
     }
   }
 
-  ${setEachBreakpoint({
-    xs: `
-      h1 {
-        font-size: 3em;
-      }
-
-      p {
-        font-size: 1.5em;
-      }
-     `,
-    sm: `
-      h1 {
-        font-size: 5em;
-      }
-
-      p {
-        font-size: 3em;
-      }
-     `,
-    md: `
-      h1 {
-        font-size: 5em;
-      }
-
-      p {
-        font-size: 3em;
-      }
-      `,
-    lg: `
-      h1 {
-        font-size: 6em;
-      }
-
-      p {
-        font-size: 3em;
-      }
-      `,
-  })}
+  ${PreviewWrapperBreakpoints}
 `;
