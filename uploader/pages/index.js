@@ -3,13 +3,17 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import exifr from "exifr/dist/full.esm.mjs";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 import DatePicker from "react-datepicker";
 import CreatableSelect from "react-select/creatable";
+import { io } from "socket.io-client";
 import styled from "styled-components";
 
 import { isNumeric } from "../../shared/utils/strings";
@@ -21,7 +25,7 @@ import {
   TitleWrapper,
 } from "../src/components/heading";
 import { addressToCords, cordsToAddress } from "../src/utils/geocode";
-import { SERVER_URL } from "../src/utils/misc";
+import { SERVER_URL, SOCKET_URL } from "../src/utils/misc";
 
 const DEFAULT_BREAKPOINTS = process.env.IMAGE_BREAKPOINTS.split(", ").map(
   (breakpoint) => ({
@@ -36,6 +40,8 @@ const DEFAULT_TAGS = process.env.IMAGE_TAGS.split(", ").map((tag) => ({
 const IMAGE_MODELS_MAP = {
   "ILCE-7M3": "Sony a7 III",
 };
+
+const socket = io(SOCKET_URL);
 
 // eslint-disable-next-line no-useless-escape
 const imageNameRegex = new RegExp(/^[\w\!\-]+$/);
@@ -65,11 +71,41 @@ export default function Uploader() {
   const [imageLatitude, setImageLatitude] = useState("");
   const [imageLongitude, setImageLongitude] = useState("");
   // Message states
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [errors, setErrors] = useState([]);
   const [successMsg, setSuccessMsg] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploads, setUploads] = useState([]);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      setSocketConnected(true);
+      setShowToast(true);
+    });
+    socket.on("disconnect", () => {
+      setSocketConnected(false);
+      setShowToast(true);
+    });
+    socket.on("upload-part", (upload) => {
+      setUploads((prev) => [...prev, upload]);
+      let uploadPercent = (1 / breakpoints.length) * 100;
+      if (updateCatalogue) {
+        uploadPercent = (1 / (breakpoints.length + 1)) * 100;
+      }
+      setUploadProgress((prev) => prev + uploadPercent);
+    });
+    socket.on("upload-part-fail", (upload) => {
+      setUploads((prev) => [...prev, upload]);
+      setUploadProgress(0);
+    });
+  }, []);
 
   const onImageUpload = async (e) => {
+    // Reset on image upload
     setSuccessMsg("");
+    setUploading(false);
     if (!e.target.files.length) {
       return setImage(undefined);
     }
@@ -122,6 +158,10 @@ export default function Uploader() {
     if (onSubmitErrors.length) {
       return;
     }
+
+    setUploading(true);
+    setUploads([]);
+    setUploadProgress(0);
 
     const imageData = await new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -191,6 +231,19 @@ export default function Uploader() {
     [metadata]
   );
 
+  const uploadsRender = useMemo(() => {
+    return uploads.map((upload) => (
+      <li key={upload.msg}>
+        {upload.msg}{" "}
+        {upload.url && (
+          <a href={upload.url} target="_blank" rel="noreferrer">
+            {upload.url}
+          </a>
+        )}
+      </li>
+    ));
+  }, [uploads]);
+
   let errorsRender = null;
   if (errors) {
     errorsRender = errors.map((er) => <li key={er}>{er}</li>);
@@ -207,6 +260,20 @@ export default function Uploader() {
           <AboutLink>Catalogue</AboutLink>
         </Link>
       </HeadingContent>
+      <ToastContainer position="top-center" className="mt-3">
+        <Toast
+          autohide
+          delay={3000}
+          show={showToast}
+          onClose={() => setShowToast(false)}
+        >
+          <Toast.Header>
+            <strong className="me-auto">
+              {socketConnected ? "Socket connected!" : "Socket disconnected"}
+            </strong>
+          </Toast.Header>
+        </Toast>
+      </ToastContainer>
       <Container>
         <FormWrapper>
           <Form.Group className="mb-3">
@@ -459,6 +526,13 @@ export default function Uploader() {
             Defaults are set from .env
           </Form.Text>
         </Form.Group>
+        {uploading && (
+          <Container className="mt-3">
+            <h2 className="mb-3">Upload Progress</h2>
+            <ProgressBar now={uploadProgress} />
+            <Uploads>{uploadsRender}</Uploads>
+          </Container>
+        )}
       </Container>
     </PageWrapper>
   );
@@ -485,4 +559,8 @@ const FormErrors = styled.ul`
 `;
 const FormSuccess = styled.span`
   color: green;
+`;
+
+const Uploads = styled.ul`
+  margin: 1em 0;
 `;

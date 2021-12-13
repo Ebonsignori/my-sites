@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
 import styled from "styled-components";
@@ -13,7 +15,7 @@ import { AboutLink, Title } from "../src/components/heading";
 import { SERVER_URL } from "../src/utils/misc";
 
 async function getCatalogue(bucket, setCatalogue, context) {
-  const { setSuccessMsg, setErrorMsg } = context;
+  const { setSuccessMsg, setErrorMsg, setShowToast } = context;
   setSuccessMsg("");
   setErrorMsg("");
   const rawRes = await fetch(`${SERVER_URL}/catalogue/${bucket}`, {
@@ -31,8 +33,10 @@ async function getCatalogue(bucket, setCatalogue, context) {
     return setErrorMsg(error.message);
   }
   if (res.error) {
+    setShowToast(true);
     setErrorMsg(res.error);
   } else if (res.success) {
+    setShowToast(true);
     setSuccessMsg(res.success);
   }
   setCatalogue(res);
@@ -40,7 +44,7 @@ async function getCatalogue(bucket, setCatalogue, context) {
 }
 
 async function updateCatalogue(bucket, catalogue, context) {
-  const { setSuccessMsg, setErrorMsg } = context;
+  const { setSuccessMsg, setErrorMsg, setShowToast } = context;
   setSuccessMsg("");
   setErrorMsg("");
   const rawRes = await fetch(`${SERVER_URL}/catalogue/${bucket}`, {
@@ -58,21 +62,81 @@ async function updateCatalogue(bucket, catalogue, context) {
     return setErrorMsg(error.message);
   }
   if (res.error) {
+    setShowToast(true);
     setErrorMsg(res.error);
   } else if (res.success) {
+    setShowToast(true);
     setSuccessMsg(res.success);
   }
+}
+
+async function syncCatalogue(bucket, context) {
+  const { setSuccessMsg, setErrorMsg, setShowToast } = context;
+  setSuccessMsg("");
+  setErrorMsg("");
+  const rawRes = await fetch(`${SERVER_URL}/catalogue/${bucket}/sync`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  let res;
+  try {
+    res = await rawRes.json();
+  } catch (error) {
+    return setErrorMsg(error.message);
+  }
+  if (res.error) {
+    setShowToast(true);
+    setErrorMsg(res.error);
+  } else if (res.success) {
+    setShowToast(true);
+    setSuccessMsg(res.success);
+  }
+  return res.catalogue;
+}
+
+async function deleteFromCatalogue(bucket, name, context) {
+  const { setSuccessMsg, setErrorMsg, setShowToast } = context;
+  setSuccessMsg("");
+  setErrorMsg("");
+  const rawRes = await fetch(`${SERVER_URL}/catalogue/${bucket}/${name}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  let res;
+  try {
+    res = await rawRes.json();
+  } catch (error) {
+    setShowToast(true);
+    return setErrorMsg(error.message);
+  }
+  if (res.error) {
+    setErrorMsg(res.error);
+    setShowToast(true);
+  } else if (res.success) {
+    setSuccessMsg(res.success);
+    setShowToast(true);
+  }
+  return res.catalogue;
 }
 
 export default function Catalogue() {
   const [catalogue, setCatalogue] = useState({});
   const [bucket, setBucket] = useState(process.env.BUCKET_NAME);
+  const [deleteName, setDeleteName] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const context = {
     setSuccessMsg,
     setErrorMsg,
+    setShowToast,
   };
 
   useEffect(() => {
@@ -82,6 +146,21 @@ export default function Catalogue() {
 
   return (
     <PageWrapper>
+      <ToastContainer position="top-center" className="mt-3">
+        <Toast
+          autohide
+          delay={3000}
+          show={showToast}
+          onClose={() => setShowToast(false)}
+        >
+          <Toast.Header>
+            <strong className="me-auto">
+              {successMsg && <FormSuccess>{successMsg}</FormSuccess>}
+              {errorMsg && <FormErrors>{errorMsg}</FormErrors>}
+            </strong>
+          </Toast.Header>
+        </Toast>
+      </ToastContainer>
       <Container>
         <Title className="mt-4">Catalogue Editor</Title>
         <Link href="/" passHref>
@@ -96,7 +175,7 @@ export default function Catalogue() {
           />
         </Form.Group>
         <Button
-          className="mt-3 mb-3"
+          className="mt-3"
           variant="secondary"
           onClick={async () => {
             const res = await getCatalogue(bucket, setCatalogue, context);
@@ -104,6 +183,39 @@ export default function Catalogue() {
           }}
         >
           Update catalogue from bucket
+        </Button>
+        <br />
+        <Button
+          className="mt-2 mb-3 ml-3"
+          variant="secondary"
+          onClick={async () => {
+            const syncedCatalogue = await syncCatalogue(bucket, context);
+            setCatalogue(syncedCatalogue);
+          }}
+        >
+          Sync catalogue tags and models
+        </Button>
+        <Form.Group className="mt-3">
+          <Form.Label>Delete Name</Form.Label>
+          <Form.Control
+            type="text"
+            value={deleteName}
+            onChange={(e) => setDeleteName(e.target.value)}
+          />
+        </Form.Group>
+        <Button
+          className="mt-3 mb-3"
+          variant="secondary"
+          onClick={async () => {
+            const updatedCatalogue = await deleteFromCatalogue(
+              bucket,
+              deleteName,
+              context
+            );
+            setCatalogue(updatedCatalogue);
+          }}
+        >
+          Delete item from catalogue
         </Button>
         <JsonWrapper>
           <JSONInput
@@ -134,16 +246,6 @@ export default function Catalogue() {
         >
           Set as S3 catalogue
         </Button>
-        {errorMsg && (
-          <Form.Group className="mt-3">
-            <FormErrors>{errorMsg}</FormErrors>
-          </Form.Group>
-        )}
-        {successMsg && (
-          <Form.Group className="mt-3">
-            <FormSuccess>{successMsg}</FormSuccess>
-          </Form.Group>
-        )}
       </Container>
     </PageWrapper>
   );

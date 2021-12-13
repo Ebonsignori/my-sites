@@ -2,9 +2,9 @@ const { csvStrToArray } = require("./misc");
 
 const CATALOGUE = "catalogue.json";
 const INIT_CATALOGUE = {
-  tags: [csvStrToArray("IMAGE_TAGS")],
+  tags: [],
   breakpoints: [csvStrToArray("IMAGE_BREAKPOINTS")],
-  models: [csvStrToArray("IMAGE_MODELS")],
+  models: [],
   images: [],
 };
 const uploadParams = {
@@ -36,9 +36,39 @@ class CatalogueService {
   async addToCatalogue(bucket, obj) {
     await this.getCatalogue(bucket);
     const newCatalogue = { ...this.catalogue };
+    // Add any new tags to top-level catalogue tags for site filtering
+    for (const tag of obj.tags) {
+      if (!newCatalogue.tags.includes(tag)) {
+        newCatalogue.tags.push(tag);
+      }
+    }
+    // Add any new models to top-level catalogue models for site filtering
+    if (!newCatalogue.models.includes(obj.model)) {
+      newCatalogue.models.push(obj.model);
+    }
     newCatalogue.images = [...newCatalogue.images, obj];
     this.catalogue = newCatalogue;
-    await this.replaceCatalogue(bucket, newCatalogue);
+    return this.replaceCatalogue(bucket, newCatalogue);
+  }
+
+  async removeFromCatalogue(bucket, name) {
+    await this.getCatalogue(bucket);
+    const newCatalogue = { ...this.catalogue };
+    const foundImage = newCatalogue.images.find((image) => image.name === name);
+    if (!foundImage) {
+      throw Error(`No image in catalogue with name: ${name}`);
+    }
+    newCatalogue.images = newCatalogue.images.filter(
+      (image) => image.name !== name
+    );
+    this.catalogue = newCatalogue;
+    const updateRes = await this.replaceCatalogue(bucket, newCatalogue);
+    // After deleting item, sync top-level fields
+    return {
+      updateRes,
+      deletedObj: foundImage,
+      catalogue: await this.syncCatalogue(bucket),
+    };
   }
 
   async replaceCatalogue(bucket, catalogue) {
@@ -50,6 +80,29 @@ class CatalogueService {
       Body: JSON.stringify(catalogue),
     });
     return res;
+  }
+
+  // Sync top-level tags and models using data of all images in the catalogue
+  async syncCatalogue(bucket) {
+    await this.getCatalogue(bucket);
+    const tags = {};
+    const models = {};
+    for (const image of this.catalogue.images) {
+      for (const tag of image.tags) {
+        if (!tags[tag]) {
+          tags[tag] = true;
+        }
+      }
+      if (!models[image.model]) {
+        models[image.model] = true;
+      }
+    }
+    const newCatalogue = { ...this.catalogue };
+    newCatalogue.tags = Object.keys(tags);
+    newCatalogue.models = Object.keys(models);
+    this.catalogue = newCatalogue;
+    await this.replaceCatalogue(bucket, newCatalogue);
+    return this.catalogue;
   }
 
   async initCatalogue(bucket) {

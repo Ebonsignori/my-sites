@@ -2,12 +2,17 @@
 // Set and validate env
 module.exports = function setEnv() {
   const { IMAGE_BREAKPOINTS, AWS_ID, AWS_SECRET, BUCKET_NAME } = process.env;
-  let { PORT, BACKEND_URL, IMAGE_QUALITY, IMAGE_TAGS } = process.env;
+  let { PORT, SOCKET_PORT, BACKEND_URL, IMAGE_QUALITY, IMAGE_TAGS } =
+    process.env;
   // Validate env config
   if (!PORT) {
     PORT = "3000";
   }
   PORT = parseInt(PORT, 10);
+  if (!SOCKET_PORT) {
+    SOCKET_PORT = "3001";
+  }
+  SOCKET_PORT = parseInt(SOCKET_PORT, 10);
   if (!BACKEND_URL) {
     BACKEND_URL = "localhost";
     console.log("Defauling to localhost for backend url.");
@@ -41,5 +46,5 @@ module.exports = function setEnv() {
     IMAGE_TAGS = tags;
   }
 
-  return { IMAGE_QUALITY, PORT, BACKEND_URL };
+  return { IMAGE_QUALITY, PORT, SOCKET_PORT, BACKEND_URL };
 };

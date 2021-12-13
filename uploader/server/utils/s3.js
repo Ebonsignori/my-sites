@@ -48,6 +48,27 @@ class S3 {
     return removeRes;
   }
 
+  async removeFolder(bucketName, folder) {
+    let params = {
+      Bucket: bucketName,
+      Prefix: folder,
+    };
+
+    const data = await this.s3.listObjects(params).promise();
+    if (data.Contents.length === 0) {
+      // eslint-disable-next-line no-console
+      console.log("No items in folder looking to be deleted: ", folder);
+      throw new Error(`Folder not found, ${folder}`);
+    }
+    params = { Bucket: bucketName };
+    params.Delete = { Objects: [] };
+    for (const content of data.Contents) {
+      params.Delete.Objects.push({ Key: content.Key });
+    }
+
+    return this.s3.deleteObjects(params).promise();
+  }
+
   async upload(obj) {
     const uploadRes = await this.s3.upload(obj).promise();
     return uploadRes;

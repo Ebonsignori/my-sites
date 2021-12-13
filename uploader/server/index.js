@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 require("dotenv").config();
 const express = require("express");
+const { createServer } = require("http");
 const next = require("next");
 const bodyParser = require("body-parser");
 const fs = require("fs");
@@ -10,9 +11,15 @@ const sharp = require("sharp");
 const CatalogueService = require("./utils/catalogue-service");
 const setEnv = require("./utils/set-env");
 const S3 = require("./utils/s3");
-const { getCatalogue, setCatalogue } = require("./routes/catalogue");
+const {
+  getCatalogue,
+  setCatalogue,
+  syncCatalogue,
+  deleteFromCatalogue,
+} = require("./routes/catalogue");
 
-const { IMAGE_QUALITY, PORT, BACKEND_URL } = setEnv();
+const { IMAGE_QUALITY, PORT, SOCKET_PORT, BACKEND_URL } = setEnv();
+const MAIN_ROOM = "main";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -30,12 +37,28 @@ async function main() {
 
   const server = express();
   server.use(bodyParser.json({ limit: "200mb" }));
+  const httpServer = createServer(server);
+  const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: "*",
+    },
+  });
+  io.on("connection", (socket) => {
+    socket.join(MAIN_ROOM);
+  });
+  httpServer.listen(SOCKET_PORT);
 
   server.get("/catalogue/:bucket", async (req, res) => {
     return getCatalogue(req, res, s3);
   });
   server.put("/catalogue/:bucket", async (req, res) => {
     return setCatalogue(req, res, s3);
+  });
+  server.put("/catalogue/:bucket/sync", async (req, res) => {
+    return syncCatalogue(req, res, s3);
+  });
+  server.delete("/catalogue/:bucket/:name", async (req, res) => {
+    return deleteFromCatalogue(req, res, s3);
   });
 
   server.post("/upload", async (req, res) => {
@@ -72,7 +95,7 @@ async function main() {
     );
 
     if (updateCatalogue) {
-      await catalogueService.addToCatalogue(bucket, {
+      const catalogueRes = await catalogueService.addToCatalogue(bucket, {
         name,
         folder,
         bucket,
@@ -84,10 +107,13 @@ async function main() {
         breakpoints,
         location,
       });
+      io.to(MAIN_ROOM).emit("upload-part", {
+        msg: `Updated Catalogue`,
+        url: catalogueRes.Location,
+      });
     }
 
     console.log("Resizing and uploading...");
-    const uploadUrls = [];
     const uploadPromises = [...breakpoints, "original"].map(
       async (breakpoint) => {
         const isOriginal = breakpoint === "original";
@@ -108,6 +134,7 @@ async function main() {
           throw errorMsg;
         }
 
+        let uploadRes;
         try {
           if (isOriginal) {
             await sharp(imageBuffer)
@@ -121,7 +148,7 @@ async function main() {
               .toFile(imagePath);
           }
           const uploadBuffer = fs.readFileSync(imagePath);
-          const uploadRes = await s3.upload({
+          uploadRes = await s3.upload({
             Bucket: bucket,
             Key: imageKey,
             Body: uploadBuffer,
@@ -131,23 +158,44 @@ async function main() {
             // Cache each image "indefinitely"
             CacheControl: "max-age: 31536000",
             Metadata: {
-              description,
               alt,
               model,
               imageQuality: isOriginal ? "100" : imageQuality,
               tags: JSON.stringify(tags),
               location: JSON.stringify(location),
-              breakpoints: JSON.stringify(breakpoints),
-              metadata: JSON.stringify(metadata),
+              metadata: JSON.stringify({
+                OriginalFilename: metadata.OriginalFilename,
+                LensModel: metadata.LensModel,
+                GPSAltitude: metadata.GPSAltitude,
+                GPSDestBearingRef: metadata.GPSDestBearingRef,
+                LensInfo: metadata.LensInfo,
+                ExposureTime: metadata.ExposureTime,
+                ApertureValue: metadata.ApertureValue,
+                ShutterSpeedValue: metadata.ShutterSpeedValue,
+                ISO: metadata.ISO,
+                CreateDate: metadata.CreateDate,
+                ModifyDate: metadata.ModifyDate,
+                FNumber: metadata.FNumber,
+              }),
             },
           });
-          uploadUrls.push(uploadRes.Location);
         } catch (error) {
           console.log(error);
+          io.to(MAIN_ROOM).emit("upload-part-fail", {
+            msg:
+              `Error resizing image to size ${breakpoint}.` +
+              ` clean up any successful files manually.`,
+            errorMsg: error.message,
+          });
+          console.log(`Error resizing image to size ${breakpoint}`);
           const errorMsg = `Error resizing image to size ${breakpoint}`;
           throw errorMsg;
         }
         console.log(`Resized ${imageKey} uploaded to S3.`);
+        io.to(MAIN_ROOM).emit("upload-part", {
+          msg: `Resized ${imageKey} uploaded to S3.`,
+          url: uploadRes.Location,
+        });
       }
     );
 
