@@ -31,7 +31,9 @@ export default function Home({ entries, categories }) {
   const entriesRef = useRef(null);
   const headerRef = useRef(null);
   const maxPages = entries.length + ITEMS_PER_PAGE;
+  let filteredEntries = entries;
 
+  // Pagination scroll detect
   const onScroll = (e) => {
     if (paginationCount > maxPages) {
       return;
@@ -52,11 +54,6 @@ export default function Home({ entries, categories }) {
     router.asPath !== "/" ? router.asPath.replace("/#", "") : ALL_CATEGORY
   );
   const [searchQuery, setSearchQuery] = useState("");
-  // Paginate entries
-  let filteredEntries = useMemo(
-    () => entries.slice(0, paginationCount),
-    [entries, paginationCount]
-  );
   if (searchQuery) {
     filteredEntries = fuzzysort
       .go(searchQuery, entries, {
@@ -105,6 +102,7 @@ export default function Home({ entries, categories }) {
                 <EntryRow>
                   <EntryTitle>{entry.title}</EntryTitle>
                   <EntryCategory>{capitalizeAll(entry.category)}</EntryCategory>
+                  <EntryCategory>{entry.viewCount}</EntryCategory>
                 </EntryRow>
                 <EntryDate>{toReadableDateString(entry.date)}</EntryDate>
                 <EntryPreview>{entry.preview}</EntryPreview>
@@ -141,6 +139,13 @@ export default function Home({ entries, categories }) {
       }),
     [router, categories, selectedCategory]
   );
+
+  // Paginate entries after all filters have been applied
+  filteredEntries = useMemo(
+    () => filteredEntries.slice(0, paginationCount),
+    [filteredEntries, paginationCount]
+  );
+
   return (
     <>
       <Meta

@@ -4,6 +4,10 @@ import path from "path";
 
 const entriesPath = path.join(process.cwd(), "entries");
 export function fetchEntries() {
+  // Get stats.json to include read count for each article
+  const statsJson = fs.readFileSync(path.join(process.cwd(), "stats.json"));
+  const { stats } = JSON.parse(statsJson);
+
   const entriesMap = {};
   const entries = fs.readdirSync(entriesPath);
   for (const entry of entries) {
@@ -47,6 +51,9 @@ export function fetchEntries() {
       throw new Error(`Entry, ${entry} missing metadata fields: ${isMissing}`);
     }
     metadata.data.preview = metadata.excerpt;
+
+    // Add engagedSessions to metadata
+    metadata.data.viewCount = stats[metadata.data.slug].engagedSessions;
 
     entriesMap[metadata.data.slug] = metadata;
   }

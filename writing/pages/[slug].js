@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import emoji from "remark-emoji";
 import styled from "styled-components";
 
@@ -31,9 +31,23 @@ const components = {
   Figure,
   Tooltip,
 };
+// Fire read event at each interval
+const EVENT_SECONDS = [10, 30, 60, 90, 120];
 
-export default function Post({ source, metadata, prev, next }) {
+export default function Post({ slug, source, metadata, prev, next }) {
   const [modalContents, setModalContents] = useState(undefined);
+  useEffect(() => {
+    for (const seconds of EVENT_SECONDS) {
+      if (window?.gtag) {
+        setTimeout(() => {
+          window?.gtag("event", "read", {
+            article: slug,
+            time: seconds,
+          });
+        }, seconds * 1000);
+      }
+    }
+  }, [slug]);
   const appState = {
     modalContents,
     setModalContents,

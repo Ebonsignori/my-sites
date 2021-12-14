@@ -19,6 +19,8 @@ export default function Analytics({ trackingId }) {
             gtag('js', new Date());
             gtag('config', '${trackingId}', {
               page_path: window.location.pathname,
+              // For GDPR compliance
+              'anonymize_ip': true
             });
           `,
           }}
