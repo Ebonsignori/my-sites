@@ -16,23 +16,37 @@ jobs:
     # Used to loop through each project and lint it
     strategy:
       matrix:
-        project: ["about", "writing"]
+        project: ["about", "writing", "photos", "music", "uploader"]
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
+      - name: Only lint if there are changes in project
+        run: |
+          if [[ `git status --porcelain ${{ matrix.project }}`]]; then
+            echo "::set-output name=SHOULD_LINT::true"
+            echo "Changes found, building project"
+          else
+            echo "::set-output name=SHOULD_LINT::false"
+          fi
+
+
       - name: Set up Node.js
+        if: ${{ env.SHOULD_LINT == 'true' }} 
         uses: actions/setup-node@v1
         with:
           node-version: 16
 
       - name: Install top-level Node.js dependencies
+        if: ${{ env.SHOULD_LINT == 'true' }} 
         run: npm i
 
       - name: Install Node.js dependencies
+        if: ${{ env.SHOULD_LINT == 'true' }} 
         run: cd ./${{ matrix.project }} && npm i
 
       - name: Run linters
+        if: ${{ env.SHOULD_LINT == 'true' }} 
         run: cd ./${{ matrix.project }} && npm run lint
 

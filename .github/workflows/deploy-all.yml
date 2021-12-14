@@ -22,23 +22,37 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
+      - name: Only build if there are changes in project
+        run: |
+          if [[ `git status --porcelain ${{ matrix.project }}`]]; then
+            echo "::set-output name=SHOULD_BUILD::true"
+            echo "Changes found, building project"
+          else
+            echo "::set-output name=SHOULD_BUILD::false"
+          fi
+
       - name: Set up Node.js
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
         uses: actions/setup-node@v1
         with:
           node-version: 16
 
       - name: Install shared deps
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
         run: cd ./shared && npm i && cd -
 
       - name: Install Node.js dependencies
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
         run: cd ./${{ matrix.project }} && npm i
 
       - name: Build Using Next.js Static Export
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
         run: |
           cd ./${{ matrix.project }} && npm run build
       
       # Push to repo will trigger Netlify deploy action in that repo
       - name: Push project build files to hosting repo
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
