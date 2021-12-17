@@ -27,8 +27,11 @@ jobs:
       - name: Only build if there are changes in project
         run: |
           git reset --soft HEAD~1
-          if [[ `git status --porcelain ${{ matrix.project }}` ]]; then
+          if [[ `git status --porcelain ${{ matrix.project }}/` ]]; then
             echo "Changes found, building project"
+            echo "SHOULD_BUILD=true" >> $GITHUB_ENV
+          elif [[ `git status --porcelain shared/` ]]; then
+            echo "Changes found in shared, building each project"
             echo "SHOULD_BUILD=true" >> $GITHUB_ENV
           else
             echo "No changes found in last commit"
