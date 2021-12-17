@@ -2,11 +2,11 @@ import copy from "copy-to-clipboard";
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { setEachBreakpoint } from "../../../shared/utils/breakpoints";
 import FacebookIcon from "../svgs/facebook";
 import LinkIcon from "../svgs/link-icon";
 import LinkedinIcon from "../svgs/linkedin";
 import TwitterIcon from "../svgs/twitter";
+import Tooltip from "./tooltip";
 
 // Due to issues with styled components and Next.js, these can't be created dynamically
 export default function ShareIcons({ className, slug }) {
@@ -19,25 +19,34 @@ export default function ShareIcons({ className, slug }) {
   };
   return (
     <IconsWrapper className={className}>
-      <IconLink
+      <Tooltip
+        key="twitter"
         title="Share to Twitter"
-        href={socialLinks.twitter}
+        linkUrl={socialLinks.twitter}
         color="#00acee"
-        className="tooltip"
+        text="Share to Twitter"
       >
-        <span className="tooltip-text">Share to Twitter</span>
         <TwitterIcon />
-      </IconLink>
-      <IconLink href={socialLinks.linkedin} color="#0e76a8" className="tooltip">
-        <span className="tooltip-text">Share to Linkedin</span>
+      </Tooltip>
+      <Tooltip
+        key="linkedin"
+        linkUrl={socialLinks.linkedin}
+        color="#0e76a8"
+        text="Share to Linkedin"
+      >
         <LinkedinIcon />
-      </IconLink>
-      <IconLink href={socialLinks.facebook} color="#3b5998" className="tooltip">
-        <span className="tooltip-text">Share to Facebook</span>
+      </Tooltip>
+      <Tooltip
+        key="facebook"
+        linkUrl={socialLinks.facebook}
+        color="#3b5998"
+        text="Share to Facebook"
+      >
         <FacebookIcon />
-      </IconLink>
-      <IconLink
-        onClick={() => {
+      </Tooltip>
+      <Tooltip
+        key="clipboard"
+        linkOnClick={() => {
           copy(url);
           setCopied(true);
         }}
@@ -47,13 +56,12 @@ export default function ShareIcons({ className, slug }) {
           }
         }}
         color="var(--primary)"
+        linkUrl=""
         className="tooltip"
+        text={copied ? "Copied!" : "Copy to Clipboard"}
       >
-        <span className="tooltip-text">
-          {copied ? "Copied!" : "Copy to Clipboard"}
-        </span>
         <LinkIcon />
-      </IconLink>
+      </Tooltip>
     </IconsWrapper>
   );
 }
@@ -62,48 +70,4 @@ const IconsWrapper = styled.div`
   margin-top: 1em;
   display: flex;
   flex-direction: row;
-`;
-
-const IconLinkBreakpoints = setEachBreakpoint({
-  xs: `
-  margin: 0 2vw;
-  margin-bottom: 1%;
-  svg {
-    width: 5.2vw;
-  }
-  `,
-  sm: `
-  margin: 0 1.1vw;
-  svg {
-    width: 4vw;
-  }
-  `,
-  md: `
-  margin: 0 1vw;
-  svg {
-    width: 3.0vw;
-  }
-  `,
-  lg: `
-  svg {
-    width: 2.0vw;
-  }
-  `,
-  xxl: `
-  svg {
-    width: 1.5vw;
-  }
-  `,
-});
-const IconLink = styled.a`
-  margin-right: 1vw;
-  svg {
-    width: 1.7vw;
-    height: auto;
-    fill: var(--font);
-    :hover {
-      fill: ${(props) => props.color};
-    }
-  }
-  ${IconLinkBreakpoints}
 `;

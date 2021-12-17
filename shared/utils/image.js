@@ -36,25 +36,28 @@ export function getImageSource(
   return source;
 }
 
-export function responsiveBackgroundImageUrl(name, isAsset) {
+export function responsiveBackgroundImageUrl(name, isAsset, prefixFolder) {
+  let imageUrl = getImageSource(name, BREAKPOINTS[0], isAsset, prefixFolder);
   let cssStr = `
       @media (max-width: ${BREAKPOINTS[0]}px) {
-        background-image: url(${getImageSource(name, BREAKPOINTS[1], isAsset)});
+        background-image: url("${imageUrl}");
       }
   `;
   for (let i = 0; i < BREAKPOINTS.length - 1; i++) {
     const maxWidth = BREAKPOINTS[i + 1];
     const minWidth = BREAKPOINTS[i] + 1;
+    imageUrl = getImageSource(name, maxWidth, isAsset, prefixFolder);
     cssStr += `
       @media (max-width: ${maxWidth}px) and (min-width: ${minWidth}px) {
-        background-image: url(${getImageSource(name, maxWidth, isAsset)});
+        background-image: url("${imageUrl}");
       }
     `;
   }
   const lastBreakpointImage = getImageSource(
     name,
     BREAKPOINTS[BREAKPOINTS.length - 1],
-    isAsset
+    isAsset,
+    prefixFolder
   );
   cssStr += `
       background-image: url("${lastBreakpointImage}");

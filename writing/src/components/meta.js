@@ -13,7 +13,7 @@ export default function Meta({
   imageIsAsset = true,
 }) {
   let imagePreviewUrl = image;
-  if (!image?.includes("https://")) {
+  if (!image?.includes("://")) {
     imagePreviewUrl = getImageSource(image, BREAKPOINTS[2], imageIsAsset);
   }
   return (

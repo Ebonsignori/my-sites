@@ -12,3 +12,18 @@ export function capitalizeAll(str, splitOn = " ") {
 export function isNumeric(value) {
   return /^\d+$/.test(value);
 }
+
+export function csvToArray(array, shouldLowercase = true) {
+  return array
+    .split(", ")
+    .map((x) => (shouldLowercase ? x.toLowerCase().trim() : x.trim()));
+}
+
+export function arrayToCSV(array, shouldCapitalize = true) {
+  return array.map(
+    (item, index) =>
+      `${shouldCapitalize ? capitalizeAll(item) : item}${
+        index !== array.length - 1 ? ", " : ""
+      }`
+  );
+}

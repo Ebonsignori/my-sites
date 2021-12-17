@@ -6,6 +6,12 @@ export function isValidDate(date) {
   );
 }
 
+// eslint-disable-next-line no-useless-escape
+const shortDateRegex = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
+export function isShortDateString(dateStr) {
+  return shortDateRegex.test(dateStr);
+}
+
 export function toReadableDateString(date) {
   if (!isValidDate(date)) {
     date = new Date(date);

@@ -2,8 +2,8 @@ import { useContext, useRef } from "react";
 import styled from "styled-components";
 
 import { setEachBreakpoint } from "../../../shared/utils/breakpoints";
+import detectOutsideClick from "../../../shared/utils/outside-click";
 import AppContext from "../utils/app-context";
-import detectOutsideClick from "../utils/outside-click";
 
 export default function Modal({ modalContents }) {
   const appState = useContext(AppContext);

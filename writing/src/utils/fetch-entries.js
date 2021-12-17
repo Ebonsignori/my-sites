@@ -2,6 +2,9 @@ import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
 
+import { csvToArray } from "../../../shared/utils/strings";
+import stripMarkdown from "../utils/strip-markdown";
+
 const entriesPath = path.join(process.cwd(), "entries");
 export function fetchEntries() {
   // Get stats.json to include read count for each article
@@ -22,6 +25,7 @@ export function fetchEntries() {
       // eslint-disable-next-line camelcase
       excerpt_separator: "<!-- end-preview -->",
     });
+
     // Validate entry
     let isMissing = "";
     if (!metadata.data.slug) {
@@ -36,24 +40,46 @@ export function fetchEntries() {
         isMissing += ", ";
       }
       isMissing += "date";
-    } else if (!metadata.excerpt) {
+    } else if (!metadata.data.categories) {
       if (isMissing) {
         isMissing += ", ";
       }
-      isMissing += "preview";
-    } else if (!metadata.data.category) {
+      isMissing += "categories";
+    } else if (!metadata.data.image) {
       if (isMissing) {
         isMissing += ", ";
       }
-      isMissing += "category";
+      isMissing += "image";
+    } else if (!metadata.data.imageAlt) {
+      if (isMissing) {
+        isMissing += ", ";
+      }
+      isMissing += "imageAlt";
+    } else if (!metadata.data.imageCaption) {
+      if (isMissing) {
+        isMissing += ", ";
+      }
+      isMissing += "imageCaption";
     }
     if (isMissing) {
       throw new Error(`Entry, ${entry} missing metadata fields: ${isMissing}`);
     }
-    metadata.data.preview = metadata.excerpt;
 
-    // Add engagedSessions to metadata
-    metadata.data.viewCount = stats[metadata.data.slug].engagedSessions;
+    // Clean markdown out of excerpt
+    metadata.data.preview = stripMarkdown(metadata.excerpt);
+
+    // Add popularity to metadata. Weighted by ( viewers ) * ( percent that stayed on page > 10 seconds )
+    if (stats[metadata.data.slug]) {
+      const articleStats = stats[metadata.data.slug];
+      metadata.data.popularity =
+        articleStats.engagedSessions * articleStats.engagementRate;
+    } else {
+      // If update-stats hasn't run since this article was added
+      metadata.data.popularity = 0;
+    }
+
+    // Convert categories to array from CSV
+    metadata.data.categories = csvToArray(metadata.data.categories);
 
     entriesMap[metadata.data.slug] = metadata;
   }

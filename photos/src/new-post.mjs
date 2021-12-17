@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable i18n-text/no-en */
 import fs from "fs";
 import path from "path";
 import prompts from "prompts";

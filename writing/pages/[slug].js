@@ -5,18 +5,12 @@ import { useEffect, useState } from "react";
 import emoji from "remark-emoji";
 import styled from "styled-components";
 
+import Copyright from "../../shared/components/copyright";
+import Header from "../../shared/components/header";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { isValidDate, toReadableDateString } from "../../shared/utils/dates";
 import { capitalizeAll } from "../../shared/utils/strings";
 import Figure from "../src/components/figure";
-import {
-  AboutLink,
-  HeadingContent,
-  SubHeadingContent,
-  SubTitle,
-  Title,
-  TitleWrapper,
-} from "../src/components/heading";
 import Meta from "../src/components/meta";
 import Modal from "../src/components/modal";
 import ShareLinks from "../src/components/share-links";
@@ -52,13 +46,20 @@ export default function Post({ slug, source, metadata, prev, next }) {
     modalContents,
     setModalContents,
   };
-  const ShowWip = metadata.isWip ? (
-    <>
-      &nbsp;|&nbsp; <span style={{ color: "red" }}>WIP</span>
-    </>
-  ) : (
-    ""
-  );
+  const renderCategories = metadata.categories.map((category, index) => {
+    return (
+      <Link key={category} href={`/#${category.toLowerCase()}`} passHref>
+        <PostCategory>
+          {capitalizeAll(category)}
+          {index !== metadata.categories.length - 1 ? <>,&nbsp;</> : ""}
+        </PostCategory>
+      </Link>
+    );
+  });
+  let wipRender = null;
+  if (metadata.isWip) {
+    wipRender = <span style={{ color: "red" }}>Work In Progress</span>;
+  }
   return (
     <>
       <Meta
@@ -71,29 +72,26 @@ export default function Post({ slug, source, metadata, prev, next }) {
       <AppContext.Provider value={appState}>
         <Modal modalContents={modalContents} />
         <PageWrapper>
-          <HeadingContent>
-            <Link href="/" passHref>
-              <StyledTitleWrapper>
-                <Title>Writing</Title>
-                <SubTitle>by Evan Bonsignori</SubTitle>
-              </StyledTitleWrapper>
-            </Link>
-            <AboutLink href={process.env.ABOUT_PAGE_URL}>About</AboutLink>
-            <SubHeadingContent>
-              <PostHeader>
-                <PostTitle>{metadata.title}</PostTitle>
-                <SubPostTitle>
-                  <Link href={`/#${metadata.category.toLowerCase()}`} passHref>
-                    <PostCategory>{metadata.category}</PostCategory>
-                  </Link>
-                  &nbsp; | &nbsp;
-                  <PostDate>{metadata.date}</PostDate>
-                  {ShowWip}
-                </SubPostTitle>
-                <ShareLinks slug={metadata.slug} />
-              </PostHeader>
-            </SubHeadingContent>
-          </HeadingContent>
+          <Header
+            title="Writing"
+            titleUrl={"/"}
+            subtitle="by Evan Bonsignori"
+            navLinks={[
+              { url: process.env.PHOTOS_PAGE_URL, name: "Photography" },
+              { url: process.env.ABOUT_PAGE_URL, name: "About Me" },
+            ]}
+          />
+          <PostHeaderWrappper>
+            <PostHeader>
+              <PostTitle>{metadata.title}</PostTitle>
+              <SubPostTitle>
+                <div>{renderCategories}</div>
+                <PostDate>{metadata.date}</PostDate>
+                {wipRender}
+              </SubPostTitle>
+              <ShareLinks slug={metadata.slug} />
+            </PostHeader>
+          </PostHeaderWrappper>
           <MainContentContainer>
             <MainContent>
               <Figure
@@ -108,25 +106,30 @@ export default function Post({ slug, source, metadata, prev, next }) {
               <BottomCTA href={process.env.ABOUT_PAGE_URL}>
                 About Author
               </BottomCTA>
-              <PrevNextOpts>
-                {prev?.data && (
-                  <Link href={`/${prev.data.slug}`} passHref>
-                    <Prev>
-                      <LeftArrow />
-                      <h5>{prev.data.title}</h5>
-                    </Prev>
-                  </Link>
-                )}
-                {next?.data && (
-                  <Link href={`/${next.data.slug}`} passHref>
-                    <Next>
-                      <h5>{next.data.title}</h5>
-                      <RightArrow />
-                    </Next>
-                  </Link>
-                )}
-              </PrevNextOpts>
             </MainContent>
+          </MainContentContainer>
+          <MainContentContainer>
+            <PrevNextOpts>
+              {prev?.data && (
+                <Link href={`/${prev.data.slug}`} passHref>
+                  <Prev>
+                    <LeftArrow />
+                    <h5>{prev.data.title}</h5>
+                  </Prev>
+                </Link>
+              )}
+              {next?.data && (
+                <Link href={`/${next.data.slug}`} passHref>
+                  <Next>
+                    <h5>{next.data.title}</h5>
+                    <RightArrow />
+                  </Next>
+                </Link>
+              )}
+            </PrevNextOpts>
+          </MainContentContainer>
+          <MainContentContainer>
+            <Copyright />
           </MainContentContainer>
         </PageWrapper>
       </AppContext.Provider>
@@ -147,7 +150,6 @@ export async function getStaticProps({ params }) {
     if (isValidDate(entry.data.date)) {
       entry.data.date = toReadableDateString(entry.data.date);
     }
-    entry.data.category = capitalizeAll(entry.data.category);
   }
   const { current, prev = {}, next = {} } = entries;
   return { props: { source: mdxSource, metadata: current.data, prev, next } };
@@ -224,6 +226,14 @@ const MainContentBreakpoints = setEachBreakpoint({
   p, figure {
     margin-top: 1.7rem;
   }
+
+  .footnotes {
+    ol {
+      li::marker {
+        font-size: 4rem;
+      }
+    }
+  }
   `,
   xxl: `
   max-width: 1200px;
@@ -233,6 +243,14 @@ const MainContentBreakpoints = setEachBreakpoint({
   p, figure {
     margin-top: 1.8rem;
   }
+
+  .footnotes {
+    ol {
+      li::marker {
+        font-size: 4rem;
+      }
+    }
+  }
   `,
 });
 const MainContent = styled.section`
@@ -241,7 +259,6 @@ const MainContent = styled.section`
   word-wrap: break-word;
   max-width: 680px;
   margin: 0 24px;
-  ${MainContentBreakpoints}
 
   p {
     margin-bottom: 0;
@@ -277,16 +294,47 @@ const MainContent = styled.section`
       margin-left: 0.5rem;
     }
     ol {
+      li::marker {
+        font-size: 2rem;
+      }
       color: var(--font-secondary);
     }
   }
+
+  ${MainContentBreakpoints}
 `;
 
-const StyledTitleWrapper = styled(TitleWrapper)`
-  :hover {
-    cursor: pointer;
-    color: var(--secondary);
-  }
+const PostHeaderWrapperBreakpoints = setEachBreakpoint({
+  xs: `
+  font-size: 1.1rem;
+  align-items: baseline;
+  `,
+  sm: `
+  font-size: 1.1rem;
+  `,
+  md: `
+  font-size: 1.1rem;
+  `,
+  lg: `
+  margin-bottom: 0;
+  font-size: 1.2rem;
+  `,
+  xl: `
+  margin-bottom: 0;
+  font-size: 1.4rem;
+  `,
+  xxl: `
+  margin-bottom: 0;
+  font-size: 1.8rem;
+  `,
+});
+export const PostHeaderWrappper = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 1em;
+  align-items: center;
+  ${PostHeaderWrapperBreakpoints}
+  margin: 0 24px;
 `;
 
 const PostHeaderBreakpoints = setEachBreakpoint({
@@ -345,6 +393,7 @@ const SubPostTitleBreakpoints = setEachBreakpoint({
   xs: `
   font-size: 1.3rem;
   margin-left: .1em;
+  flex-direction: column;
   `,
   sm: `
   font-size: 1.75rem;
@@ -363,14 +412,23 @@ const SubPostTitleBreakpoints = setEachBreakpoint({
   `,
 });
 const SubPostTitle = styled.div`
+  div {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.2rem;
+    margin-right: 1rem;
+    min-width: fit-content;
+  }
+  width: 100%;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   color: var(--font-secondary);
   font-weight: 100;
   ${SubPostTitleBreakpoints}
 `;
 const PostDate = styled.div``;
-const PostCategory = styled.div`
+const PostCategory = styled.span`
   font-weight: 500 !important;
   ${linkStyles}
 `;
@@ -388,9 +446,25 @@ const BottomCTA = styled.a`
   text-align: center;
 `;
 
+const PrevNextOptsBreakpoints = setEachBreakpoint({
+  xl: `
+  max-width: 1200px;
+  width: 1200px;
+  `,
+  xxl: `
+  max-width: 1200px;
+  width: 1200px;
+  `,
+});
 const PrevNextOpts = styled.div`
   display: flex;
-  flex-direction: row;
+  margin-bottom: 1em;
+  max-width: 680px;
+  width: 680px;
+  font-size: 1.4rem;
+  margin: 0 24px;
+  ${MainContentBreakpoints}
+  ${PrevNextOptsBreakpoints}
 
   :hover {
     svg {
@@ -400,27 +474,27 @@ const PrevNextOpts = styled.div`
 
   svg {
     width: 2em;
-    margin: 0 0.3em;
     fill: var(--primary);
   }
 
   h5 {
     margin: 0;
   }
-
-  margin-bottom: 1em;
 `;
 
 const Prev = styled.a`
-  width: 45%;
-  display: flex;
+  max-width: 43%;
+  width: fit-content;
+  display: inline-flex;
   align-items: center;
   text-align: left;
 `;
 const Next = styled.a`
-  width: 45%;
-  display: flex;
+  max-width: 43%;
+  width: fit-content;
+  display: inline-flex;
   align-items: center;
-  margin-left: auto;
   text-align: right;
+  margin-left: auto;
+  justify-content: flex-end;
 `;

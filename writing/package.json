@@ -6,6 +6,7 @@
     "build": "next build && next export -o build/",
     "postbuild": "next-sitemap",
     "lint": "next lint",
+    "new-test-posts": "node --es-module-specifier-resolution=node ./test/create-posts.mjs",
     "new": "node --es-module-specifier-resolution=node ./src/new-post.mjs"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "faker": "^5.5.3",
     "next-remote-watch": "^1.0.0",
     "next-sitemap": "^1.6.203",
     "next-transpile-modules": "^9.0.0",

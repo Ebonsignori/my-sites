@@ -70,7 +70,7 @@ const GlobalStyle = createGlobalStyle`
   .tooltip .tooltip-text {
     visibility: hidden;
     width: fit-content;
-    padding: 6px 1.2vw;
+    padding: 8px 1.2vw;
     background-color: var(--font-secondary);
     color: var(--background);
     text-align: center;

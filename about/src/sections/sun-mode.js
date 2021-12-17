@@ -5,7 +5,7 @@ import {
   getStringAtBreakpoint,
   setEachBreakpoint,
 } from "../../../shared/utils/breakpoints";
-import { getRandomIntBetween } from "../utils/random";
+import { getRandomIntBetween } from "../../../shared/utils/random";
 import useWindowDimensions from "../utils/window-size";
 
 const MAX_STARS = 200;

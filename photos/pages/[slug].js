@@ -38,13 +38,25 @@ export default function Post({ source, metadata, prev, next }) {
     modalContents,
     setModalContents,
   };
-  const ShowWip = metadata.isWip ? (
-    <>
-      &nbsp;|&nbsp; <span style={{ color: "red" }}>WIP</span>
-    </>
-  ) : (
-    ""
-  );
+  const categories = metadata.categories.map((category, index) => {
+    return (
+      <Link key={category} href={`/#${category.toLowerCase()}`} passHref>
+        <PostCategory>
+          {capitalizeAll(category)}
+          {index !== categories.length - 1 ? ", " : ""}
+        </PostCategory>
+      </Link>
+    );
+  });
+  let wipRender = null;
+  if (metadata.isWip) {
+    wipRender = (
+      <>
+        {" "}
+        &nbsp;|&nbsp; <span style={{ color: "red" }}>WIP</span>{" "}
+      </>
+    );
+  }
   return (
     <>
       <Meta
@@ -69,12 +81,10 @@ export default function Post({ source, metadata, prev, next }) {
               <PostHeader>
                 <PostTitle>{metadata.title}</PostTitle>
                 <SubPostTitle>
-                  <Link href={`/#${metadata.category.toLowerCase()}`} passHref>
-                    <PostCategory>{metadata.category}</PostCategory>
-                  </Link>
+                  {categories}
                   &nbsp; | &nbsp;
                   <PostDate>{metadata.date}</PostDate>
-                  {ShowWip}
+                  {wipRender}
                 </SubPostTitle>
                 <ShareLinks slug={metadata.slug} />
               </PostHeader>
@@ -133,7 +143,6 @@ export async function getStaticProps({ params }) {
     if (isValidDate(entry.data.date)) {
       entry.data.date = toReadableDateString(entry.data.date);
     }
-    entry.data.category = capitalizeAll(entry.data.category);
   }
   const { current, prev = {}, next = {} } = entries;
   return { props: { source: mdxSource, metadata: current.data, prev, next } };

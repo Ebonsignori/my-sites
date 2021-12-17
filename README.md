@@ -39,9 +39,13 @@ Run `npm install` in each child directory, including `shared`
 
 About section inspiration: https://www.vancedesignsproducts.com/#section-about
 
+Blog post contents inspiration: https://medium.com/
+
 Icons: https://fonts.google.com/icons, https://icons8.com/icons/
 
 #### CSS
+
+Blog index page cards: https://codepen.io/ChynoDeluxe/pen/bdXeqQ
 
 Shooting Star animation: https://codepen.io/YusukeNakaya/pen/XyOaBj
 

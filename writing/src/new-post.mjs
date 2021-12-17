@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable i18n-text/no-en */
 import fs from "fs";
 import path from "path";
 import prompts from "prompts";
@@ -16,15 +15,16 @@ async function main() {
   // Validate and prompt for args not passed
   await checkRequestArg("title");
   await checkRequestArg("slug", true);
-  await checkRequestArg("category");
+  await checkRequestArg("categories");
   await checkRequestArg("preview");
   await checkRequestArg("keywords");
   await checkRequestArg("image");
   await checkRequestArg("imageAlt");
+  await checkRequestArg("imageCaption");
   if (
     !args.title ||
     !args.slug ||
-    !args.category ||
+    !args.categories ||
     !args.preview ||
     !args.keywords ||
     !args.image ||
@@ -33,22 +33,7 @@ async function main() {
     return console.log("Not creating new post.");
   }
 
-  const filename = `${datePart}-${args.title.replace(/\s/g, "-")}.mdx`;
-  const filepath = path.join(entryPath, filename);
-
-  fs.writeFileSync(
-    filepath,
-    `---
-title: ${args.title}
-slug: ${args.slug}
-category: ${args.category}
-date: ${datePart}
----
-
-${args.preview}<!-- env-preview -->`
-  );
-
-  console.log(`Created new entry, ${filepath}`);
+  return createPost(args);
 }
 
 const validSlugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/g;
@@ -73,4 +58,32 @@ async function checkRequestArg(argName, isSlug) {
   }
 }
 
-main();
+export function createPost(postArgs) {
+  const filename = `${datePart}-${postArgs.title.replace(/\s/g, "-")}.mdx`;
+  const filepath = path.join(entryPath, filename);
+
+  fs.writeFileSync(
+    filepath,
+    `---
+title: ${postArgs.title}
+slug: ${postArgs.slug}
+categories: ${postArgs.categories}
+date: ${postArgs.date || datePart}
+image: ${postArgs.image}
+imageAlt: ${postArgs.imageAlt}${
+      postArgs.imageCaption ? `\nimageCaption: ${postArgs.imageCaption}` : ""
+    }
+---
+
+${postArgs.preview}<!-- end-preview -->
+
+${postArgs.body ? postArgs.body : ""}`
+  );
+
+  console.log(`Created new entry, ${filepath}`);
+}
+
+// Called as entry file
+if (process.argv[1].includes("new-post.mjs")) {
+  main();
+}

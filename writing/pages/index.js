@@ -1,22 +1,19 @@
 import fuzzysort from "fuzzysort";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 import styled from "styled-components";
 
-import { setEachBreakpoint } from "../../shared/utils/breakpoints";
+import Copyright from "../../shared/components/copyright";
+import Header from "../../shared/components/header";
+import { ASCENDING, DESCENDING } from "../../shared/constants/sort";
+import TagIcon from "../../shared/svgs/tag-icon";
 import { toReadableDateString } from "../../shared/utils/dates";
+import { responsiveBackgroundImageUrl } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
-import {
-  AboutLink,
-  HeadingContent,
-  SubHeadingContent,
-  SubTitle,
-  Title,
-  TitleWrapper,
-} from "../src/components/heading";
 import Meta from "../src/components/meta";
-import SearchIcon from "../src/svgs/search-icon";
+import DateIcon from "../src/svgs/date-icon";
 import { fetchEntries } from "../src/utils/fetch-entries";
 import { linkStyles } from "../src/utils/global-styles";
 
@@ -24,38 +21,64 @@ const ALL_CATEGORY = "all";
 const ITEMS_PER_PAGE = 5;
 const PAGINATE_OFFSET = 200;
 
+const sortByOpts = [
+  { key: "date", direction: DESCENDING, label: "Newest First" },
+  { key: "popularity", direction: DESCENDING, label: "Most Read" },
+  { key: "date", direction: ASCENDING, label: "Oldest First" },
+  { key: "popularity", direction: ASCENDING, label: "Least Read" },
+];
+
 export default function Home({ entries, categories }) {
   const router = useRouter();
-  // Pagination
-  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE);
   const entriesRef = useRef(null);
   const headerRef = useRef(null);
-  const maxPages = entries.length + ITEMS_PER_PAGE;
+  // Load category from URL #/{category} path or default to ALL
+  const [selectedCategory, rawSetSelectedCategory] = useState(
+    router.asPath !== "/" ? router.asPath.replace("/#", "") : ALL_CATEGORY
+  );
+  const setSelectedCategory = useCallback(
+    (category) => {
+      if (category !== ALL_CATEGORY) {
+        router.push(`#${category}`, undefined, { shallow: true });
+      } else {
+        router.push(`/`, undefined, { shallow: true });
+      }
+      rawSetSelectedCategory(category);
+    },
+    [router]
+  );
+
+  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 5);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState(sortByOpts[0]);
+
+  const maxPages = useMemo(() => entries.length + ITEMS_PER_PAGE, [entries]);
   let filteredEntries = entries;
 
   // Pagination scroll detect
-  const onScroll = (e) => {
-    if (paginationCount > maxPages) {
-      return;
-    }
-    const node = e.target;
-    if (entriesRef.current && headerRef.current) {
-      const totalHeight =
-        entriesRef.current.scrollHeight + headerRef.current.scrollHeight;
-      const currentScroll = node.scrollTop + node.clientHeight;
-      if (totalHeight - PAGINATE_OFFSET <= currentScroll) {
-        setPaginationCount((prev) => prev + ITEMS_PER_PAGE);
+  const onScroll = useCallback(
+    (e) => {
+      if (paginationCount > maxPages) {
+        return;
       }
-    }
-  };
-
-  // Load category from URL #/{category} path or default to ALL
-  const [selectedCategory, setSelectedCategory] = useState(
-    router.asPath !== "/" ? router.asPath.replace("/#", "") : ALL_CATEGORY
+      const node = e.target;
+      if (entriesRef.current && headerRef.current) {
+        const totalHeight =
+          entriesRef.current.scrollHeight + headerRef.current.scrollHeight;
+        const currentScroll = node.scrollTop + node.clientHeight;
+        if (totalHeight - PAGINATE_OFFSET <= currentScroll) {
+          setPaginationCount((prev) => prev + ITEMS_PER_PAGE);
+        }
+      }
+    },
+    [paginationCount, maxPages]
   );
-  const [searchQuery, setSearchQuery] = useState("");
-  if (searchQuery) {
-    filteredEntries = fuzzysort
+
+  filteredEntries = useMemo(() => {
+    if (!searchQuery) {
+      return filteredEntries;
+    }
+    return fuzzysort
       .go(searchQuery, entries, {
         keys: ["title", "category", "preview"],
         scoreFn: (keysResult) => {
@@ -84,67 +107,117 @@ export default function Home({ entries, categories }) {
         },
       })
       .map((e) => e.obj);
-  }
-  const EntriesRender = useMemo(
+  }, [filteredEntries, searchQuery, entries]);
+
+  // Sort entries
+  filteredEntries = useMemo(
     () =>
-      filteredEntries.map((entry) => {
+      [...filteredEntries].sort((a, b) => {
+        const isAscending = sortBy.direction === ASCENDING ? 1 : -1;
+        let aCompare = a[sortBy.key];
+        let bCompare = b[sortBy.key];
+        if (sortBy.key === "date") {
+          aCompare = new Date(aCompare);
+          bCompare = new Date(bCompare);
+        }
+        if (aCompare > bCompare) {
+          return isAscending;
+        }
+        return -isAscending;
+      }),
+    [filteredEntries, sortBy]
+  );
+
+  // Filter entries by categories
+  filteredEntries = useMemo(
+    () =>
+      filteredEntries.filter((entry) => {
         // Only map entries in selected category
         if (
           selectedCategory !== ALL_CATEGORY &&
-          entry.category !== selectedCategory
+          !entry.categories.includes(selectedCategory)
         ) {
-          return null;
+          return false;
         }
-        return (
-          <Link key={entry.slug} href={`/${entry.slug}`} passHref>
-            <Entry>
-              <EntryContents>
-                <EntryRow>
-                  <EntryTitle>{entry.title}</EntryTitle>
-                  <EntryCategory>{capitalizeAll(entry.category)}</EntryCategory>
-                  <EntryCategory>{entry.viewCount}</EntryCategory>
-                </EntryRow>
-                <EntryDate>{toReadableDateString(entry.date)}</EntryDate>
-                <EntryPreview>{entry.preview}</EntryPreview>
-              </EntryContents>
-            </Entry>
-          </Link>
-        );
+        return true;
       }),
     [filteredEntries, selectedCategory]
   );
-  const CategoriesRender = useMemo(
-    () =>
-      [ALL_CATEGORY, ...categories].map((category) => {
-        if (typeof window === "undefined") {
-          return null;
-        }
-        return (
-          <Category
-            key={category}
-            active={category === selectedCategory}
-            onClick={() => {
-              // Update URL to url/#category on new category select
-              if (category !== ALL_CATEGORY) {
-                router.push(`#${category}`, undefined, { shallow: true });
-              } else {
-                router.push(`/`, undefined, { shallow: true });
-              }
-              setSelectedCategory(category);
-            }}
-          >
-            {capitalizeAll(category)}
-          </Category>
-        );
-      }),
-    [router, categories, selectedCategory]
-  );
 
-  // Paginate entries after all filters have been applied
+  // Paginate entries
   filteredEntries = useMemo(
     () => filteredEntries.slice(0, paginationCount),
     [filteredEntries, paginationCount]
   );
+
+  const EntriesRender = useMemo(() => {
+    if (!filteredEntries.length) {
+      const image = `
+        background-image: url("https://i.imgur.com/uwZZ2Xq.jpeg");
+      `;
+      return (
+        <Entry>
+          <EntryMeta>
+            <EntryPhoto backgroundImage={image}></EntryPhoto>
+            <EntryDetails>Harold understands your pain</EntryDetails>
+          </EntryMeta>
+          <EntryContents>
+            <h1>No Articles Found</h1>
+            <p>Nothing was found for your search parameters.</p>
+          </EntryContents>
+        </Entry>
+      );
+    }
+    return filteredEntries.map((entry, index) => {
+      const isAlt = index % 2 === 1;
+      let image = `
+        background-image: url("${entry.image}");
+      `;
+      if (!entry.image?.includes("://")) {
+        image = responsiveBackgroundImageUrl(entry.image, true, "writing");
+      }
+      const entryCategories = entry.categories.map((category, catIndex) => (
+        <li
+          key={`${entry.slug}-${category}-${catIndex}`}
+          onClick={() => setSelectedCategory(category)}
+        >
+          <a>{capitalizeAll(category)}</a>
+        </li>
+      ));
+      const readableDate = toReadableDateString(entry.date);
+
+      return (
+        <LazyLoadComponent key={`lazy-${entry.slug}`}>
+          <Entry isAlt={isAlt}>
+            <EntryMeta>
+              <EntryPhoto backgroundImage={image}></EntryPhoto>
+              <EntryDetails isAlt={isAlt}>
+                <EntryDate>
+                  <span>
+                    <DateIcon />
+                  </span>
+                  {readableDate}
+                </EntryDate>
+                <EntryCategories>
+                  <span>
+                    <TagIcon />
+                  </span>
+                  {entryCategories}
+                </EntryCategories>
+              </EntryDetails>
+            </EntryMeta>
+            <Link href={`/${entry.slug}`} passHref>
+              <EntryContents isAlt={isAlt}>
+                <h1>{entry.title}</h1>
+                <h2>{readableDate}</h2>
+                <p>{entry.preview}</p>
+              </EntryContents>
+            </Link>
+          </Entry>
+        </LazyLoadComponent>
+      );
+    });
+  }, [setSelectedCategory, filteredEntries]);
 
   return (
     <>
@@ -157,24 +230,38 @@ export default function Home({ entries, categories }) {
         type="blog"
       />
       <PageWrapper onScroll={onScroll}>
-        <HeadingContent isHome ref={headerRef}>
-          <TitleWrapper>
-            <Title>Writing</Title>
-            <SubTitle>by Evan Bonsignori</SubTitle>
-          </TitleWrapper>
-          <AboutLink href={process.env.ABOUT_PAGE_URL}>About</AboutLink>
-          <SubHeadingContent>
-            <Categories>{CategoriesRender}</Categories>
-            <SearchWrapper>
-              <StyledSearchIcon />
-              <Search
-                type="text"
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </SearchWrapper>
-          </SubHeadingContent>
-        </HeadingContent>
+        <Header
+          headerRef={headerRef}
+          title="Writing"
+          subtitle="by Evan Bonsignori"
+          navLinks={[
+            { url: process.env.PHOTOS_PAGE_URL, name: "Photography" },
+            { url: process.env.ABOUT_PAGE_URL, name: "About Me" },
+          ]}
+          tags={[
+            {
+              pluralName: "tags",
+              icon: <TagIcon />,
+              multiple: false,
+              options: categories,
+              selected: selectedCategory,
+              setSelected: setSelectedCategory,
+              includeAll: true,
+            },
+          ]}
+          search={{
+            searchQuery,
+            setSearchQuery,
+          }}
+          sortBy={{
+            sortBy,
+            setSortBy,
+            options: sortByOpts,
+          }}
+          linkStyles={linkStyles}
+        />
         <Entries ref={entriesRef}>{EntriesRender}</Entries>
+        <Copyright />
       </PageWrapper>
     </>
   );
@@ -184,8 +271,10 @@ export async function getStaticProps() {
   const entries = fetchEntries();
   const categories = {};
   for (const entry of Object.values(entries)) {
-    if (!categories[entry.data.category]) {
-      categories[entry.data.category] = true;
+    for (const category of entry.data.categories) {
+      if (!categories[category]) {
+        categories[category] = true;
+      }
     }
   }
   const sortedEntries = Object.values(entries)
@@ -215,184 +304,200 @@ const PageWrapper = styled.div`
   max-width: 100vw;
 `;
 
-const Categories = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-
-const CategoryProps = (props) =>
-  props.active &&
-  `
-  color: var(--primary);
-  :hover {
-    color: var(--primary);
-    cursor: initial;
-  }
-`;
-const Category = styled.h2`
-  margin: 0;
-  user-select: none;
-  ${linkStyles}
-  color: var(--font);
-  margin-right: 1em;
-  ${CategoryProps}
-`;
-
-const SearchWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-const SearchBreakpoints = setEachBreakpoint({
-  xs: `
-  margin-right: 6vw;
-  `,
-  sm: `
-  margin-right: 4vw;
-  font-size: 1.2rem;
-  `,
-  md: `
-  font-size: 1.2rem;
-  `,
-  lg: `
-  font-size: 1.1rem;
-  `,
-  xl: `
-  font-size: 1.4rem;
-  margin-right: 2vw;
-  `,
-  xxl: `
-  font-size: 1.8rem;
-  margin-right: 2vw;
-  `,
-});
-const Search = styled.input`
-  height: fit-content;
-  margin-right: 3vw;
-  background-color: inherit;
-  border: none;
-  border-bottom: 1px solid var(--background-accent);
-  color: var(--font);
-  font-size: 1rem;
-
-  :focus {
-    border-bottom: 1px solid var(--primary);
-  }
-  ${SearchBreakpoints}
-`;
-const StyledSearchIconBreakpoints = setEachBreakpoint({
-  xs: `
-  width: 6vw;
-  `,
-  sm: `
-  width: 4vw;
-  `,
-  lg: `
-  width: 2.5vw;
-  `,
-  xl: `
-  width: 2vw;
-  `,
-  xxl: `
-  width: 2vw;
-  `,
-});
-const StyledSearchIcon = styled(SearchIcon)`
-  height: auto;
-  width: 3vw;
-  margin-right: 5px;
-  fill: var(--background-accent);
-  ${StyledSearchIconBreakpoints}
-`;
-
 const Entries = styled.div`
+  margin: 0 24px;
+`;
+
+const EntryPhoto = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s;
+  ${(props) => props.backgroundImage}
+`;
+const nestedIcon = `
+  span {
+    display: inline-flex;
+    margin-right: 8px;
+  }
+  svg {
+    fill: var(--background);
+    width: 1rem;
+  }
+`;
+const EntryDate = styled.li`
+  display: flex;
+  align-items: center;
+  ${nestedIcon}
+`;
+const EntryCategories = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: auto;
+  padding: 0;
+  list-style: none;
+  ${nestedIcon}
+  li {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  li:first-child {
+    margin-left: -4px;
+  }
+  li a:hover {
+    color: var(--primary);
+  }
+`;
+
+const EntryDetails = styled.ul`
+  max-height: 99%;
+  list-style: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  margin: auto;
+  transition: left 0.2s;
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--background);
+  padding: 10px;
+  width: 100%;
+  font-size: 1.2rem;
+
+  a {
+    color: var(--background);
+    text-decoration: underline;
+  }
+
+  @media (min-width: 640px) {
+    ${(props) => props.isAlt && `padding-left: 25px;`}
+  }
+`;
+
+const EntryProps = (props) =>
+  props.isAlt &&
+  `
+    flex-direction: row-reverse;
+`;
+const Entry = styled.div`
+  font-family: var(--main-family), sans-serif;
+  * {
+    box-sizing: border-box;
+  }
   display: flex;
   flex-direction: column;
-`;
-
-const EntryBreakpoints = setEachBreakpoint({
-  xs: `
-  font-size: 1.2rem;
-  width: 98vw;
-  margin: 0 auto;
-  padding: 7vw 0;
-  `,
-  sm: `
-  font-size: 1.2rem;
-  width: 75vw;
-  margin: 0 auto;
-  padding: 5vw 0;
-  `,
-  md: `
-  font-size: 1.2rem;
-  width: 70vw;
-  margin: 0 auto;
-  padding: 5vw 0;
-  `,
-  lg: `
-  font-size: 1.25rem;
-  width: 60vw;
-  margin: 0 auto;
-  padding: 4vw 0;
-  `,
-  xl: `
-  font-size: 1.3rem;
-  width: 50vw;
-  margin: 0 auto;
-  padding: 3vw 0;
-  `,
-  xxl: `
-  font-size: 1.65rem;
-  width: 50vw;
-  margin: 0 auto;
-  padding: 2vw 0;
-  `,
-});
-const Entry = styled.div`
+  margin: 1rem auto;
+  box-shadow: 0 3px 7px -1px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1.6%;
   background: var(--background);
-  font-family: "adelle-sans", sans-serif;
-  font-weight: 100;
-  margin: 0 auto;
-  border-bottom: 1px solid var(--background-accent);
-  margin: 0 auto;
-  padding: 5vw 0;
-  :hover {
-    background: var(--background-accent);
-    cursor: pointer;
+  line-height: 1.4;
+  font-family: sans-serif;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 0;
+
+  :hover ${EntryPhoto} {
+    transform: scale(1.3) rotate(3deg);
   }
-  ${EntryBreakpoints}
+
+  :hover ${EntryDetails} {
+    left: 0%;
+  }
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    max-width: 700px;
+
+    ${EntryProps}
+  }
+`;
+const EntryMeta = styled.div`
+  position: relative;
+  z-index: 0;
+  height: 200px;
+  overflow: hidden;
+
+  @media (min-width: 640px) {
+    flex-basis: 40%;
+    min-height: 200px;
+    height: auto;
+  }
 `;
 
+const EntryContentsProps = (props) =>
+  props.isAlt &&
+  `
+      :before {
+    left: inherit;
+    right: -10px;
+    transform: skew(3deg);
+  }
+  `;
 const EntryContents = styled.div`
-  margin: 0 auto;
-  width: 80%;
-`;
+  background: var(--background);
+  padding: 1rem;
+  position: relative;
+  z-index: 1;
 
-const EntryRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-`;
-const EntryTitle = styled.h3`
-  margin: 0;
-  color: var(--secondary);
-`;
-const EntryCategory = styled.h4`
-  margin: 0;
-  margin-left: auto;
-  color: var(--primary);
-`;
-const EntryDate = styled.div`
-  font-weight: 100;
-  margin-top: 5px;
-  color: var(--font-secondary);
-`;
-const EntryPreview = styled.p`
-  margin: 0;
-  margin-top: 10px;
+  :hover {
+    cursor: pointer;
+    h1 {
+      color: var(--primary);
+    }
+    p:first-of-type:before {
+      background: var(--primary);
+    }
+  }
+
+  h1 {
+    line-height: 1;
+    margin: 0;
+    font-size: 1.7rem;
+    color: var(--secondary);
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(font-secondary)
+    margin-top: 5px;
+  }
+
+  p {
+    position: relative;
+    margin: 1rem 0 0;
+  }
+  p:first-of-type {
+    margin-top: 1.25rem;
+  }
+  p:first-of-type:before {
+    content: "";
+    position: absolute;
+    height: 5px;
+    background: var(--secondary);
+    width: 35px;
+    top: -0.75rem;
+    border-radius: 3px;
+  }
+
+  @media (min-width: 640px) {
+    flex-basis: 60%;
+    :before {
+      transform: skewX(-3deg);
+      content: "";
+      background: var(--background);
+      width: 30px;
+      position: absolute;
+      left: -10px;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+    ${EntryContentsProps}
+  }
 `;

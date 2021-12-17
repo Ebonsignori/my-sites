@@ -8,11 +8,20 @@ import { getImageSetSrc } from "../../../shared/utils/image";
 import AppContext from "../utils/app-context";
 
 export default function Figure({ image, caption, imageAlt, priority }) {
-  if (!image?.includes("https://")) {
+  if (!image?.includes("://")) {
     image = getImageSetSrc(image, true, "writing");
   }
   const appState = useContext(AppContext);
-  const modalContents = <img srcSet={image} alt={imageAlt} width="100%" />;
+  const modalContents = (
+    <img
+      srcSet={image}
+      alt={imageAlt}
+      width="100%"
+      onClick={() => {
+        appState.setModalContents();
+      }}
+    />
+  );
   let ImageComponent = LazyLoadImage;
   if (priority) {
     ImageComponent = styled.img``;

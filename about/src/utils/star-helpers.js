@@ -1,4 +1,4 @@
-import { getRandomIntBetween } from "./random";
+import { getRandomIntBetween } from "../../../shared/utils/random";
 
 const MAX_STARS = 6;
 const MAX_TRAVEL_TIME = 6;
