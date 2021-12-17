@@ -24,12 +24,17 @@ jobs:
 
       - name: Only build if there are changes in project
         run: |
-          if [[ `git status --porcelain ${{ matrix.project }}` ]]; then
+          changes() {
+            git diff --name-only --diff-filter=AMDR --cached @~..@
+          }
+
+          if changes | grep -q dirname {
             echo "::set-output name=SHOULD_BUILD::true"
             echo "Changes found, building project"
-          else
+          } else {
+            echo "No changes found in last commit"
             echo "::set-output name=SHOULD_BUILD::false"
-          fi
+          }
 
       - name: Set up Node.js
         if: ${{ env.SHOULD_BUILD == 'true' }} 
