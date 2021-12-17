@@ -394,6 +394,8 @@ export const NavLink = styled.a`
   font-weight: 200;
   margin-left: 3rem;
   line-height: 3rem;
+  white-space: nowrap;
+  min-width: fit-content;
   font-family: var(--accent-family);
   color: var(--font-secondary);
   :hover {

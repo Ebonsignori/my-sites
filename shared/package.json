@@ -8,8 +8,8 @@
   "license": "ISC",
   "dependencies": {
     "better-opn": "^3.0.1",
-    "next": "file:../writing/node_modules/next",
-    "react": "file:../writing/node_modules/react",
-    "styled-components": "file:../writing/node_modules/styled-components"
+    "next": "file:../node_modules/next",
+    "react": "file:../node_modules/react",
+    "styled-components": "file:../node_modules/styled-components"
   }
 }
