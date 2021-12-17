@@ -24,13 +24,15 @@ jobs:
 
       - name: Only lint if there are changes in project
         run: |
-          if [[ `git status --porcelain ${{ matrix.project }}` ]]; then
-            echo "::set-output name=SHOULD_LINT::true"
-            echo "Changes found, building project"
+          git reset --soft HEAD~1
+          if [[ `git status --porcelain ${{ matrix.project }}/` ]]; then
+            echo "Project changes found, linting project"
+            echo "SHOULD_LINT=true" >> $GITHUB_ENV
           else
-            echo "::set-output name=SHOULD_LINT::false"
+            echo "No changes for project found in last commit"
+            echo "SHOULD_LINT=false" >> $GITHUB_ENV
           fi
-
+          git reset ORIG_HEAD
 
       - name: Set up Node.js
         if: ${{ env.SHOULD_LINT == 'true' }} 

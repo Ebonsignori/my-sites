@@ -28,13 +28,13 @@ jobs:
         run: |
           git reset --soft HEAD~1
           if [[ `git status --porcelain ${{ matrix.project }}/` ]]; then
-            echo "Changes found, building project"
+            echo "Project changes found, building project"
             echo "SHOULD_BUILD=true" >> $GITHUB_ENV
           elif [[ `git status --porcelain shared/` ]]; then
             echo "Changes found in shared, building each project"
             echo "SHOULD_BUILD=true" >> $GITHUB_ENV
           else
-            echo "No changes found in last commit"
+            echo "No changes for project found in last commit"
             echo "SHOULD_BUILD=false" >> $GITHUB_ENV
           fi
           git reset ORIG_HEAD
