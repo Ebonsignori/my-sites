@@ -24,7 +24,7 @@ jobs:
 
       - name: Only lint if there are changes in project
         run: |
-          if [[ `git status --porcelain ${{ matrix.project }}`]]; then
+          if [[ `git status --porcelain ${{ matrix.project }}` ]]; then
             echo "::set-output name=SHOULD_LINT::true"
             echo "Changes found, building project"
           else

@@ -24,7 +24,7 @@ jobs:
 
       - name: Only build if there are changes in project
         run: |
-          if [[ `git status --porcelain ${{ matrix.project }}`]]; then
+          if [[ `git status --porcelain ${{ matrix.project }}` ]]; then
             echo "::set-output name=SHOULD_BUILD::true"
             echo "Changes found, building project"
           else
