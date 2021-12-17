@@ -21,6 +21,7 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+        with: fetch-depth: 2
 
       - name: Only build if there are changes in project
         run: |
