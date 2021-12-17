@@ -26,11 +26,8 @@ jobs:
 
       - name: Only build if there are changes in project
         run: |
-          count=$(git diff --name-only --cached HEAD^ | grep -c ${{ matrix.project }}/)
-          countShared=$(git diff --name-only --cached HEAD^ | grep -c shared/)
-          echo "$count"
-          echo "$countShared"
-          if [ $count -ge 1 ] || [ $countShared -ge 1 ]; then
+          git reset --soft HEAD~1
+          if [[ `git status --porcelain ${{ matrix.project }}` ]]; then
             echo "Changes found, building project"
             echo "::set-output name=SHOULD_BUILD::true"
           else
