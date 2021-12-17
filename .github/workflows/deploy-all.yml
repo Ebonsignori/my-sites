@@ -24,7 +24,7 @@ jobs:
 
       - name: Only build if there are changes in project
         run: |
-          git diff --name-only --diff-filter=ADMR @~..@ | grep -q /${{ matrix.project }}
+          git diff --name-only --diff-filter=ADMR --cached HEAD^ | grep -q ${{ matrix.project }}/
           retVal=$?
           if [ $retVal -eq 0 ]; then
             echo "Changes found, building project"
