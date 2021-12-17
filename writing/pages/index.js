@@ -1,4 +1,5 @@
 import fuzzysort from "fuzzysort";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useRef, useState } from "react";
@@ -159,9 +160,17 @@ export default function Home({ entries, categories }) {
         <Entry>
           <EntryMeta>
             <EntryPhoto backgroundImage={image}></EntryPhoto>
-            <EntryDetails>Harold understands your pain</EntryDetails>
+            <EntryDetails>
+              <CenteredImage>
+                <Image
+                  src="/smiling-face-with-tear.png"
+                  width="200px"
+                  height="200px"
+                />
+              </CenteredImage>
+            </EntryDetails>
           </EntryMeta>
-          <EntryContents>
+          <EntryContents noneFound>
             <h1>No Articles Found</h1>
             <p>Nothing was found for your search parameters.</p>
           </EntryContents>
@@ -438,12 +447,9 @@ const EntryContentsProps = (props) =>
     transform: skew(3deg);
   }
   `;
-const EntryContents = styled.div`
-  background: var(--background);
-  padding: 1rem;
-  position: relative;
-  z-index: 1;
-
+const EntryContentsPropsHover = (props) =>
+  !props.noneFound &&
+  `
   :hover {
     cursor: pointer;
     h1 {
@@ -453,6 +459,14 @@ const EntryContents = styled.div`
       background: var(--primary);
     }
   }
+`;
+const EntryContents = styled.div`
+  background: var(--background);
+  padding: 1rem;
+  position: relative;
+  z-index: 1;
+
+  ${EntryContentsPropsHover}
 
   h1 {
     line-height: 1;
@@ -500,4 +514,10 @@ const EntryContents = styled.div`
     }
     ${EntryContentsProps}
   }
+`;
+
+const CenteredImage = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: -10px;
 `;
