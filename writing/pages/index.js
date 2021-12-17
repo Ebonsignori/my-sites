@@ -1,5 +1,4 @@
 import fuzzysort from "fuzzysort";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useRef, useState } from "react";
@@ -162,8 +161,8 @@ export default function Home({ entries, categories }) {
             <EntryPhoto backgroundImage={image}></EntryPhoto>
             <EntryDetails>
               <CenteredImage>
-                <Image
-                  src="/smiling-face-with-tear.png"
+                <img
+                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/271/smiling-face-with-tear_1f972.png"
                   width="200px"
                   height="200px"
                 />

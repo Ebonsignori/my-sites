@@ -33,7 +33,7 @@ export default function Header({
     }
     return tags.map((currentTags) => {
       return (
-        <FilterWrapper key={currentTags.key}>
+        <FilterWrapper key={currentTags.pluralName}>
           <Select config={currentTags} />
         </FilterWrapper>
       );
@@ -46,7 +46,7 @@ export default function Header({
     }
 
     return (
-      <FilterWrapper>
+      <FilterWrapper key="sort-by-wrapper">
         <Select
           config={{
             pluralName: "Sorting",
@@ -66,7 +66,7 @@ export default function Header({
       return null;
     }
     return (
-      <SearchWrapper showSearch={showSearch}>
+      <SearchWrapper showSearch={showSearch} key="search-wrapper">
         <span onClick={() => setShowSearch((prev) => !prev)}>
           <StyledSearchIcon />
         </span>
