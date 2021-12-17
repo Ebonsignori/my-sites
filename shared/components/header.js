@@ -354,6 +354,10 @@ const StyledSearchIcon = styled(SearchIcon)`
   width: 2.2rem;
   margin-right: 5px;
   fill: var(--background-accent);
+  :hover {
+    cursor: pointer;
+    fill: var(--primary);
+  }
 `;
 
 const NavLinkBreakpoints = setEachBreakpoint({

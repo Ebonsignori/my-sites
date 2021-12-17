@@ -213,7 +213,7 @@ const DropdownIconWrapperProps = (props) =>
   props.dropdownOpen &&
   `
   svg {
-    transform: rotate(0)
+    transform: rotate(180deg)
   }
 `;
 const DropdownIconWrapper = styled.div`
@@ -223,7 +223,7 @@ const DropdownIconWrapper = styled.div`
     transition: 0.3s;
     margin-left: 0.3rem;
     width: 1.2rem;
-    transform: rotate(90deg);
+    transform: rotate(0);
   }
   ${DropdownIconWrapperProps}
 `;

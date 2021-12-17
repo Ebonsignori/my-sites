@@ -16,7 +16,7 @@ jobs:
     # Used to loop through each project and deploy it
     strategy:
       matrix:
-        project: ["about", "writing", "photos", "music"]
+        project: ["writing"]
 
     steps:
       - name: Check out Git repository
@@ -29,6 +29,7 @@ jobs:
           count=$(git diff --name-only --cached HEAD^ | grep -c ${{ matrix.project }}/)
           countShared=$(git diff --name-only --cached HEAD^ | grep -c shared/)
           echo "$count"
+          echo "$countShared"
           if [ $count -ge 1 ] || [ $countShared -ge 1 ]; then
             echo "Changes found, building project"
             echo "::set-output name=SHOULD_BUILD::true"
