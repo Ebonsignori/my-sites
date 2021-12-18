@@ -71,8 +71,7 @@ export function fetchEntries() {
     // Add popularity to metadata. Weighted by ( viewers ) * ( percent that stayed on page > 10 seconds )
     if (stats[metadata.data.slug]) {
       const articleStats = stats[metadata.data.slug];
-      metadata.data.popularity =
-        articleStats.engagedSessions * articleStats.engagementRate;
+      metadata.data.popularity = articleStats.popularity;
     } else {
       // If update-stats hasn't run since this article was added
       metadata.data.popularity = 0;

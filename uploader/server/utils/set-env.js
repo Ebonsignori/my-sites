@@ -1,6 +1,33 @@
+const dotenv = require("dotenv");
+const fs = require("fs");
+const path = require("path");
+
+const localEnvFile = path.join(__dirname, "..", "..", ".env");
+const secretEnvFile = path.join(__dirname, "..", "..", "..", ".env.secrets");
+
+function setGlobalEnvFromPath(envPath) {
+  if (!fs.existsSync(envPath)) {
+    throw new Error("Missing env file, ", envPath);
+  }
+  const object = dotenv.parse(fs.readFileSync(envPath));
+
+  for (const entry of Object.entries(object)) {
+    const key = entry[0];
+    if (process.env[key]) {
+      // eslint-disable-next-line no-console
+      console.log("Conflict for key: ", key);
+    }
+    process.env[key] = entry[1];
+  }
+}
+
 /* eslint-disable no-console */
 // Set and validate env
 module.exports = function setEnv() {
+  // Set both local and secret envs to process.env
+  setGlobalEnvFromPath(localEnvFile);
+  setGlobalEnvFromPath(secretEnvFile);
+
   const { IMAGE_BREAKPOINTS, AWS_ID, AWS_SECRET, BUCKET_NAME } = process.env;
   let { PORT, SOCKET_PORT, BACKEND_URL, IMAGE_QUALITY, IMAGE_TAGS } =
     process.env;

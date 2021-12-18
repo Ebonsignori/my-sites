@@ -1,13 +1,15 @@
 {
-  "lastUpdated": "2021-12-14",
+  "lastUpdated": "2021-12-17",
   "stats": {
     "/": {
-      "engagedSessions": "4",
-      "engagementRate": "0.8"
+      "engagedSessions": "8",
+      "lastEngagementRate": "0.8",
+      "popularity": 6.4
     },
     "why-write": {
-      "engagedSessions": "1",
-      "engagementRate": "1"
+      "engagedSessions": "5",
+      "lastEngagementRate": "0.83333333333333337",
+      "popularity": 4.166666666666667
     }
   }
 }
