@@ -44,11 +44,11 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install shared deps
+      - name: Install top-level Node.js dependencies
         if: ${{ env.SHOULD_BUILD == 'true' }} 
-        run: cd ./shared && npm i && cd -
+        run: npm i
 
-      - name: Install Node.js dependencies
+      - name: Install project-level Node.js dependencies
         if: ${{ env.SHOULD_BUILD == 'true' }} 
         run: cd ./${{ matrix.project }} && npm i
 
