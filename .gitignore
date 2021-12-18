@@ -1,3 +1,6 @@
+# Secrets
+.env.secrets
+
 # System
 .DS_Store
 

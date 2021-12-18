@@ -7,7 +7,8 @@
     "postbuild": "next-sitemap",
     "lint": "next lint",
     "new-test-posts": "node --es-module-specifier-resolution=node ./test/create-posts.mjs",
-    "new": "node --es-module-specifier-resolution=node ./src/new-post.mjs"
+    "new": "node --es-module-specifier-resolution=node ./src/new-post.mjs",
+    "update-stats": "node ./src/update-stats.js"
   },
   "dependencies": {
     "@google-analytics/data": "^2.8.0",
@@ -16,6 +17,7 @@
     "fuzzysort": "^1.1.4",
     "googleapis": "^92.0.0",
     "gray-matter": "^4.0.3",
+    "luxon": "^2.2.0",
     "next": "file:../node_modules/next",
     "next-mdx-remote": "^3.0.8",
     "react": "file:../node_modules/react",
