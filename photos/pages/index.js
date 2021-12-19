@@ -1,85 +1,135 @@
+import { saveAs } from "file-saver";
 import fuzzysort from "fuzzysort";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import styled from "styled-components";
 
+import Copyright from "../../shared/components/copyright";
+import Header from "../../shared/components/header";
+import Modal from "../../shared/components/image-modal";
+import Tooltip from "../../shared/components/tooltip";
+import { ASCENDING, DESCENDING } from "../../shared/constants/sort";
+import DateIcon from "../../shared/svgs/date-icon";
+import TagIcon from "../../shared/svgs/tag-icon";
+import AppContext from "../../shared/utils/app-context";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { toReadableDateString } from "../../shared/utils/dates";
+import { getImageSetSrc, getImageSource } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
-import {
-  AboutLink,
-  HeadingContent,
-  SubHeadingContent,
-  SubTitle,
-  Title,
-  TitleWrapper,
-} from "../src/components/heading";
 import Meta from "../src/components/meta";
-import SearchIcon from "../src/svgs/search-icon";
-import { fetchEntries } from "../src/utils/fetch-entries";
-import { linkStyles } from "../src/utils/global-styles";
+import CameraIcon from "../src/svgs/camera-icon";
+import DownloadIcon from "../src/svgs/download-icon";
+import LocationIcon from "../src/svgs/location-icon";
+import ZoomInIcon from "../src/svgs/zoom-icon";
+import { fetchPhotos } from "../src/utils/fetch-photos";
 
-const ALL_CATEGORY = "all";
+const ALL_TAG = "all";
 const ITEMS_PER_PAGE = 5;
 const PAGINATE_OFFSET = 200;
 
-export default function Home({ entries, categories }) {
+const sortByOpts = [
+  { key: "date", direction: DESCENDING, label: "Newest First" },
+  { key: "downloads", direction: DESCENDING, label: "Most Downloaded" },
+  { key: "date", direction: ASCENDING, label: "Oldest First" },
+  { key: "downloads", direction: ASCENDING, label: "Least Downloaded" },
+];
+
+export default function Home({ images, tags, models }) {
   const router = useRouter();
-  // Pagination
-  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE);
   const entriesRef = useRef(null);
   const headerRef = useRef(null);
-  const maxPages = entries.length + ITEMS_PER_PAGE;
-
-  const onScroll = (e) => {
-    if (paginationCount > maxPages) {
-      return;
-    }
-    const node = e.target;
-    if (entriesRef.current && headerRef.current) {
-      const totalHeight =
-        entriesRef.current.scrollHeight + headerRef.current.scrollHeight;
-      const currentScroll = node.scrollTop + node.clientHeight;
-      if (totalHeight - PAGINATE_OFFSET <= currentScroll) {
-        setPaginationCount((prev) => prev + ITEMS_PER_PAGE);
+  // Load tag from URL #/{tag} path or default to ALL
+  const [selectedTag, rawSetSelectedTag] = useState(
+    router.asPath !== "/" ? router.asPath.replace("/#", "") : ALL_TAG
+  );
+  const [selectedModel, setSelectedModel] = useState(ALL_TAG);
+  const setSelectedTag = useCallback(
+    (tag) => {
+      if (tag !== ALL_TAG) {
+        router.push(`#${tag}`, undefined, { shallow: true });
+      } else {
+        router.push(`/`, undefined, { shallow: true });
       }
-    }
-  };
+      rawSetSelectedTag(tag);
+    },
+    [router]
+  );
 
-  // Load category from URL #/{category} path or default to ALL
-  const [selectedCategory, setSelectedCategory] = useState(
-    router.asPath !== "/" ? router.asPath.replace("/#", "") : ALL_CATEGORY
+  const [modalContents, setModalContents] = useState(undefined);
+  const appState = {
+    modalContents,
+    setModalContents,
+  };
+  const onZoomModal = useCallback(
+    (imageUrl, imageAlt) => {
+      setModalContents(
+        <img
+          srcSet={imageUrl}
+          alt={imageAlt}
+          width="100%"
+          height="100%"
+          onClick={() => {
+            setModalContents();
+          }}
+        />
+      );
+    },
+    [setModalContents]
   );
+
+  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 5);
   const [searchQuery, setSearchQuery] = useState("");
-  // Paginate entries
-  let filteredEntries = useMemo(
-    () => entries.slice(0, paginationCount),
-    [entries, paginationCount]
+  const [sortBy, setSortBy] = useState(sortByOpts[0]);
+
+  const maxPages = useMemo(() => images.length + ITEMS_PER_PAGE, [images]);
+  let filteredImages = Object.values(images);
+
+  // Pagination scroll detect
+  const onScroll = useCallback(
+    (e) => {
+      if (paginationCount > maxPages) {
+        return;
+      }
+      const node = e.target;
+      if (entriesRef.current && headerRef.current) {
+        const totalHeight =
+          entriesRef.current.scrollHeight + headerRef.current.scrollHeight;
+        const currentScroll = node.scrollTop + node.clientHeight;
+        if (totalHeight - PAGINATE_OFFSET <= currentScroll) {
+          setPaginationCount((prev) => prev + ITEMS_PER_PAGE);
+        }
+      }
+    },
+    [paginationCount, maxPages]
   );
-  if (searchQuery) {
-    filteredEntries = fuzzysort
-      .go(searchQuery, entries, {
-        keys: ["title", "category", "preview"],
+
+  filteredImages = useMemo(() => {
+    if (!searchQuery) {
+      return filteredImages;
+    }
+    return fuzzysort
+      .go(searchQuery, images, {
+        keys: ["name", "alt", "model"],
         scoreFn: (keysResult) => {
-          const titleRes = keysResult[0];
-          const categoryRes = keysResult[1];
-          const previewRes = keysResult[2];
+          const nameRes = keysResult[0];
+          const altRes = keysResult[1];
+          const modelRes = keysResult[2];
           let score = Math.max(
-            titleRes ? titleRes.score : -Infinity,
-            categoryRes ? categoryRes.score : -Infinity,
-            previewRes ? previewRes.score : -Infinity
+            nameRes ? nameRes.score : -Infinity,
+            altRes ? altRes.score : -Infinity,
+            modelRes ? modelRes.score : -Infinity
           );
           // When all three keys, prioritize over just one two
-          if (titleRes?.score && categoryRes?.score && previewRes?.score) {
+          if (nameRes?.score && altRes?.score && modelRes?.score) {
             score = score + 1500;
           } else if (
-            (titleRes?.score && categoryRes?.score) ||
-            (titleRes?.score && previewRes?.score)
+            (nameRes?.score && altRes?.score) ||
+            (nameRes?.score && modelRes?.score)
           ) {
             // When title and one other key, prioritize next
             score = score + 1000;
-          } else if (titleRes?.score) {
+          } else if (nameRes?.score) {
             // When just title, prioritize title over other combos or singles
             score = score + 500;
           }
@@ -87,117 +137,225 @@ export default function Home({ entries, categories }) {
         },
       })
       .map((e) => e.obj);
-  }
-  const EntriesRender = useMemo(
+  }, [filteredImages, searchQuery, images]);
+
+  // Sort entries
+  filteredImages = useMemo(
     () =>
-      filteredEntries.map((entry) => {
-        // Only map entries in selected category
-        if (
-          selectedCategory !== ALL_CATEGORY &&
-          entry.category !== selectedCategory
-        ) {
-          return null;
+      [...filteredImages].sort((a, b) => {
+        const isAscending = sortBy.direction === ASCENDING ? 1 : -1;
+        let aCompare = a[sortBy.key];
+        let bCompare = b[sortBy.key];
+        if (sortBy.key === "date") {
+          aCompare = new Date(aCompare);
+          bCompare = new Date(bCompare);
         }
-        return (
-          <Link key={entry.slug} href={`/${entry.slug}`} passHref>
-            <Entry>
-              <EntryContents>
-                <EntryRow>
-                  <EntryTitle>{entry.title}</EntryTitle>
-                  <EntryCategory>{capitalizeAll(entry.category)}</EntryCategory>
-                </EntryRow>
-                <EntryDate>{toReadableDateString(entry.date)}</EntryDate>
-                <EntryPreview>{entry.preview}</EntryPreview>
-              </EntryContents>
-            </Entry>
-          </Link>
-        );
+        if (aCompare > bCompare) {
+          return isAscending;
+        }
+        return -isAscending;
       }),
-    [filteredEntries, selectedCategory]
+    [filteredImages, sortBy]
   );
-  const CategoriesRender = useMemo(
+
+  // Filter entries by tag
+  filteredImages = useMemo(
     () =>
-      [ALL_CATEGORY, ...categories].map((category) => {
-        if (typeof window === "undefined") {
-          return null;
+      filteredImages.filter((image) => {
+        // Only map entries in selected tag
+        if (selectedTag !== ALL_TAG && !image.tags.includes(selectedTag)) {
+          return false;
         }
-        return (
-          <Category
-            key={category}
-            active={category === selectedCategory}
-            onClick={() => {
-              // Update URL to url/#category on new category select
-              if (category !== ALL_CATEGORY) {
-                router.push(`#${category}`, undefined, { shallow: true });
-              } else {
-                router.push(`/`, undefined, { shallow: true });
-              }
-              setSelectedCategory(category);
-            }}
-          >
-            {capitalizeAll(category)}
-          </Category>
-        );
+        return true;
       }),
-    [router, categories, selectedCategory]
+    [filteredImages, selectedTag]
   );
+
+  // Filter entries by model
+  filteredImages = useMemo(
+    () =>
+      filteredImages.filter((image) => {
+        // Only map entries in selected model
+        if (selectedModel !== ALL_TAG) {
+          if (!image?.model) {
+            return false;
+          } else if (
+            image.model.toLowerCase() !== selectedModel.toLowerCase()
+          ) {
+            return false;
+          }
+        }
+        return true;
+      }),
+    [filteredImages, selectedModel]
+  );
+
+  // Paginate entries
+  filteredImages = useMemo(
+    () => filteredImages.slice(0, paginationCount),
+    [filteredImages, paginationCount]
+  );
+
+  const EntriesRender = useMemo(() => {
+    if (!filteredImages.length) {
+      return (
+        <ImageContainer key={`lazy-no-images-found`} big>
+          <LazyLoadImage
+            src={process.env.NOT_FOUND_IMAGE_URL}
+            alt="Hide the pain Harold"
+            width="100%"
+            height="100%"
+          />
+          <ImageMeta>
+            <MetaList>
+              <div>No Images Found</div>
+              <br />
+              <LazyLoadImage
+                src={process.env.NOT_FOUND_HOVER_IMAGE_URL}
+                alt="Smiley cry emoji with single tear"
+                width="100%"
+                height="100%"
+              />
+            </MetaList>
+          </ImageMeta>
+        </ImageContainer>
+      );
+    }
+    return filteredImages.map((image) => {
+      const imageProps = {};
+      if (image.orientation) {
+        imageProps[image.orientation] = true;
+      }
+      const imageUrl = getImageSetSrc(image.name);
+      return (
+        <ImageContainer key={`lazy-${image.name}`} {...imageProps}>
+          <LazyLoadImage
+            srcSet={imageUrl}
+            alt={image.alt}
+            width="100%"
+            height="100%"
+          />
+          <ImageMeta>
+            <MetaList>
+              <MetaItem>
+                <DateIcon />
+                {toReadableDateString(image.date)}
+              </MetaItem>
+              <MetaItem>
+                <LocationIcon />
+                {image.location?.address}
+              </MetaItem>
+              <MetaItem>
+                <CameraIcon />
+                {image.model}
+              </MetaItem>
+              <MetaItem>
+                <TagIcon />
+                <MetaTags>
+                  {image.tags.map((tag) => (
+                    <MetaTag
+                      onClick={() => setSelectedTag(tag.toLowerCase())}
+                      key={`${image.name}-${tag}`}
+                    >
+                      {capitalizeAll(tag)}
+                    </MetaTag>
+                  ))}
+                </MetaTags>
+              </MetaItem>
+            </MetaList>
+            <ZoomIconWrapper>
+              <Tooltip
+                text="Zoom Photo"
+                isIcon
+                linkOnClick={() => onZoomModal(imageUrl, image.alt)}
+              >
+                <ZoomInIcon />
+              </Tooltip>
+            </ZoomIconWrapper>
+            <DownloadIconWrapper>
+              <Tooltip
+                text="Download Original"
+                isIcon
+                linkOnClick={() => {
+                  saveAs(getImageSource(image.name));
+                }}
+              >
+                <DownloadIcon />
+              </Tooltip>
+            </DownloadIconWrapper>
+          </ImageMeta>
+        </ImageContainer>
+      );
+    });
+  }, [filteredImages, setSelectedTag, onZoomModal]);
+
   return (
     <>
       <Meta
-        title="Writing - Evan Bonsignori"
-        description="A blog covering life, tech, and music by Evan Bonsignori"
-        keywords="Writing, Blog, Evan Bonsignori"
+        title="Photography - Evan Bonsignori"
+        description="Free to use photos taken by Evan Bonsignori"
+        keywords="Photography, Free Images, Evan Bonsignori"
         image="https://evan-bio-assets.s3.amazonaws.com/blog-themed-pencil-icon.jpg"
         imageAlt="Pencil icon with colors matching the theme of the blog"
         type="blog"
       />
-      <PageWrapper onScroll={onScroll}>
-        <HeadingContent isHome ref={headerRef}>
-          <TitleWrapper>
-            <Title>Writing</Title>
-            <SubTitle>by Evan Bonsignori</SubTitle>
-          </TitleWrapper>
-          <AboutLink href={process.env.ABOUT_PAGE_URL}>About</AboutLink>
-          <SubHeadingContent>
-            <Categories>{CategoriesRender}</Categories>
-            <SearchWrapper>
-              <StyledSearchIcon />
-              <Search
-                type="text"
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </SearchWrapper>
-          </SubHeadingContent>
-        </HeadingContent>
-        <Entries ref={entriesRef}>{EntriesRender}</Entries>
-      </PageWrapper>
+      <AppContext.Provider value={appState}>
+        <Modal modalContents={modalContents} />
+        <PageWrapper onScroll={onScroll}>
+          <Header
+            headerRef={headerRef}
+            title="Photos"
+            subtitle="by Evan Bonsignori"
+            navLinks={[
+              { url: "/license", name: "License" },
+              { url: "/photo-map", name: "Photo Map" },
+              { url: process.env.WRITING_PAGE_URL, name: "Blog" },
+              { url: process.env.ABOUT_PAGE_URL, name: "About Me" },
+            ]}
+            tags={[
+              {
+                pluralName: "tags",
+                icon: <TagIcon />,
+                multiple: false,
+                options: tags,
+                selected: selectedTag,
+                setSelected: setSelectedTag,
+                includeAll: true,
+              },
+              {
+                pluralName: "models",
+                icon: <CameraIcon />,
+                multiple: false,
+                options: models,
+                selected: selectedModel,
+                setSelected: setSelectedModel,
+                includeAll: true,
+              },
+            ]}
+            search={{
+              searchQuery,
+              setSearchQuery,
+            }}
+            sortBy={{
+              sortBy,
+              setSortBy,
+              options: sortByOpts,
+            }}
+          />
+          <ImagesWrapper>
+            <Images ref={entriesRef}>{EntriesRender}</Images>
+          </ImagesWrapper>
+          <Copyright />
+        </PageWrapper>
+      </AppContext.Provider>
     </>
   );
 }
 
 export async function getStaticProps() {
-  const entries = fetchEntries();
-  const categories = {};
-  for (const entry of Object.values(entries)) {
-    if (!categories[entry.data.category]) {
-      categories[entry.data.category] = true;
-    }
-  }
-  const sortedEntries = Object.values(entries)
-    .map((entry) => {
-      // In production, only add to entries to index page if they are not a WIP post
-      if (process.env.NODE_ENV === "production" && entry.data.isWip) {
-        return null;
-      }
-      return {
-        ...entry.data,
-        date: entry.data.date.toString(),
-      };
-    })
-    .filter((x) => x)
-    .sort((a, b) => a.date > b.date);
+  const catalogueData = fetchPhotos();
   return {
-    props: { entries: sortedEntries, categories: Object.keys(categories) },
+    props: { ...catalogueData },
   };
 }
 
@@ -210,184 +368,175 @@ const PageWrapper = styled.div`
   max-width: 100vw;
 `;
 
-const Categories = styled.div`
+const ImagesWrapper = styled.div`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
   width: 100%;
 `;
 
-const CategoryProps = (props) =>
-  props.active &&
-  `
-  color: var(--primary);
-  :hover {
-    color: var(--primary);
-    cursor: initial;
-  }
-`;
-const Category = styled.h2`
-  margin: 0;
-  user-select: none;
-  ${linkStyles}
-  color: var(--font);
-  margin-right: 1em;
-  ${CategoryProps}
+const ImagesBreakpoints = setEachBreakpoint({
+  xs: `
+  grid-template-columns: 100%;
+  grid-auto-rows: 1fr;
+  grid-gap: 5px;
+  `,
+  lg: `
+  grid-template-columns: repeat(3, minmax(250px, 1fr));
+  grid-auto-rows: 1fr;
+  margin: 0 200px;
+  `,
+  xl: `
+  grid-template-columns: repeat(4, minmax(250px, 1fr));
+  grid-auto-rows: 1fr;
+  margin: 0 200px;
+  `,
+  xxl: `
+  grid-template-columns: repeat(5, minmax(250px, 1fr));
+  grid-auto-rows: 1fr;
+  margin: 0 300px;
+  `,
+});
+
+const Images = styled.div`
+  display: grid;
+  margin: 0 5px;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: 200px;
+  grid-auto-flow: dense;
+  ${ImagesBreakpoints}
 `;
 
-const SearchWrapper = styled.div`
+const ImageContainerBreakpoints = setEachBreakpoint({
+  xs: `
+    grid-column: span 1;
+    grid-row: span 1;
+  `,
+});
+const ImageContainerProps = (props) => {
+  let styles = "";
+  if (props.big) {
+    styles = `
+      grid-column: span 2;
+      grid-row: span 2;
+    `;
+  } else if (props.tall) {
+    styles = `
+      grid-row: span 2;
+    `;
+  } else if (props.wide) {
+    styles = `
+      grid-column: span 2;
+    `;
+  }
+  return styles;
+};
+const ImageContainer = styled.div`
+  position: relative;
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 100%;
-`;
-const SearchBreakpoints = setEachBreakpoint({
-  xs: `
-  margin-right: 6vw;
-  `,
-  sm: `
-  margin-right: 4vw;
-  font-size: 1.2rem;
-  `,
-  md: `
-  font-size: 1.2rem;
-  `,
-  lg: `
-  font-size: 1.1rem;
-  `,
-  xl: `
-  font-size: 1.4rem;
-  margin-right: 2vw;
-  `,
-  xxl: `
-  font-size: 1.8rem;
-  margin-right: 2vw;
-  `,
-});
-const Search = styled.input`
-  height: fit-content;
-  margin-right: 3vw;
-  background-color: inherit;
-  border: none;
-  border-bottom: 1px solid var(--background-accent);
-  color: var(--font);
-  font-size: 1rem;
+  height: 100%;
+  ${ImageContainerProps}
+  ${ImageContainerBreakpoints}
 
-  :focus {
-    border-bottom: 1px solid var(--primary);
+  img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
   }
-  ${SearchBreakpoints}
-`;
-const StyledSearchIconBreakpoints = setEachBreakpoint({
-  xs: `
-  width: 6vw;
-  `,
-  sm: `
-  width: 4vw;
-  `,
-  lg: `
-  width: 2.5vw;
-  `,
-  xl: `
-  width: 2vw;
-  `,
-  xxl: `
-  width: 2vw;
-  `,
-});
-const StyledSearchIcon = styled(SearchIcon)`
-  height: auto;
-  width: 3vw;
-  margin-right: 5px;
-  fill: var(--background-accent);
-  ${StyledSearchIconBreakpoints}
+
+  div {
+    transition: opacity 0.3s;
+  }
+
+  :hover,
+  :focus,
+  :target {
+    div {
+      opacity: 1;
+    }
+  }
 `;
 
-const Entries = styled.div`
+const ImageMeta = styled.div`
+  position: absolute;
+  opacity: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: var(--background);
+  background-color: rgba(0, 0, 0, 0.65);
+  z-index: 2;
+  border-radius: 5px;
+`;
+
+const MetaList = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const EntryBreakpoints = setEachBreakpoint({
-  xs: `
-  font-size: 1.2rem;
-  width: 98vw;
-  margin: 0 auto;
-  padding: 7vw 0;
-  `,
-  sm: `
-  font-size: 1.2rem;
-  width: 75vw;
-  margin: 0 auto;
-  padding: 5vw 0;
-  `,
-  md: `
-  font-size: 1.2rem;
-  width: 70vw;
-  margin: 0 auto;
-  padding: 5vw 0;
-  `,
-  lg: `
-  font-size: 1.25rem;
-  width: 60vw;
-  margin: 0 auto;
-  padding: 4vw 0;
-  `,
-  xl: `
-  font-size: 1.3rem;
-  width: 50vw;
-  margin: 0 auto;
-  padding: 3vw 0;
-  `,
-  xxl: `
-  font-size: 1.65rem;
-  width: 50vw;
-  margin: 0 auto;
-  padding: 2vw 0;
-  `,
-});
-const Entry = styled.div`
-  background: var(--background);
-  font-family: "adelle-sans", sans-serif;
-  font-weight: 100;
-  margin: 0 auto;
-  border-bottom: 1px solid var(--background-accent);
-  margin: 0 auto;
-  padding: 5vw 0;
-  :hover {
-    background: var(--background-accent);
-    cursor: pointer;
+  margin: 30px;
+  font-size: 1.5rem;
+  svg {
+    width: 1.5rem;
+    fill: var(--background);
+    margin-right: 10px;
   }
-  ${EntryBreakpoints}
 `;
-
-const EntryContents = styled.div`
-  margin: 0 auto;
-  width: 80%;
-`;
-
-const EntryRow = styled.div`
+const MetaItem = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
+  align-content: center;
+  margin-bottom: 1rem;
 `;
-const EntryTitle = styled.h3`
-  margin: 0;
-  color: var(--secondary);
+const MetaTags = styled.div`
+  display: flex;
+  align-content: center;
 `;
-const EntryCategory = styled.h4`
-  margin: 0;
-  margin-left: auto;
-  color: var(--primary);
+const MetaTag = styled.a`
+  color: var(--background);
+  text-decoration: underline;
+  :hover {
+    color: var(--primary);
+  }
+
+  margin-left: 0.5rem;
+  :first-of-type {
+    margin-left: 0;
+  }
 `;
-const EntryDate = styled.div`
-  font-weight: 100;
-  margin-top: 5px;
-  color: var(--font-secondary);
+
+const IconWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  z-index: 5;
+  padding: 30px;
+  svg {
+    width: 3rem;
+    fill: var(--background);
+    :hover {
+      cursor: pointer;
+      fill: var(--primary);
+    }
+  }
 `;
-const EntryPreview = styled.p`
-  margin: 0;
-  margin-top: 10px;
+
+const ZoomIconWrapper = styled(IconWrapper)`
+  left: 0;
+`;
+
+const DownloadIconWrapper = styled(IconWrapper)`
+  right: 0;
 `;

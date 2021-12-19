@@ -1,11 +1,14 @@
 import { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { setEachBreakpoint } from "../../../shared/utils/breakpoints";
+import { setEachBreakpoint } from "../utils/breakpoints";
 
-function Tooltip({ children, text, linkUrl, color, linkOnClick }) {
+function Tooltip({ children, text, linkUrl, color, linkOnClick, isIcon }) {
   const textRef = useRef(null);
 
+  if (typeof linkUrl !== "undefined") {
+    isIcon = true;
+  }
   // Hover used to force render to check if offscreen
   const [isHovered, setIsHovered] = useState(false);
 
@@ -39,7 +42,7 @@ function Tooltip({ children, text, linkUrl, color, linkOnClick }) {
       onMouseEnter={() => (isHovered ? "" : setIsHovered(true))}
       onMouseLeave={() => (isHovered ? setIsHovered(false) : "")}
       key={text}
-      isIcon={typeof linkUrl !== "undefined"}
+      isIcon={isIcon}
       onClick={linkOnClick}
     >
       <TooltipComponent

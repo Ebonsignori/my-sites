@@ -8,12 +8,12 @@ import styled from "styled-components";
 import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
 import { ASCENDING, DESCENDING } from "../../shared/constants/sort";
+import DateIcon from "../../shared/svgs/date-icon";
 import TagIcon from "../../shared/svgs/tag-icon";
 import { toReadableDateString } from "../../shared/utils/dates";
 import { responsiveBackgroundImageUrl } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
 import Meta from "../src/components/meta";
-import DateIcon from "../src/svgs/date-icon";
 import { fetchEntries } from "../src/utils/fetch-entries";
 import { linkStyles } from "../src/utils/global-styles";
 
@@ -80,21 +80,21 @@ export default function Home({ entries, categories }) {
     }
     return fuzzysort
       .go(searchQuery, entries, {
-        keys: ["title", "category", "preview"],
+        keys: ["title", "slug", "preview"],
         scoreFn: (keysResult) => {
           const titleRes = keysResult[0];
-          const categoryRes = keysResult[1];
+          const slugRes = keysResult[1];
           const previewRes = keysResult[2];
           let score = Math.max(
             titleRes ? titleRes.score : -Infinity,
-            categoryRes ? categoryRes.score : -Infinity,
+            slugRes ? slugRes.score : -Infinity,
             previewRes ? previewRes.score : -Infinity
           );
           // When all three keys, prioritize over just one two
-          if (titleRes?.score && categoryRes?.score && previewRes?.score) {
+          if (titleRes?.score && slugRes?.score && previewRes?.score) {
             score = score + 1500;
           } else if (
-            (titleRes?.score && categoryRes?.score) ||
+            (titleRes?.score && slugRes?.score) ||
             (titleRes?.score && previewRes?.score)
           ) {
             // When title and one other key, prioritize next
@@ -153,7 +153,7 @@ export default function Home({ entries, categories }) {
   const EntriesRender = useMemo(() => {
     if (!filteredEntries.length) {
       const image = `
-        background-image: url("https://i.imgur.com/uwZZ2Xq.jpeg");
+        background-image: url("%{NOT_FOUND_IMAGE_URL}");
       `;
       return (
         <Entry>
@@ -162,7 +162,7 @@ export default function Home({ entries, categories }) {
             <EntryDetails>
               <CenteredImage>
                 <img
-                  src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/271/smiling-face-with-tear_1f972.png"
+                  src={process.env.NOT_FOUND_HOVER_IMAGE_URL}
                   width="200px"
                   height="200px"
                 />
@@ -363,7 +363,7 @@ const EntryCategories = styled.ul`
 `;
 
 const EntryDetails = styled.ul`
-  max-height: 99%;
+  max-height: 100%;
   list-style: none;
   position: absolute;
   top: 0;

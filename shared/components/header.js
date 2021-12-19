@@ -4,8 +4,8 @@ import styled from "styled-components";
 
 import SearchIcon from "../svgs/search-icon";
 import UpDownIcon from "../svgs/up-down-icon";
-import { BREAKPOINT_XS, setEachBreakpoint } from "../utils/breakpoints";
-import Select from "./select";
+import { setEachBreakpoint } from "../utils/breakpoints";
+import Select, { SelectedAndOptionsBreakpoints } from "./select";
 
 export default function Header({
   headerRef,
@@ -18,11 +18,10 @@ export default function Header({
   sortBy,
 }) {
   const [navOpen, setNavOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
   const NavRender = useMemo(() => {
     return navLinks.map((navLink) => (
-      <Link href={navLink.url} passHref key={navLink.url}>
-        <NavLink>{navLink.name}</NavLink>
+      <Link href={navLink.active ? "" : navLink.url} passHref key={navLink.url}>
+        <NavLink active={navLink.active}>{navLink.name}</NavLink>
       </Link>
     ));
   }, [navLinks]);
@@ -33,9 +32,11 @@ export default function Header({
     }
     return tags.map((currentTags) => {
       return (
-        <FilterWrapper key={currentTags.pluralName}>
-          <Select config={currentTags} />
-        </FilterWrapper>
+        <>
+          <FilterWrapper key={currentTags.pluralName}>
+            <Select config={currentTags} />
+          </FilterWrapper>
+        </>
       );
     });
   }, [tags]);
@@ -66,19 +67,18 @@ export default function Header({
       return null;
     }
     return (
-      <SearchWrapper showSearch={showSearch} key="search-wrapper">
-        <span onClick={() => setShowSearch((prev) => !prev)}>
+      <SearchWrapper key="search-wrapper" isOdd={(tags.length + 2) % 3 === 0}>
+        <span>
           <StyledSearchIcon />
         </span>
         <Search
           value={search.search}
           type="text"
           onChange={(e) => search.setSearchQuery(e.target.value)}
-          showSearch={showSearch}
         />
       </SearchWrapper>
     );
-  }, [search, showSearch]);
+  }, [search, tags]);
 
   const TitleRender = useMemo(() => {
     if (titleUrl) {
@@ -115,7 +115,6 @@ export default function Header({
           <SecondRow>
             {SortByRender}
             {TagsRender}
-            <MobileFlexBreak shouldBreak={showSearch} />
             {SearchRender}
           </SecondRow>
         )}
@@ -171,13 +170,46 @@ const FirstRow = styled.div`
 const SecondRowBreakpoints = setEachBreakpoint({
   xs: `
   justify-content: flex-start;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 2fr;
+  `,
+  sm: `
+  grid-template-columns: repeat(2, 45%);
+  grid-template-rows: 2fr;
+  `,
+  md: `
+  grid-template-columns: repeat(2, 30%);
+  grid-template-rows: 2fr;
+  `,
+  lg: `
+  display: flex;
+    justify-content: center;
+    div {
+    margin-right: .8rem;
+
+    }
+  `,
+  xl: `
+  display: flex;
+    justify-content: center;
+    div {
+    margin-right: .8rem;
+
+    }
+  `,
+  xxl: `
+  display: flex;
+    justify-content: center;
+    div {
+    margin-right: 1rem;
+
+    }
   `,
 });
 const SecondRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
   justify-content: center;
+  justify-items: center;
   ${SecondRowBreakpoints}
 `;
 
@@ -257,7 +289,6 @@ const FilterBreakpoints = setEachBreakpoint({
   xs: `
   font-size: 1.1rem;
   line-height: 1.4rem;
-  margin-bottom: 0;
   `,
   sm: `
   font-size: 1.2rem;
@@ -300,59 +331,39 @@ const FilterWrapper = styled.div`
   ${FilterBreakpoints}
 `;
 
-const SearchWrapperProps = (props) =>
-  props.showSearch
-    ? `
-  margin-left: 0;
-  ${BREAKPOINT_XS} {
-    margin-top: 10px;
-    position: relative;
-  }
-`
-    : `
-  margin-left: 200px;
-  ${BREAKPOINT_XS} {
-    position: absolute;
-    right: 0;
-  }
-`;
 const SearchWrapper = styled(FilterWrapper)`
-  transition: margin-left 0.5s;
-  ${SearchWrapperProps}
+  ${(props) => props.isOdd && "grid-column: 1 / 3;"}
+  margin-right: 1rem;
+  margin-bottom: 18px;
+  min-width: 200px;
+  ${SelectedAndOptionsBreakpoints}
+  span {
+    margin-right: 0.8rem;
+  }
 `;
 
-const SearchProps = (props) =>
-  props.showSearch
-    ? `
-  visibility: visible;
-  width: 175px;
-`
-    : `
-  visibility: hidden;
-`;
 const Search = styled.input`
   display: block;
-  width: 1px;
+  width: 180px;
   height: auto;
   background-color: inherit;
   border: none;
   border-bottom: 1px solid var(--background-accent);
   color: var(--font);
-  font-size: 1rem;
   padding: 0;
   transition: width 0.5s;
   transition: visibility 0.51s, 0.1s;
+  font-size: 1.2rem;
+  line-height: 2.2rem;
 
   :focus {
     border-bottom: 1px solid var(--primary);
   }
-  ${SearchProps}
   ${FilterBreakpoints}
 `;
 const StyledSearchIcon = styled(SearchIcon)`
   height: auto;
   width: 2.2rem;
-  margin-right: 5px;
   fill: var(--background-accent);
   :hover {
     cursor: pointer;
@@ -379,18 +390,40 @@ const NavLinkBreakpoints = setEachBreakpoint({
   `,
   lg: `
     font-size: 2rem;
+    margin-left: 4rem;
     font-style: italic;
   `,
   xl: `
     font-size: 3rem;
+    margin-left: 5rem;
     font-style: italic;
   `,
   xxl: `
     font-size: 4rem;
+    margin-left: 6rem;
     font-style: italic;
   `,
 });
-export const NavLink = styled.a`
+const NavLinkPropsBreakpoints = setEachBreakpoint({
+  xs: `
+    color: var(--background) !important;
+  `,
+  sm: `
+    color: var(--background) !important;
+  `,
+});
+const NavLinkProps = (props) =>
+  props.active &&
+  `
+  font-weight: 600;
+  color: var(--font);
+  :hover {
+    cursor: default;
+    color: var(--font);
+  }
+  ${NavLinkPropsBreakpoints}
+`;
+const NavLink = styled.a`
   font-weight: 200;
   margin-left: 3rem;
   line-height: 3rem;
@@ -403,6 +436,7 @@ export const NavLink = styled.a`
     color: var(--primary);
   }
   ${NavLinkBreakpoints}
+  ${NavLinkProps}
 `;
 const NavLinksBreakpoints = setEachBreakpoint({
   xs: `
@@ -472,7 +506,9 @@ const NavLinksMobile = styled.nav`
     background-color: rgba(0, 0, 0, 0);
     appearance: none;
     :hover {
+      cursor: pointer;
       color: var(--background-accent);
+      opacity: 0.7;
     }
   }
 `;
@@ -491,11 +527,21 @@ const NavMobileOpen = styled.span`
   }
 `;
 
+const MobileFlexBreakBreakpoints = setEachBreakpoint({
+  xs: `
+  display: block;
+`,
+  sm: `
+  display: block;
+`,
+  md: `
+  display: block;
+`,
+});
 const MobileFlexBreak = styled.div`
   display: none;
-  ${BREAKPOINT_XS} {
-    ${(props) => props.shouldBreak && "display: block;"}
-  }
   flex-basis: 100%;
   height: 0;
+
+  ${MobileFlexBreakBreakpoints}
 `;

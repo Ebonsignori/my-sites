@@ -1,11 +1,11 @@
 import { useContext, useRef } from "react";
 import styled from "styled-components";
 
-import { setEachBreakpoint } from "../../../shared/utils/breakpoints";
-import detectOutsideClick from "../../../shared/utils/outside-click";
 import AppContext from "../utils/app-context";
+import { setEachBreakpoint } from "../utils/breakpoints";
+import detectOutsideClick from "../utils/outside-click";
 
-export default function Modal({ modalContents }) {
+export default function ImageModal({ modalContents }) {
   const appState = useContext(AppContext);
   const modalRef = useRef(null);
   const closeModal = () => appState.setModalContents(undefined);
@@ -62,5 +62,5 @@ const ModalContainerBreakpoints = setEachBreakpoint({
 });
 const ModalContainer = styled.div`
   ${ModalContainerBreakpoints}
-  cursor: default;
+  cursor: zoom-out;
 `;

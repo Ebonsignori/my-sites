@@ -94,7 +94,7 @@ const SelectWrapper = styled.div`
   position: relative;
 `;
 
-const SelectedAndOptionsBreakpoints = setEachBreakpoint({
+export const SelectedAndOptionsBreakpoints = setEachBreakpoint({
   xl: `
     min-width: 225px;
   `,
@@ -130,6 +130,7 @@ const Selected = styled.div`
 `;
 
 const SelectedText = styled.div`
+  min-width: 160px;
   border-bottom: 1px solid var(--background-accent);
 `;
 

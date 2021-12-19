@@ -17,8 +17,8 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --font: #000000;
     --font-secondary: #685F74;
-    --secondary: #B66D0D;
-    --primary: #2F9C95;
+    --primary: #B66D0D;
+    --secondary: #2F9C95;
     --background-accent: #CFCCCC;
     --background: #FFFFFF;
 

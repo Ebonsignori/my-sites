@@ -53,6 +53,7 @@ module.exports = {
     'import/no-commonjs': 0,
     '@next/next/no-img-element': 0,
     'i18n-text/no-en': 0,
+    'react/no-unescaped-entities': 0,
   },
 };
 

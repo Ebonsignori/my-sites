@@ -1,0 +1,183 @@
+{
+  "tags": [
+    "stock",
+    "urban",
+    "nature",
+    "landscape",
+    "architecture",
+    "wildlife",
+    "animal"
+  ],
+  "breakpoints": [
+    [
+      "600",
+      "900",
+      "1200",
+      "1800",
+      "2500",
+      "3000"
+    ]
+  ],
+  "models": [
+    "iPhone 11 Pro Max",
+    "iPhone XR",
+    "Sony a7 III"
+  ],
+  "images": [
+    {
+      "name": "my-old-car",
+      "orientation": "tall",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "date": "2021-04-11T01:57:02.000Z",
+      "description": "",
+      "alt": "White honda civic",
+      "model": "iPhone 11 Pro Max",
+      "tags": [
+        "stock",
+        "urban"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Decatur, GA",
+        "latitude": 33.7748275,
+        "longitude": -84.2963123
+      }
+    },
+    {
+      "name": "me-test",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "date": "2020-06-10T19:02:37.000Z",
+      "description": "",
+      "alt": "",
+      "model": "iPhone XR",
+      "tags": [],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "1000 Piedmont Ave NE, Atlanta, GA 30309, USA",
+        "latitude": 33.7817727,
+        "longitude": -84.380575
+      }
+    },
+    {
+      "name": "roses",
+      "orientation": "big",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "date": "2021-09-11T22:44:24.000Z",
+      "description": "",
+      "alt": "",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Canada",
+        "latitude": 56.130366,
+        "longitude": -106.346771
+      }
+    },
+    {
+      "name": "coast",
+      "orientation": "wide",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "date": "2021-09-05T22:26:04.000Z",
+      "description": "",
+      "alt": "",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "landscape"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Cannon Beach",
+        "latitude": 45.8917738,
+        "longitude": -123.9615274
+      }
+    },
+    {
+      "name": "astoria-houses",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "date": "2021-09-05T20:00:56.000Z",
+      "description": "",
+      "alt": "Houses in Astoria",
+      "model": "Sony a7 III",
+      "tags": [
+        "architecture"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Astoria, OR",
+        "latitude": 46.1878841,
+        "longitude": -123.8312534
+      }
+    },
+    {
+      "name": "star-fish",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "date": "2021-09-06T00:27:52.000Z",
+      "description": "",
+      "alt": "Orange starfish on a rock",
+      "model": "Sony a7 III",
+      "tags": [
+        "wildlife",
+        "animal",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
+      }
+    }
+  ]
+}

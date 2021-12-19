@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const localEnvFile = path.join(__dirname, "..", "..", ".env");
+const topLevelEnv = path.join(__dirname, "..", "..", "..", ".env");
 const secretEnvFile = path.join(__dirname, "..", "..", "..", ".env.secrets");
 
 function setGlobalEnvFromPath(envPath) {
@@ -26,9 +27,16 @@ function setGlobalEnvFromPath(envPath) {
 module.exports = function setEnv() {
   // Set both local and secret envs to process.env
   setGlobalEnvFromPath(localEnvFile);
+  setGlobalEnvFromPath(topLevelEnv);
   setGlobalEnvFromPath(secretEnvFile);
 
-  const { IMAGE_BREAKPOINTS, AWS_ID, AWS_SECRET, BUCKET_NAME } = process.env;
+  const {
+    IMAGE_BREAKPOINTS,
+    AWS_ID,
+    AWS_SECRET,
+    BUCKET_NAME,
+    GOOGLE_MAPS_API_KEY,
+  } = process.env;
   let { PORT, SOCKET_PORT, BACKEND_URL, IMAGE_QUALITY, IMAGE_TAGS } =
     process.env;
   // Validate env config
@@ -73,5 +81,5 @@ module.exports = function setEnv() {
     IMAGE_TAGS = tags;
   }
 
-  return { IMAGE_QUALITY, PORT, SOCKET_PORT, BACKEND_URL };
+  return { IMAGE_QUALITY, PORT, SOCKET_PORT, BACKEND_URL, GOOGLE_MAPS_API_KEY };
 };

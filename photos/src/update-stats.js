@@ -1,7 +1,7 @@
 /*
  * Script intended to be run as a cron towards the end of the day (EST)
- * that updates stats.json with photo dowwnloads
- * This data is ingested by app at build time to enable sort by popularity
+ * that updates stats.json with article page views (> 10 seconds)
+ * These page views are ingested by app at build time to enable sort by popularity
  *
  */
 /* eslint-disable camelcase */
@@ -34,13 +34,13 @@ if (!fs.existsSync(statsJsonPath)) {
 
 // Get env from shell env (GitHub Action) or from local (uncommitted) file
 const secretEnvFile = path.join(__dirname, "..", "..", ".env.secrets");
-let propertyId = process.env.GA_PHOTOS_ID;
+let propertyId = process.env.GA_WRITING_ID;
 let clientEmail = process.env.GA_CLIENT_EMAIL;
 let clientId = process.env.GA_CLIENT_ID;
 let privateKey = process.env.GA_PRIVATE_KEY;
 if (fs.existsSync(secretEnvFile)) {
   const localEnv = dotenv.parse(fs.readFileSync(secretEnvFile));
-  propertyId = localEnv.GA_PHOTOS_ID;
+  propertyId = localEnv.GA_WRITING_ID;
   clientEmail = localEnv.GA_CLIENT_EMAIL;
   clientId = localEnv.GA_CLIENT_ID;
   privateKey = localEnv.GA_PRIVATE_KEY.replaceAll("\\n", "\n");

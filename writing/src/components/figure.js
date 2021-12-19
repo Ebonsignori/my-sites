@@ -4,8 +4,8 @@ import React, { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import styled from "styled-components";
 
+import AppContext from "../../../shared/utils/app-context";
 import { getImageSetSrc } from "../../../shared/utils/image";
-import AppContext from "../utils/app-context";
 
 export default function Figure({ image, caption, imageAlt, priority }) {
   if (!image?.includes("://")) {

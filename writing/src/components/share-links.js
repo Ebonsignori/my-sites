@@ -2,11 +2,11 @@ import copy from "copy-to-clipboard";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import Tooltip from "../../../shared/components/tooltip";
 import FacebookIcon from "../svgs/facebook";
 import LinkIcon from "../svgs/link-icon";
 import LinkedinIcon from "../svgs/linkedin";
 import TwitterIcon from "../svgs/twitter";
-import Tooltip from "./tooltip";
 
 // Due to issues with styled components and Next.js, these can't be created dynamically
 export default function ShareIcons({ className, slug }) {

@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Analytics trackingId={process.env.WRITING_TRACKING_ID} />
+      <Analytics trackingId={process.env.PHOTOS_TRACKING_ID} />
       <Component {...pageProps} />
     </>
   );

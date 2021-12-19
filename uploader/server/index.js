@@ -1,4 +1,9 @@
 /* eslint-disable no-console */
+// Set env before importing anything else
+const setEnv = require("./utils/set-env");
+const { IMAGE_QUALITY, PORT, SOCKET_PORT, BACKEND_URL } = setEnv();
+console.log(process.env)
+
 const express = require("express");
 const { createServer } = require("http");
 const next = require("next");
@@ -8,7 +13,6 @@ const path = require("path");
 const sharp = require("sharp");
 
 const CatalogueService = require("./utils/catalogue-service");
-const setEnv = require("./utils/set-env");
 const S3 = require("./utils/s3");
 const {
   getCatalogue,
@@ -17,7 +21,6 @@ const {
   deleteFromCatalogue,
 } = require("./routes/catalogue");
 
-const { IMAGE_QUALITY, PORT, SOCKET_PORT, BACKEND_URL } = setEnv();
 const MAIN_ROOM = "main";
 
 const dev = process.env.NODE_ENV !== "production";

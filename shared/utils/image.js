@@ -1,6 +1,6 @@
 import { BREAKPOINTS } from "../utils/breakpoints";
 
-export function getImageSetSrc(name, isAsset, prefixFolder) {
+export function getImageSetSrc(name, isAsset = false, prefixFolder) {
   let srcSetStr = "";
   for (const breakpoint of BREAKPOINTS) {
     srcSetStr += `${getImageSource(
@@ -29,7 +29,7 @@ export function getImageSource(
   if (prefixFolder) {
     folderPart = `${baseUrl}/${prefixFolder}/${name}`;
   }
-  let source = `${folderPart}/${name}-original.jpg`;
+  let source = `${folderPart}/${name}-original.jpeg`;
   if (breakpoint) {
     source = `${folderPart}/${name}-${breakpoint}.webp`;
   }

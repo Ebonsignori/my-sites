@@ -1,16 +1,17 @@
 {
-  "name": "writing",
+  "name": "photos",
   "private": true,
   "scripts": {
-    "start": "node ../shared/open.js 3081 && cross-env PORT=3081 next-remote-watch ./entries",
+    "start": "node ../shared/open.js 3082 && cross-env PORT=3082 next-remote-watch catalogue.json",
     "build": "next build && next export -o build/",
     "postbuild": "next-sitemap",
     "lint": "next lint",
-    "new": "node --es-module-specifier-resolution=node ./src/new-post.mjs"
+    "update-catalogue": "node src/update-catalogue.js"
   },
   "dependencies": {
     "copy-to-clipboard": "^3.3.1",
     "dotenv": "^10.0.0",
+    "file-saver": "^2.0.5",
     "fuzzysort": "^1.1.4",
     "gray-matter": "^4.0.3",
     "next": "file:../node_modules/next",

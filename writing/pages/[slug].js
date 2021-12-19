@@ -7,17 +7,17 @@ import styled from "styled-components";
 
 import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
+import ImageModal from "../../shared/components/image-modal";
+import Tooltip from "../../shared/components/tooltip";
+import AppContext from "../../shared/utils/app-context";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { isValidDate, toReadableDateString } from "../../shared/utils/dates";
 import { capitalizeAll } from "../../shared/utils/strings";
 import Figure from "../src/components/figure";
 import Meta from "../src/components/meta";
-import Modal from "../src/components/modal";
 import ShareLinks from "../src/components/share-links";
-import Tooltip from "../src/components/tooltip";
 import LeftArrow from "../src/svgs/left-arrow";
 import RightArrow from "../src/svgs/right-arrow";
-import AppContext from "../src/utils/app-context";
 import { fetchEntries, getEntryBySlug } from "../src/utils/fetch-entries";
 import { linkStyles } from "../src/utils/global-styles";
 
@@ -70,7 +70,7 @@ export default function Post({ slug, source, metadata, prev, next }) {
         imageAlt={metadata.imageAlt}
       />
       <AppContext.Provider value={appState}>
-        <Modal modalContents={modalContents} />
+        <ImageModal modalContents={modalContents} />
         <PageWrapper>
           <Header
             title="Writing"
@@ -128,9 +128,7 @@ export default function Post({ slug, source, metadata, prev, next }) {
               )}
             </PrevNextOpts>
           </MainContentContainer>
-          <MainContentContainer>
-            <Copyright />
-          </MainContentContainer>
+          <Copyright />
         </PageWrapper>
       </AppContext.Provider>
     </>
@@ -175,7 +173,7 @@ const PageWrapper = styled.div`
   overflow: hidden;
 `;
 
-const MainContentContainer = styled.div`
+const MainContentContainer = styled.section`
   display: flex;
   justify-content: center;
 `;
@@ -253,7 +251,7 @@ const MainContentBreakpoints = setEachBreakpoint({
   }
   `,
 });
-const MainContent = styled.section`
+const MainContent = styled.article`
   background-color: var(--background);
   color: var(--font);
   word-wrap: break-word;
