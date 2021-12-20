@@ -46,6 +46,8 @@ function Tooltip({ children, text, linkUrl, color, linkOnClick, isIcon }) {
       onClick={linkOnClick}
     >
       <TooltipComponent
+        id="tooltip-component"
+        instanceId="tooltip-component"
         className="tooltip"
         color={color}
         href={linkUrl ? linkUrl : undefined}
@@ -89,7 +91,7 @@ const ToolTipWrapperProps = (props) =>
   `
   border-bottom: none;
 `;
-const TooltipWrapper = styled.span`
+const TooltipWrapper = styled.aside`
   .tooltip .tooltip-text {
     ${TooltipWrapperBreakpoints}
   }

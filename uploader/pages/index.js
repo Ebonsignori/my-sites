@@ -2,7 +2,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import exifr from "exifr/dist/full.esm.mjs";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
@@ -16,14 +15,8 @@ import CreatableSelect from "react-select/creatable";
 import { io } from "socket.io-client";
 import styled from "styled-components";
 
+import Header from "../../shared/components/header";
 import { isNumeric } from "../../shared/utils/strings";
-import {
-  AboutLink,
-  HeadingContent,
-  SubTitle,
-  Title,
-  TitleWrapper,
-} from "../src/components/heading";
 import { addressToCords, cordsToAddress } from "../src/utils/geocode";
 import { SERVER_URL, SOCKET_URL } from "../src/utils/misc";
 
@@ -90,9 +83,9 @@ export default function Uploader() {
     });
     socket.on("upload-part", (upload) => {
       setUploads((prev) => [...prev, upload]);
-      let uploadPercent = (1 / breakpoints.length) * 100;
+      let uploadPercent = (1 / breakpoints.length + 1) * 100;
       if (updateCatalogue) {
-        uploadPercent = (1 / (breakpoints.length + 1)) * 100;
+        uploadPercent = (1 / (breakpoints.length + 2)) * 100;
       }
       setUploadProgress((prev) => prev + uploadPercent);
     });
@@ -251,15 +244,11 @@ export default function Uploader() {
 
   return (
     <PageWrapper>
-      <HeadingContent>
-        <TitleWrapper>
-          <Title>Uploader</Title>
-          <SubTitle>Images to S3</SubTitle>
-        </TitleWrapper>
-        <Link href="/edit-catalogue" passHref>
-          <AboutLink>Catalogue</AboutLink>
-        </Link>
-      </HeadingContent>
+      <Header
+        title="Uploader"
+        subtitle="Images to S3"
+        navLinks={[{ url: "/edit-catalogue", name: "Catalogue Manager" }]}
+      />
       <ToastContainer position="top-center" className="mt-3">
         <Toast
           autohide
@@ -383,6 +372,20 @@ export default function Uploader() {
                   >
                     Update Location Opts from Cords
                   </Button>
+
+                  <br />
+
+                  {imageLongitude && imageLatitude && (
+                    <Form.Text className="text-muted mt-3">
+                      <a
+                        href={`http://maps.google.com/maps?z=12&t=m&q=loc:${imageLatitude}+${imageLongitude}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Test location in GMaps
+                      </a>
+                    </Form.Text>
+                  )}
                 </Form.Group>
               </Accordion.Body>
             </Accordion.Item>

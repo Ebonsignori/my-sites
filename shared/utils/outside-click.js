@@ -17,3 +17,21 @@ export default function detectOutsideClick(ref, onOutsideClick) {
     };
   }, [ref, onOutsideClick]);
 }
+
+export function detectOutsideClickWithKey(ref, onOutsideClick, updateKey) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target) && updateKey) {
+        onOutsideClick();
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref, onOutsideClick, updateKey]);
+}

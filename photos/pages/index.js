@@ -1,4 +1,3 @@
-import { saveAs } from "file-saver";
 import fuzzysort from "fuzzysort";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useRef, useState } from "react";
@@ -7,20 +6,14 @@ import styled from "styled-components";
 
 import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
-import Modal from "../../shared/components/image-modal";
-import Tooltip from "../../shared/components/tooltip";
 import { ASCENDING, DESCENDING } from "../../shared/constants/sort";
-import DateIcon from "../../shared/svgs/date-icon";
 import TagIcon from "../../shared/svgs/tag-icon";
-import AppContext from "../../shared/utils/app-context";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
-import { toReadableDateString } from "../../shared/utils/dates";
-import { getImageSetSrc, getImageSource } from "../../shared/utils/image";
+import { getImageSetSrc } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
+import LightboxModal from "../src/components/lightbox-modal";
 import Meta from "../src/components/meta";
 import CameraIcon from "../src/svgs/camera-icon";
-import DownloadIcon from "../src/svgs/download-icon";
-import LocationIcon from "../src/svgs/location-icon";
 import ZoomInIcon from "../src/svgs/zoom-icon";
 import { fetchPhotos } from "../src/utils/fetch-photos";
 
@@ -37,47 +30,88 @@ const sortByOpts = [
 
 export default function Home({ images, tags, models }) {
   const router = useRouter();
+  const queryHash = useMemo(() => {
+    return router.asPath.match(/#([a-z0-9]+)/gi) || "";
+  }, [router]);
+  const queryParams = useMemo(() => {
+    return router.asPath.match(/\?([a-z0-9]+)/gi) || {};
+  }, [router]);
   const entriesRef = useRef(null);
   const headerRef = useRef(null);
   // Load tag from URL #/{tag} path or default to ALL
   const [selectedTag, rawSetSelectedTag] = useState(
-    router.asPath !== "/" ? router.asPath.replace("/#", "") : ALL_TAG
+    queryParams?.tags ? router.query.tags : ALL_TAG
   );
-  const [selectedModel, setSelectedModel] = useState(ALL_TAG);
   const setSelectedTag = useCallback(
     (tag) => {
+      tag = tag.toLowerCase();
+      let modelsQuery = "";
+      if (queryParams.models) {
+        modelsQuery = `&models=${queryParams.models}`;
+      }
       if (tag !== ALL_TAG) {
-        router.push(`#${tag}`, undefined, { shallow: true });
+        router.push(`?tags=${tag}${modelsQuery}`, undefined, { shallow: true });
       } else {
-        router.push(`/`, undefined, { shallow: true });
+        router.push(`/${modelsQuery.replace("&", "?")}`, undefined, {
+          shallow: true,
+        });
       }
       rawSetSelectedTag(tag);
     },
-    [router]
+    [queryParams, router]
   );
-
-  const [modalContents, setModalContents] = useState(undefined);
-  const appState = {
-    modalContents,
-    setModalContents,
-  };
-  const onZoomModal = useCallback(
-    (imageUrl, imageAlt) => {
-      setModalContents(
-        <img
-          srcSet={imageUrl}
-          alt={imageAlt}
-          width="100%"
-          height="100%"
-          onClick={() => {
-            setModalContents();
-          }}
-        />
-      );
+  const [selectedModel, rawSetSelectedModel] = useState(
+    queryParams?.models ? router.query.models : ALL_TAG
+  );
+  const setSelectedModel = useCallback(
+    (model) => {
+      model = model.toLowerCase();
+      let tagsQuery = "";
+      if (queryParams.tags) {
+        tagsQuery = `&tags=${queryParams.tags}`;
+      }
+      if (model !== ALL_TAG) {
+        router.push(`?models=${model}${tagsQuery}`, undefined, {
+          shallow: true,
+        });
+      } else {
+        router.push(`/${tagsQuery.replace("&", "?")}`, undefined, {
+          shallow: true,
+        });
+      }
+      rawSetSelectedModel(model);
     },
-    [setModalContents]
+    [queryParams, router]
   );
 
+  const [selectedImageName, rawSetSelectedImageName] = useState(
+    queryHash ? images[queryHash] : undefined
+  );
+  const setSelectedImageName = useCallback(
+    (imageName) => {
+      imageName = imageName.toLowerCase();
+      let existingQuery = "";
+      if (queryParams.tags) {
+        existingQuery = `?tags=${queryParams.tags}`;
+      }
+      if (queryParams.models) {
+        existingQuery += `?models=${queryParams.models}`;
+      }
+      if (imageName) {
+        router.push(`#${imageName}${existingQuery}`, undefined, {
+          shallow: true,
+        });
+      } else {
+        router.push(`/${existingQuery}`, undefined, {
+          shallow: true,
+        });
+      }
+      rawSetSelectedImageName(imageName);
+    },
+    [queryParams, router]
+  );
+
+  // Filtering
   const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 5);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState(sortByOpts[0]);
@@ -190,6 +224,25 @@ export default function Home({ images, tags, models }) {
     [filteredImages, selectedModel]
   );
 
+  // Set order of images on prop object for modal nav
+  const imagesWithOrder = useMemo(() => {
+    for (let i = 0; i < filteredImages.length; i++) {
+      const currentImageName = filteredImages[i].name;
+      if (i - 1 >= 0) {
+        images[currentImageName].prev = filteredImages[i - 1].name;
+      } else {
+        images[currentImageName].prev =
+          filteredImages[filteredImages.length - 1].name;
+      }
+      if (i + 1 < filteredImages.length) {
+        images[currentImageName].next = filteredImages[i + 1].name;
+      } else {
+        images[currentImageName].next = filteredImages[0].name;
+      }
+    }
+    return images;
+  }, [images, filteredImages]);
+
   // Paginate entries
   filteredImages = useMemo(
     () => filteredImages.slice(0, paginationCount),
@@ -221,14 +274,18 @@ export default function Home({ images, tags, models }) {
         </ImageContainer>
       );
     }
-    return filteredImages.map((image) => {
+    return filteredImages.map((image, index) => {
       const imageProps = {};
       if (image.orientation) {
         imageProps[image.orientation] = true;
       }
       const imageUrl = getImageSetSrc(image.name);
       return (
-        <ImageContainer key={`lazy-${image.name}`} {...imageProps}>
+        <ImageContainer
+          key={`lazy-${image.name}-${index}`}
+          {...imageProps}
+          onClick={() => setSelectedImageName(image.name)}
+        >
           <LazyLoadImage
             srcSet={imageUrl}
             alt={image.alt}
@@ -238,56 +295,33 @@ export default function Home({ images, tags, models }) {
           <ImageMeta>
             <MetaList>
               <MetaItem>
-                <DateIcon />
-                {toReadableDateString(image.date)}
-              </MetaItem>
-              <MetaItem>
-                <LocationIcon />
-                {image.location?.address}
-              </MetaItem>
-              <MetaItem>
                 <CameraIcon />
-                {image.model}
+                <MetaLink onClick={() => setSelectedModel(image.model)}>
+                  {image.model}
+                </MetaLink>
               </MetaItem>
               <MetaItem>
                 <TagIcon />
                 <MetaTags>
                   {image.tags.map((tag) => (
-                    <MetaTag
-                      onClick={() => setSelectedTag(tag.toLowerCase())}
+                    <MetaLink
+                      onClick={() => setSelectedTag(tag)}
                       key={`${image.name}-${tag}`}
                     >
                       {capitalizeAll(tag)}
-                    </MetaTag>
+                    </MetaLink>
                   ))}
                 </MetaTags>
               </MetaItem>
             </MetaList>
-            <ZoomIconWrapper>
-              <Tooltip
-                text="Zoom Photo"
-                isIcon
-                linkOnClick={() => onZoomModal(imageUrl, image.alt)}
-              >
-                <ZoomInIcon />
-              </Tooltip>
-            </ZoomIconWrapper>
-            <DownloadIconWrapper>
-              <Tooltip
-                text="Download Original"
-                isIcon
-                linkOnClick={() => {
-                  saveAs(getImageSource(image.name));
-                }}
-              >
-                <DownloadIcon />
-              </Tooltip>
-            </DownloadIconWrapper>
           </ImageMeta>
+          <IconWrapper>
+            <ZoomInIcon />
+          </IconWrapper>
         </ImageContainer>
       );
     });
-  }, [filteredImages, setSelectedTag, onZoomModal]);
+  }, [filteredImages, setSelectedTag, setSelectedModel, setSelectedImageName]);
 
   return (
     <>
@@ -299,55 +333,59 @@ export default function Home({ images, tags, models }) {
         imageAlt="Pencil icon with colors matching the theme of the blog"
         type="blog"
       />
-      <AppContext.Provider value={appState}>
-        <Modal modalContents={modalContents} />
-        <PageWrapper onScroll={onScroll}>
-          <Header
-            headerRef={headerRef}
-            title="Photos"
-            subtitle="by Evan Bonsignori"
-            navLinks={[
-              { url: "/license", name: "License" },
-              { url: "/photo-map", name: "Photo Map" },
-              { url: process.env.WRITING_PAGE_URL, name: "Blog" },
-              { url: process.env.ABOUT_PAGE_URL, name: "About Me" },
-            ]}
-            tags={[
-              {
-                pluralName: "tags",
-                icon: <TagIcon />,
-                multiple: false,
-                options: tags,
-                selected: selectedTag,
-                setSelected: setSelectedTag,
-                includeAll: true,
-              },
-              {
-                pluralName: "models",
-                icon: <CameraIcon />,
-                multiple: false,
-                options: models,
-                selected: selectedModel,
-                setSelected: setSelectedModel,
-                includeAll: true,
-              },
-            ]}
-            search={{
-              searchQuery,
-              setSearchQuery,
-            }}
-            sortBy={{
-              sortBy,
-              setSortBy,
-              options: sortByOpts,
-            }}
-          />
-          <ImagesWrapper>
-            <Images ref={entriesRef}>{EntriesRender}</Images>
-          </ImagesWrapper>
-          <Copyright />
-        </PageWrapper>
-      </AppContext.Provider>
+      <LightboxModal
+        images={imagesWithOrder}
+        imageName={selectedImageName}
+        setSelectedImageName={setSelectedImageName}
+        setSelectedTag={setSelectedTag}
+        setSelectedModel={setSelectedModel}
+      />
+      <PageWrapper onScroll={onScroll}>
+        <Header
+          headerRef={headerRef}
+          title="Photos"
+          subtitle="by Evan Bonsignori"
+          navLinks={[
+            { url: "/license", name: "License" },
+            { url: "/photo-map", name: "Photo Map" },
+            { url: process.env.WRITING_PAGE_URL, name: "Blog" },
+            { url: process.env.ABOUT_PAGE_URL, name: "About Me" },
+          ]}
+          tags={[
+            {
+              pluralName: "tags",
+              icon: <TagIcon />,
+              multiple: false,
+              options: tags,
+              selected: selectedTag,
+              setSelected: setSelectedTag,
+              includeAll: true,
+            },
+            {
+              pluralName: "models",
+              icon: <CameraIcon />,
+              multiple: false,
+              options: models,
+              selected: selectedModel,
+              setSelected: setSelectedModel,
+              includeAll: true,
+            },
+          ]}
+          search={{
+            searchQuery,
+            setSearchQuery,
+          }}
+          sortBy={{
+            sortBy,
+            setSortBy,
+            options: sortByOpts,
+          }}
+        />
+        <ImagesWrapper>
+          <Images ref={entriesRef}>{EntriesRender}</Images>
+        </ImagesWrapper>
+        <Copyright />
+      </PageWrapper>
     </>
   );
 }
@@ -448,6 +486,8 @@ const ImageContainer = styled.div`
   ${ImageContainerBreakpoints}
 
   img {
+    position: relative;
+    user-select: none;
     max-width: 100%;
     height: auto;
     vertical-align: middle;
@@ -458,25 +498,39 @@ const ImageContainer = styled.div`
     border-radius: 5px;
   }
 
+  svg {
+    user-select: none;
+  }
+
   div {
-    transition: opacity 0.3s;
+    transition: max-height 0.5s;
+  }
+  * {
+    transition: opacity 0.5s;
   }
 
   :hover,
   :focus,
   :target {
-    div {
+    cursor: pointer;
+    * {
       opacity: 1;
+    }
+    div {
+      max-height: 40%;
     }
   }
 `;
 
 const ImageMeta = styled.div`
   position: absolute;
+  top: 0;
   opacity: 0;
+  transition: opacity 0.5s;
   display: flex;
   width: 100%;
-  height: 100%;
+  height: fit-content;
+  max-height: 0;
   justify-content: flex-start;
   align-items: flex-start;
   color: var(--background);
@@ -485,27 +539,52 @@ const ImageMeta = styled.div`
   border-radius: 5px;
 `;
 
-const MetaList = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 30px;
+const ImageMetaListBreakpoints = setEachBreakpoint({
+  lg: `
   font-size: 1.5rem;
+  margin: 0.75rem;
   svg {
     width: 1.5rem;
+  }
+  `,
+  xl: `
+  font-size: 1.75rem;
+  margin: 1rem;
+  svg {
+    width: 1.75rem;
+  }
+  `,
+  xxl: `
+  font-size: 2rem;
+  margin: 1rem;
+  svg {
+    width: 2rem;
+  }
+  `,
+});
+const MetaList = styled.div`
+  opacity: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0.5rem;
+  font-size: 1rem;
+  svg {
+    width: 1rem;
     fill: var(--background);
     margin-right: 10px;
   }
+  ${ImageMetaListBreakpoints}
 `;
 const MetaItem = styled.div`
   display: flex;
   align-content: center;
-  margin-bottom: 1rem;
+  margin: 0.5rem;
 `;
 const MetaTags = styled.div`
   display: flex;
   align-content: center;
 `;
-const MetaTag = styled.a`
+const MetaLink = styled.a`
   color: var(--background);
   text-decoration: underline;
   :hover {
@@ -518,25 +597,44 @@ const MetaTag = styled.a`
   }
 `;
 
-const IconWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  z-index: 5;
-  padding: 30px;
+const IconWrapperBreakpoints = setEachBreakpoint({
+  lg: `
   svg {
-    width: 3rem;
-    fill: var(--background);
-    :hover {
-      cursor: pointer;
-      fill: var(--primary);
-    }
+    margin: 0.75rem;
+    width: 2.5rem;
   }
-`;
-
-const ZoomIconWrapper = styled(IconWrapper)`
-  left: 0;
-`;
-
-const DownloadIconWrapper = styled(IconWrapper)`
-  right: 0;
+  `,
+  xl: `
+  svg {
+    margin: 1rem;
+    width: 3rem;
+  }
+  `,
+  xxl: `
+  svg {
+    margin: 1rem;
+    width: 4rem;
+  }
+  `,
+});
+const IconWrapper = styled.div`
+  color: var(--background);
+  z-index: 2;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  bottom: 0;
+  height: fit-content;
+  max-height: 0;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    margin: 0.5rem;
+    width: 1.5rem;
+    fill: var(--background);
+  }
+  ${IconWrapperBreakpoints}
 `;

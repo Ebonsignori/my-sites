@@ -54,15 +54,15 @@ export function fetchPhotos() {
     }
 
     // Add downloads to metadata
-    if (stats[image.name]) {
-      const imageStats = stats[image.name];
+    if (stats[image.name.toLowerCase()]) {
+      const imageStats = stats[image.name.toLowerCase()];
       image.downloads = imageStats.downloads;
     } else {
       // If update-stats hasn't run since this image was added
       image.downloads = 0;
     }
 
-    filteredImages[image.name] = image;
+    filteredImages[image.name.toLowerCase()] = image;
   }
   return {
     images: filteredImages,

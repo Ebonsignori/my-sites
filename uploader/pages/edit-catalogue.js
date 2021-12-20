@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -11,7 +10,7 @@ import JSONInput from "react-json-editor-ajrm";
 import locale from "react-json-editor-ajrm/locale/en";
 import styled from "styled-components";
 
-import { AboutLink, Title } from "../src/components/heading";
+import Header from "../../shared/components/header";
 import { SERVER_URL } from "../src/utils/misc";
 
 async function getCatalogue(bucket, setCatalogue, context) {
@@ -162,10 +161,14 @@ export default function Catalogue() {
         </Toast>
       </ToastContainer>
       <Container>
-        <Title className="mt-4">Catalogue Editor</Title>
-        <Link href="/" passHref>
-          <AboutLink className="mt-4">Image uploader</AboutLink>
-        </Link>
+        <Header
+          title="Uploader"
+          titleUrl="/"
+          subtitle="Images to S3"
+          navLinks={[
+            { url: "/edit-catalogue", name: "Catalogue Manager", active: true },
+          ]}
+        />
         <Form.Group className="mt-3">
           <Form.Label>S3 Bucket Name</Form.Label>
           <Form.Control

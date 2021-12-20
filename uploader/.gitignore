@@ -1,4 +1,2 @@
-// Ignore AWS secrets
-.env
 // Ignore uploads dir
 uploads/

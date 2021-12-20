@@ -91,7 +91,7 @@ export default function License() {
                 <a href="https://naacp.org/">NAACP</a>
               </li>
             </ul>
-            Help people in other countries achieve a better standard of living,
+            Help people achieve a better standard of living,
             <ul>
               <li>
                 <a href="https://www.heifer.org/">Heifer International</a>

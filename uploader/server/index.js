@@ -2,7 +2,6 @@
 // Set env before importing anything else
 const setEnv = require("./utils/set-env");
 const { IMAGE_QUALITY, PORT, SOCKET_PORT, BACKEND_URL } = setEnv();
-console.log(process.env)
 
 const express = require("express");
 const { createServer } = require("http");

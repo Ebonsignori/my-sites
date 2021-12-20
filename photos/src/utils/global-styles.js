@@ -31,19 +31,16 @@ const GlobalStyle = createGlobalStyle`
     color: var(--font);
     margin: 0;
     padding: 0;
-    font-family: var(--main-family), sans-serif;
+    font-family: var(--accent-family), sans-serif;
     font-weight: 300;
   }
 
   a {
-    font-family: var(--main-family), sans-serif;
+    font-family: var(--accent-family), sans-serif;
     text-decoration: none;
     ${linkStyles}
   }
 
-  div,
-  span,
-  p,
   input,
   h1,
   h2,

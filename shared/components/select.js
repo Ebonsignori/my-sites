@@ -92,9 +92,13 @@ export default function Select({ config }) {
 
 const SelectWrapper = styled.div`
   position: relative;
+  user-select: none;
 `;
 
 export const SelectedAndOptionsBreakpoints = setEachBreakpoint({
+  xs: `
+    min-width: 150px;
+  `,
   xl: `
     min-width: 225px;
   `,
@@ -129,9 +133,24 @@ const Selected = styled.div`
   ${SelectedAndOptionsBreakpoints}
 `;
 
+const SelectedTextBreakpoints = setEachBreakpoint({
+  xs: `
+    min-width: 100px;
+  `,
+});
 const SelectedText = styled.div`
   min-width: 160px;
   border-bottom: 1px solid var(--background-accent);
+  ${SelectedTextBreakpoints}
+  @media (max-width: 410px) {
+    min-width: 80px;
+  }
+  @media (max-width: 360px) {
+    width: 60px;
+  }
+  @media (max-width: 325px) {
+    width: 200px;
+  }
 `;
 
 // Match FilterBreakpoints lineheight for
@@ -162,7 +181,7 @@ const OptionsList = styled.ul`
   left: 0px;
   padding: 0;
   position: absolute;
-  min-width: 200px;
+  min-width: 100%;
   width: fit-content;
   list-style: none;
   height: 0px;
@@ -173,7 +192,6 @@ const OptionsList = styled.ul`
   visibility: hidden;
   ${OptionsListBreakpoints}
   ${OptionsListProps}
-  ${SelectedAndOptionsBreakpoints}
 
   ::-webkit-scrollbar {
     width: 5px;

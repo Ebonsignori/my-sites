@@ -32,11 +32,9 @@ export default function Header({
     }
     return tags.map((currentTags) => {
       return (
-        <>
-          <FilterWrapper key={currentTags.pluralName}>
-            <Select config={currentTags} />
-          </FilterWrapper>
-        </>
+        <FilterWrapper key={currentTags.pluralName || "tags"}>
+          <Select config={currentTags} />
+        </FilterWrapper>
       );
     });
   }, [tags]);
@@ -101,7 +99,9 @@ export default function Header({
           </TitleWrapper>
           <NavLinks>{NavRender}</NavLinks>
           <NavLinksMobile navOpen={navOpen}>
-            <button onClick={() => setNavOpen((prev) => !prev)}>&times;</button>
+            <button name="close" onClick={() => setNavOpen((prev) => !prev)}>
+              &times;
+            </button>
             <div>{NavRender}</div>
           </NavLinksMobile>
           <NavMobileOpen
@@ -211,12 +211,17 @@ const SecondRow = styled.div`
   justify-content: center;
   justify-items: center;
   ${SecondRowBreakpoints}
+  @media (max-width: 325px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 1fr;
+  }
 `;
 
 export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: baseline;
+  user-select: none;
 `;
 
 const TitleBreakpoints = setEachBreakpoint({
@@ -313,6 +318,7 @@ const FilterBreakpoints = setEachBreakpoint({
 });
 
 const FilterWrapper = styled.div`
+  font-family: var(--main-family), sans-serif;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -331,8 +337,16 @@ const FilterWrapper = styled.div`
   ${FilterBreakpoints}
 `;
 
+const SearchWrapperProps = (props) =>
+  props.isOdd &&
+  `
+  grid-column: 1 / 3;
+  @media (max-width: 325px) {
+    grid-column: 1;
+  }
+
+`;
 const SearchWrapper = styled(FilterWrapper)`
-  ${(props) => props.isOdd && "grid-column: 1 / 3;"}
   margin-right: 1rem;
   margin-bottom: 18px;
   min-width: 200px;
@@ -340,8 +354,17 @@ const SearchWrapper = styled(FilterWrapper)`
   span {
     margin-right: 0.8rem;
   }
+  @media (max-width: 325px) {
+    min-width: 95%;
+  }
+  ${SearchWrapperProps}
 `;
 
+const SearchBreakpoints = setEachBreakpoint({
+  xs: `
+    width: 120px;
+  `,
+});
 const Search = styled.input`
   display: block;
   width: 180px;
@@ -355,6 +378,16 @@ const Search = styled.input`
   transition: visibility 0.51s, 0.1s;
   font-size: 1.2rem;
   line-height: 2.2rem;
+  ${SearchBreakpoints}
+  @media (max-width: 410px) {
+    width: 100px;
+  }
+  @media (max-width: 360px) {
+    width: 80px;
+  }
+  @media (max-width: 325px) {
+    width: 200px;
+  }
 
   :focus {
     border-bottom: 1px solid var(--primary);
@@ -365,10 +398,6 @@ const StyledSearchIcon = styled(SearchIcon)`
   height: auto;
   width: 2.2rem;
   fill: var(--background-accent);
-  :hover {
-    cursor: pointer;
-    fill: var(--primary);
-  }
 `;
 
 const NavLinkBreakpoints = setEachBreakpoint({
@@ -449,9 +478,15 @@ const NavLinksBreakpoints = setEachBreakpoint({
 const NavLinks = styled.nav`
   display: flex;
   align-items: center;
+  user-select: none;
   ${NavLinksBreakpoints}
 `;
 const NavLinksMobileBreakpoints = setEachBreakpoint({
+  xs: `
+  div {
+      min-height: 65%;
+  }
+  `,
   md: `
   display: none;
   `,
@@ -466,9 +501,7 @@ const NavLinksMobileBreakpoints = setEachBreakpoint({
   `,
 });
 const NavLinksMobile = styled.nav`
-  height: 100%;
-  width: 0;
-  ${(props) => props.navOpen && `width: 100%;`}
+  user-select: none;
   position: fixed;
   z-index: 5;
   right: 0;
@@ -477,7 +510,9 @@ const NavLinksMobile = styled.nav`
   background-color: rgba(0, 0, 0, 0.9);
   overflow-x: hidden;
   transition: 0.5s;
-  ${NavLinksMobileBreakpoints}
+  height: 100%;
+  width: 0;
+  ${(props) => props.navOpen && `width: 100%;`}
 
   div {
     position: relative;
@@ -511,8 +546,11 @@ const NavLinksMobile = styled.nav`
       opacity: 0.7;
     }
   }
+
+  ${NavLinksMobileBreakpoints}
 `;
 const NavMobileOpen = styled.span`
+  user-select: none;
   visibility: visible;
   opacity: 1;
   ${(props) => props.navOpen && `visibility: hidden; opacity: 0;`}
@@ -525,23 +563,4 @@ const NavMobileOpen = styled.span`
     cursor: pointer;
     color: var(--primary);
   }
-`;
-
-const MobileFlexBreakBreakpoints = setEachBreakpoint({
-  xs: `
-  display: block;
-`,
-  sm: `
-  display: block;
-`,
-  md: `
-  display: block;
-`,
-});
-const MobileFlexBreak = styled.div`
-  display: none;
-  flex-basis: 100%;
-  height: 0;
-
-  ${MobileFlexBreakBreakpoints}
 `;

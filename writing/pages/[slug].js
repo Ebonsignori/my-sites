@@ -9,6 +9,8 @@ import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
 import ImageModal from "../../shared/components/image-modal";
 import Tooltip from "../../shared/components/tooltip";
+import LeftArrow from "../../shared/svgs/left-arrow";
+import RightArrow from "../../shared/svgs/right-arrow";
 import AppContext from "../../shared/utils/app-context";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { isValidDate, toReadableDateString } from "../../shared/utils/dates";
@@ -16,8 +18,6 @@ import { capitalizeAll } from "../../shared/utils/strings";
 import Figure from "../src/components/figure";
 import Meta from "../src/components/meta";
 import ShareLinks from "../src/components/share-links";
-import LeftArrow from "../src/svgs/left-arrow";
-import RightArrow from "../src/svgs/right-arrow";
 import { fetchEntries, getEntryBySlug } from "../src/utils/fetch-entries";
 import { linkStyles } from "../src/utils/global-styles";
 
