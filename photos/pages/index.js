@@ -10,7 +10,6 @@ import TagIcon from "../../shared/svgs/tag-icon";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { getImageSetSrc } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
-import useSupport from "../../shared/utils/support";
 import LazyImage from "../src/components/lazy-image";
 import LightboxModal from "../src/components/lightbox-modal";
 import Meta from "../src/components/meta";
@@ -29,7 +28,6 @@ const sortByOpts = [
 ];
 
 export default function Home({ images, tags, models }) {
-  const { supportsWebp } = useSupport();
   const router = useRouter();
   const queryHash = useMemo(() => {
     return router.asPath.match(/#([a-z0-9-]+)/gi) || "";
@@ -304,10 +302,7 @@ export default function Home({ images, tags, models }) {
       if (image.orientation) {
         imageProps[image.orientation] = true;
       }
-      let imageUrl = "";
-      if (supportsWebp) {
-        imageUrl = getImageSetSrc(image.name);
-      }
+      const imageUrl = getImageSetSrc(image.name);
       return (
         <ImageContainer
           key={`lazy-${image.name}`}
@@ -349,13 +344,7 @@ export default function Home({ images, tags, models }) {
         </ImageContainer>
       );
     });
-  }, [
-    filteredImages,
-    setSelectedTag,
-    setSelectedModel,
-    setSelectedImageName,
-    supportsWebp,
-  ]);
+  }, [filteredImages, setSelectedTag, setSelectedModel, setSelectedImageName]);
 
   const Modal = useMemo(() => {
     return (
@@ -363,7 +352,6 @@ export default function Home({ images, tags, models }) {
         images={imagesWithOrder}
         imageName={selectedImageName}
         setSelectedImageName={setSelectedImageName}
-        supportsWebp={supportsWebp}
         refreshOnSelect
       />
     );

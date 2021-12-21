@@ -11,7 +11,6 @@ import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
 import { toReadableDateString } from "../../shared/utils/dates";
 import { getRandomNumberBetween } from "../../shared/utils/random";
-import useSupport from "../../shared/utils/support";
 import LightboxModal from "../src/components/lightbox-modal";
 import Meta from "../src/components/meta";
 import { fetchPhotos } from "../src/utils/fetch-photos";
@@ -43,7 +42,6 @@ const POINT_RADIUS = () => 0.1;
 const RESOLUTION = 2;
 
 export default function GlobeComponent({ images }) {
-  const { supportsWebp } = useSupport();
   const globeRef = useRef();
   const router = useRouter();
   const queryHash = useMemo(() => {
@@ -107,6 +105,7 @@ export default function GlobeComponent({ images }) {
       }
       setImagesWithOrder(sortedImages);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -185,7 +184,6 @@ export default function GlobeComponent({ images }) {
         images={imagesWithOrder}
         imageName={selectedImageName}
         setSelectedImageName={setSelectedImageName}
-        supportsWebp={supportsWebp}
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

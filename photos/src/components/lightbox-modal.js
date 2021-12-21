@@ -50,6 +50,7 @@ const useKeyPress = function (targetKey) {
       window.removeEventListener("keydown", downHandler);
       window.removeEventListener("keyup", upHandler);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return keyPressed;
@@ -59,7 +60,6 @@ function LightboxModal({
   images,
   imageName,
   setSelectedImageName,
-  supportsWebp,
   refreshOnSelect,
 }) {
   const [{ x }, api] = useSpring(() => ({ x: 0 }));
@@ -115,10 +115,7 @@ function LightboxModal({
     if (!image || !image.name) {
       return null;
     }
-    let imageUrl = getImageSetSrc(image.name);
-    if (!supportsWebp) {
-      imageUrl = getImageSource(image.name);
-    }
+    const imageUrl = getImageSetSrc(image.name);
     const getTagUrl = (tagName) =>
       tagName ? `/?tags=${tagName?.toLowerCase()}` : "";
     const getModelUrl = (modelName) =>
@@ -245,7 +242,7 @@ function LightboxModal({
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image, setSelectedImageName, bind, supportsWebp]);
+  }, [image, setSelectedImageName, bind]);
 
   return (
     <ModalWrapper isOpen={image?.name}>

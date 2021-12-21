@@ -93,6 +93,7 @@ export default function Uploader() {
       setUploads((prev) => [...prev, upload]);
       setUploadProgress(0);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onImageUpload = async (e) => {
