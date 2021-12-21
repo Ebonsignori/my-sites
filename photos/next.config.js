@@ -12,6 +12,9 @@ const options = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  images: {
+    domains: ["evan-bio-photos.s3.amazonaws.com"],
+  },
 };
 
 module.exports = withTM(options);

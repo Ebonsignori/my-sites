@@ -121,6 +121,10 @@ const Selected = styled.div`
   min-width: 200px;
   span {
     margin-right: 0.8rem;
+    height: 2.2rem;
+    svg {
+      width: 2.2rem;
+    }
   }
   :hover {
     color: var(--primary);
@@ -242,6 +246,7 @@ const DropdownIconWrapper = styled.div`
     transition: 0.3s;
     margin-left: 0.3rem;
     width: 1.2rem;
+    height: 1.2rem;
     transform: rotate(0);
   }
   ${DropdownIconWrapperProps}

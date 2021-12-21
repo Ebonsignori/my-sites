@@ -330,6 +330,7 @@ const FilterWrapper = styled.div`
   span {
     display: flex;
     align-content: flex-end;
+    height: 2.2rem;
     width: 2.2rem;
     fill: var(--background-accent);
     z-index: 2;

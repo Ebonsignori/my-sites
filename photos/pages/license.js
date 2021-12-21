@@ -188,31 +188,37 @@ const UsageListBreakpoints = setEachBreakpoint({
   xs: `
   svg {
     width: 32px;
+    height: 32px;
   }
   `,
   sm: `
   svg {
     width: 33px;
+    height: 33px;
   }
   `,
   md: `
   svg {
     width: 33px;
+    height: 33px;
   }
   `,
   lg: `
   svg {
     width: 33px;
+    height: 33px;
   }
   `,
   xl: `
   svg {
     width: 53px;
+    height: 53px;
   }
   `,
   xxl: `
   svg {
     width: 53px;
+    height: 53px;
   }
   `,
 });
@@ -221,6 +227,7 @@ const UsageList = styled.ul`
     fill: green;
     vertical-align: bottom;
     width: 1.7rem;
+    height: 1.7rem;
     margin-right: 10px;
   }
   padding: 0.8rem;

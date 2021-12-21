@@ -1,20 +1,20 @@
 import fuzzysort from "fuzzysort";
 import { useRouter } from "next/router";
-import { useCallback, useMemo, useRef, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
+import LazyImage from "../../shared/components/lazy-image";
 import { ASCENDING, DESCENDING } from "../../shared/constants/sort";
 import TagIcon from "../../shared/svgs/tag-icon";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { getImageSetSrc } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
+import useSupport from "../../shared/utils/support";
 import LightboxModal from "../src/components/lightbox-modal";
 import Meta from "../src/components/meta";
 import CameraIcon from "../src/svgs/camera-icon";
-import ZoomInIcon from "../src/svgs/zoom-icon";
 import { fetchPhotos } from "../src/utils/fetch-photos";
 
 const ALL_TAG = "all";
@@ -29,25 +29,33 @@ const sortByOpts = [
 ];
 
 export default function Home({ images, tags, models }) {
+  const { supportsWebp } = useSupport();
   const router = useRouter();
   const queryHash = useMemo(() => {
-    return router.asPath.match(/#([a-z0-9]+)/gi) || "";
+    return router.asPath.match(/#([a-z0-9-]+)/gi) || "";
   }, [router]);
   const queryParams = useMemo(() => {
-    return router.asPath.match(/\?([a-z0-9]+)/gi) || {};
+    return router.asPath.match(/(\?|&)([a-z0-9]+)/gi) || [];
   }, [router]);
-  const entriesRef = useRef(null);
+  const imagesRef = useRef(null);
   const headerRef = useRef(null);
   // Load tag from URL #/{tag} path or default to ALL
   const [selectedTag, rawSetSelectedTag] = useState(
     queryParams?.tags ? router.query.tags : ALL_TAG
   );
+  useEffect(() => {
+    const queryTag = router.query?.tags;
+    if (queryTag && selectedTag !== queryTag) {
+      rawSetSelectedTag(queryTag);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query?.tags]);
   const setSelectedTag = useCallback(
     (tag) => {
       tag = tag.toLowerCase();
       let modelsQuery = "";
-      if (queryParams.models) {
-        modelsQuery = `&models=${queryParams.models}`;
+      if (queryParams?.includes("?models") || queryParams.includes("&models")) {
+        modelsQuery = `&models=${router.query.models}`;
       }
       if (tag !== ALL_TAG) {
         router.push(`?tags=${tag}${modelsQuery}`, undefined, { shallow: true });
@@ -63,12 +71,19 @@ export default function Home({ images, tags, models }) {
   const [selectedModel, rawSetSelectedModel] = useState(
     queryParams?.models ? router.query.models : ALL_TAG
   );
+  useEffect(() => {
+    const queryModel = router.query?.models;
+    if (queryModel && selectedModel !== queryModel) {
+      rawSetSelectedModel(queryModel);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query?.models]);
   const setSelectedModel = useCallback(
     (model) => {
       model = model.toLowerCase();
       let tagsQuery = "";
-      if (queryParams.tags) {
-        tagsQuery = `&tags=${queryParams.tags}`;
+      if (queryParams?.includes("?tags") || queryParams?.includes("&tags")) {
+        tagsQuery = `&tags=${router.query.tags}`;
       }
       if (model !== ALL_TAG) {
         router.push(`?models=${model}${tagsQuery}`, undefined, {
@@ -85,20 +100,28 @@ export default function Home({ images, tags, models }) {
   );
 
   const [selectedImageName, rawSetSelectedImageName] = useState(
-    queryHash ? images[queryHash] : undefined
+    queryHash?.length ? queryHash[0].replace("#", "") : undefined
   );
   const setSelectedImageName = useCallback(
     (imageName) => {
       imageName = imageName.toLowerCase();
       let existingQuery = "";
-      if (queryParams.tags) {
-        existingQuery = `?tags=${queryParams.tags}`;
+      if (queryParams?.includes("?tags") || queryParams?.includes("&tags")) {
+        existingQuery += `?tags=${router.query.tags}`;
       }
-      if (queryParams.models) {
-        existingQuery += `?models=${queryParams.models}`;
+      if (
+        queryParams?.includes("?models") ||
+        queryParams?.includes("&models")
+      ) {
+        if (existingQuery !== "") {
+          existingQuery += "&";
+        } else {
+          existingQuery += "?";
+        }
+        existingQuery += `models=${router.query.models}`;
       }
       if (imageName) {
-        router.push(`#${imageName}${existingQuery}`, undefined, {
+        router.push(`/#${imageName}${existingQuery}`, undefined, {
           shallow: true,
         });
       } else {
@@ -112,23 +135,23 @@ export default function Home({ images, tags, models }) {
   );
 
   // Filtering
-  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 5);
+  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState(sortByOpts[0]);
 
   const maxPages = useMemo(() => images.length + ITEMS_PER_PAGE, [images]);
   let filteredImages = Object.values(images);
 
-  // Pagination scroll detect
   const onScroll = useCallback(
     (e) => {
+      // Paginate images
       if (paginationCount > maxPages) {
         return;
       }
       const node = e.target;
-      if (entriesRef.current && headerRef.current) {
+      if (imagesRef.current && headerRef.current) {
         const totalHeight =
-          entriesRef.current.scrollHeight + headerRef.current.scrollHeight;
+          imagesRef.current.scrollHeight + headerRef.current.scrollHeight;
         const currentScroll = node.scrollTop + node.clientHeight;
         if (totalHeight - PAGINATE_OFFSET <= currentScroll) {
           setPaginationCount((prev) => prev + ITEMS_PER_PAGE);
@@ -173,7 +196,7 @@ export default function Home({ images, tags, models }) {
       .map((e) => e.obj);
   }, [filteredImages, searchQuery, images]);
 
-  // Sort entries
+  // Sort Images
   filteredImages = useMemo(
     () =>
       [...filteredImages].sort((a, b) => {
@@ -192,11 +215,11 @@ export default function Home({ images, tags, models }) {
     [filteredImages, sortBy]
   );
 
-  // Filter entries by tag
+  // Filter images by tag
   filteredImages = useMemo(
     () =>
       filteredImages.filter((image) => {
-        // Only map entries in selected tag
+        // Only map images in selected tag
         if (selectedTag !== ALL_TAG && !image.tags.includes(selectedTag)) {
           return false;
         }
@@ -205,11 +228,11 @@ export default function Home({ images, tags, models }) {
     [filteredImages, selectedTag]
   );
 
-  // Filter entries by model
+  // Filter images by model
   filteredImages = useMemo(
     () =>
       filteredImages.filter((image) => {
-        // Only map entries in selected model
+        // Only map images in selected model
         if (selectedModel !== ALL_TAG) {
           if (!image?.model) {
             return false;
@@ -225,7 +248,8 @@ export default function Home({ images, tags, models }) {
   );
 
   // Set order of images on prop object for modal nav
-  const imagesWithOrder = useMemo(() => {
+  const [imagesWithOrder, setImagesWithOrder] = useState({});
+  useEffect(() => {
     for (let i = 0; i < filteredImages.length; i++) {
       const currentImageName = filteredImages[i].name;
       if (i - 1 >= 0) {
@@ -240,20 +264,21 @@ export default function Home({ images, tags, models }) {
         images[currentImageName].next = filteredImages[0].name;
       }
     }
-    return images;
-  }, [images, filteredImages]);
+    setImagesWithOrder(images);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredImages]);
 
-  // Paginate entries
+  // Paginate images
   filteredImages = useMemo(
     () => filteredImages.slice(0, paginationCount),
     [filteredImages, paginationCount]
   );
 
-  const EntriesRender = useMemo(() => {
+  const ImagesRender = useMemo(() => {
     if (!filteredImages.length) {
       return (
         <ImageContainer key={`lazy-no-images-found`} big>
-          <LazyLoadImage
+          <img
             src={process.env.NOT_FOUND_IMAGE_URL}
             alt="Hide the pain Harold"
             width="100%"
@@ -263,7 +288,7 @@ export default function Home({ images, tags, models }) {
             <MetaList>
               <div>No Images Found</div>
               <br />
-              <LazyLoadImage
+              <img
                 src={process.env.NOT_FOUND_HOVER_IMAGE_URL}
                 alt="Smiley cry emoji with single tear"
                 width="100%"
@@ -274,54 +299,76 @@ export default function Home({ images, tags, models }) {
         </ImageContainer>
       );
     }
-    return filteredImages.map((image, index) => {
+    return filteredImages.map((image) => {
       const imageProps = {};
       if (image.orientation) {
         imageProps[image.orientation] = true;
       }
-      const imageUrl = getImageSetSrc(image.name);
+      let imageUrl = "";
+      if (supportsWebp) {
+        imageUrl = getImageSetSrc(image.name);
+      }
       return (
         <ImageContainer
-          key={`lazy-${image.name}-${index}`}
+          key={`lazy-${image.name}`}
           {...imageProps}
           onClick={() => setSelectedImageName(image.name)}
         >
-          <LazyLoadImage
-            srcSet={imageUrl}
-            alt={image.alt}
-            width="100%"
-            height="100%"
-          />
-          <ImageMeta>
-            <MetaList>
-              <MetaItem>
-                <CameraIcon />
-                <MetaLink onClick={() => setSelectedModel(image.model)}>
-                  {image.model}
-                </MetaLink>
-              </MetaItem>
-              <MetaItem>
-                <TagIcon />
-                <MetaTags>
-                  {image.tags.map((tag) => (
-                    <MetaLink
-                      onClick={() => setSelectedTag(tag)}
-                      key={`${image.name}-${tag}`}
-                    >
-                      {capitalizeAll(tag)}
-                    </MetaLink>
-                  ))}
-                </MetaTags>
-              </MetaItem>
-            </MetaList>
-          </ImageMeta>
-          <IconWrapper>
-            <ZoomInIcon />
-          </IconWrapper>
+          <ImageWrapper>
+            <LazyImage
+              srcSet={imageUrl}
+              {...imageProps}
+              alt={image.alt}
+              width="100%"
+              height="100%"
+            />
+            <ImageMeta>
+              <MetaList>
+                <MetaItem>
+                  <CameraIcon />
+                  <MetaLink onClick={() => setSelectedModel(image.model)}>
+                    {image.model}
+                  </MetaLink>
+                </MetaItem>
+                <MetaItem>
+                  <TagIcon />
+                  <MetaTags>
+                    {image.tags.map((tag) => (
+                      <MetaLink
+                        onClick={() => setSelectedTag(tag)}
+                        key={`${image.name}-${tag}`}
+                      >
+                        {capitalizeAll(tag)}
+                      </MetaLink>
+                    ))}
+                  </MetaTags>
+                </MetaItem>
+              </MetaList>
+            </ImageMeta>
+          </ImageWrapper>
         </ImageContainer>
       );
     });
-  }, [filteredImages, setSelectedTag, setSelectedModel, setSelectedImageName]);
+  }, [
+    filteredImages,
+    setSelectedTag,
+    setSelectedModel,
+    setSelectedImageName,
+    supportsWebp,
+  ]);
+
+  const Modal = useMemo(() => {
+    return (
+      <LightboxModal
+        images={imagesWithOrder}
+        imageName={selectedImageName}
+        setSelectedImageName={setSelectedImageName}
+        supportsWebp={supportsWebp}
+        refreshOnSelect
+      />
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedImageName, imagesWithOrder]);
 
   return (
     <>
@@ -333,13 +380,7 @@ export default function Home({ images, tags, models }) {
         imageAlt="Pencil icon with colors matching the theme of the blog"
         type="blog"
       />
-      <LightboxModal
-        images={imagesWithOrder}
-        imageName={selectedImageName}
-        setSelectedImageName={setSelectedImageName}
-        setSelectedTag={setSelectedTag}
-        setSelectedModel={setSelectedModel}
-      />
+      {Modal}
       <PageWrapper onScroll={onScroll}>
         <Header
           headerRef={headerRef}
@@ -381,8 +422,8 @@ export default function Home({ images, tags, models }) {
             options: sortByOpts,
           }}
         />
-        <ImagesWrapper>
-          <Images ref={entriesRef}>{EntriesRender}</Images>
+        <ImagesWrapper ref={imagesRef}>
+          <Images>{ImagesRender}</Images>
         </ImagesWrapper>
         <Copyright />
       </PageWrapper>
@@ -410,12 +451,12 @@ const ImagesWrapper = styled.div`
   * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
   }
 
   display: flex;
   justify-content: center;
-  width: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
 `;
 
 const ImagesBreakpoints = setEachBreakpoint({
@@ -475,6 +516,23 @@ const ImageContainerProps = (props) => {
   }
   return styles;
 };
+
+const ImageMeta = styled.div`
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: var(--background);
+  background-color: rgba(0, 0, 0, 0.65);
+  z-index: 2;
+  border-radius: 5px;
+`;
+
 const ImageContainer = styled.div`
   position: relative;
   display: flex;
@@ -482,8 +540,10 @@ const ImageContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  ${ImageContainerProps}
+  border-radius: 5px;
+  border: 1px solid black;
   ${ImageContainerBreakpoints}
+  ${ImageContainerProps}
 
   img {
     position: relative;
@@ -502,9 +562,6 @@ const ImageContainer = styled.div`
     user-select: none;
   }
 
-  div {
-    transition: max-height 0.5s;
-  }
   * {
     transition: opacity 0.5s;
   }
@@ -516,26 +573,15 @@ const ImageContainer = styled.div`
     * {
       opacity: 1;
     }
-    div {
-      max-height: 40%;
-    }
   }
 `;
 
-const ImageMeta = styled.div`
-  position: absolute;
-  top: 0;
-  opacity: 0;
-  transition: opacity 0.5s;
+const ImageWrapper = styled.div`
+  position: relative;
+  user-select: none;
   display: flex;
   width: 100%;
-  height: fit-content;
-  max-height: 0;
-  justify-content: flex-start;
-  align-items: flex-start;
-  color: var(--background);
-  background-color: rgba(0, 0, 0, 0.65);
-  z-index: 2;
+  height: 100%;
   border-radius: 5px;
 `;
 
@@ -545,6 +591,7 @@ const ImageMetaListBreakpoints = setEachBreakpoint({
   margin: 0.75rem;
   svg {
     width: 1.5rem;
+    height: 1.5rem;
   }
   `,
   xl: `
@@ -552,6 +599,7 @@ const ImageMetaListBreakpoints = setEachBreakpoint({
   margin: 1rem;
   svg {
     width: 1.75rem;
+    height: 1.75rem;
   }
   `,
   xxl: `
@@ -559,6 +607,7 @@ const ImageMetaListBreakpoints = setEachBreakpoint({
   margin: 1rem;
   svg {
     width: 2rem;
+    height: 2rem;
   }
   `,
 });
@@ -570,6 +619,7 @@ const MetaList = styled.div`
   font-size: 1rem;
   svg {
     width: 1rem;
+    height: 1rem;
     fill: var(--background);
     margin-right: 10px;
   }
@@ -595,46 +645,4 @@ const MetaLink = styled.a`
   :first-of-type {
     margin-left: 0;
   }
-`;
-
-const IconWrapperBreakpoints = setEachBreakpoint({
-  lg: `
-  svg {
-    margin: 0.75rem;
-    width: 2.5rem;
-  }
-  `,
-  xl: `
-  svg {
-    margin: 1rem;
-    width: 3rem;
-  }
-  `,
-  xxl: `
-  svg {
-    margin: 1rem;
-    width: 4rem;
-  }
-  `,
-});
-const IconWrapper = styled.div`
-  color: var(--background);
-  z-index: 2;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.65);
-  opacity: 0;
-  bottom: 0;
-  height: fit-content;
-  max-height: 0;
-  width: 100%;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  svg {
-    margin: 0.5rem;
-    width: 1.5rem;
-    fill: var(--background);
-  }
-  ${IconWrapperBreakpoints}
 `;

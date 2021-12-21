@@ -335,6 +335,7 @@ const nestedIcon = `
   svg {
     fill: var(--background);
     width: 1rem;
+    height: 1rem;
   }
 `;
 const EntryDate = styled.li`

@@ -472,6 +472,7 @@ const PrevNextOpts = styled.div`
 
   svg {
     width: 2em;
+    height: 2em;
     fill: var(--primary);
   }
 

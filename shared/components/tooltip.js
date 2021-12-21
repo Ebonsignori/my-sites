@@ -111,28 +111,33 @@ const IconLinkBreakpoints = setEachBreakpoint({
   margin-bottom: 1%;
   svg {
     width: 5.2vw;
+    height: 5.2vw;
   }
   `,
   sm: `
   margin: 0 1.1vw;
   svg {
     width: 4vw;
+    height: 4vw;
   }
   `,
   md: `
   margin: 0 1vw;
   svg {
     width: 3.0vw;
+    height: 3.0vw;
   }
   `,
   lg: `
   svg {
     width: 2.0vw;
+    height: 2.0vw;
   }
   `,
   xxl: `
   svg {
     width: 1.5vw;
+    height: 1.5vw;
   }
   `,
 });
@@ -140,7 +145,7 @@ const IconLink = styled.a`
   margin-right: 1vw;
   svg {
     width: 1.7vw;
-    height: auto;
+    height: 1.7vw;
     fill: var(--font);
     :hover {
       fill: ${(props) => props.color};

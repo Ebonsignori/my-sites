@@ -2,9 +2,11 @@ import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { saveAs } from "file-saver";
 import Link from "next/link";
-import { useCallback, useMemo } from "react";
+import Router from "next/router";
+import { memo, useCallback, useMemo } from "react";
 import styled from "styled-components";
 
+import LazyImage from "../../../shared/components/lazy-image";
 import DateIcon from "../../../shared/svgs/date-icon";
 import LeftArrow from "../../../shared/svgs/left-arrow";
 import RightArrow from "../../../shared/svgs/right-arrow";
@@ -24,18 +26,18 @@ import CameraIcon from "../svgs/camera-icon";
 import DownloadIcon from "../svgs/download-icon";
 import LocationIcon from "../svgs/location-icon";
 
-export default function LightboxModal({
+function LightboxModal({
   images,
   imageName,
   setSelectedImageName,
+  supportsWebp,
+  refreshOnSelect,
 }) {
   const [{ x }, api] = useSpring(() => ({ x: 0 }));
-  const image = useMemo(() => {
-    if (imageName) {
-      return images[imageName];
-    }
-    return {};
-  }, [imageName, images]);
+  let image = {};
+  if (imageName) {
+    image = images[imageName];
+  }
 
   const bind = useDrag(
     ({ down, movement: [mx], active }) => {
@@ -61,23 +63,91 @@ export default function LightboxModal({
     if (!image || !image.name) {
       return null;
     }
-    const imageUrl = getImageSetSrc(image.name);
+    let imageUrl = getImageSetSrc(image.name);
+    if (!supportsWebp) {
+      imageUrl = getImageSource(image.name);
+    }
     const getTagUrl = (tagName) =>
       tagName ? `/?tags=${tagName?.toLowerCase()}` : "";
     const getModelUrl = (modelName) =>
       modelName ? `/?models=${modelName?.toLowerCase()}` : "";
+    const orientationProps = {};
+    if (image?.orientation === "tall") {
+      orientationProps.height = "100%";
+    } else if (image?.orientation === "wide") {
+      orientationProps.width = "100%";
+    } else {
+      orientationProps.height = "100%";
+      orientationProps.width = "100%";
+    }
+
+    const imageTags = image?.tags?.map((tag) => {
+      if (refreshOnSelect) {
+        return (
+          <Link passHref href={getTagUrl(tag)} key={`${image.name}-${tag}`}>
+            <MetaLink
+              key={`${image.name}-${tag}`}
+              onClick={() => {
+                setTimeout(() => {
+                  Router.reload();
+                }, 250);
+              }}
+            >
+              {capitalizeAll(tag)}
+            </MetaLink>
+          </Link>
+        );
+      }
+      return (
+        <Link passHref href={getTagUrl(tag)} key={`${image.name}-${tag}`}>
+          <MetaLink>{capitalizeAll(tag)}</MetaLink>
+        </Link>
+      );
+    });
+
+    let imageModel = (
+      <Link
+        passHref
+        href={getModelUrl(image.model)}
+        key={`${image.name}-${image.model}`}
+      >
+        <MetaLink>{image.model}</MetaLink>
+      </Link>
+    );
+    if (refreshOnSelect) {
+      imageModel = (
+        <Link
+          passHref
+          href={getModelUrl(image.model)}
+          key={`${image.name}-${image.model}`}
+        >
+          <MetaLink
+            onClick={() => {
+              setTimeout(() => {
+                Router.reload();
+              }, 250);
+            }}
+          >
+            {image.model}
+          </MetaLink>
+        </Link>
+      );
+    }
+
     return (
       <>
         <ImageContainer orientation={image.orientation}>
-          <img
+          <LazyImage
+            key={image.name}
+            loadingSize="50%"
             {...bind()}
             style={{
               touchAction: "none",
             }}
             srcSet={imageUrl}
+            src={getImageSource(image.name)}
             alt={image.alt}
-            width="100%"
-            height="100%"
+            {...orientationProps}
           />
         </ImageContainer>
         <MetaList>
@@ -91,27 +161,11 @@ export default function LightboxModal({
           </MetaItem>
           <MetaItem>
             <CameraIcon />
-            <Link
-              passHref
-              href={getModelUrl(image.model)}
-              key={`${image.name}-${image.model}`}
-            >
-              <MetaLink>{image.model}</MetaLink>
-            </Link>
+            {imageModel}
           </MetaItem>
           <MetaItem>
             <TagIcon />
-            <MetaTags>
-              {image?.tags?.map((tag) => (
-                <Link
-                  passHref
-                  href={getTagUrl(tag)}
-                  key={`${image.name}-${tag}`}
-                >
-                  <MetaLink>{capitalizeAll(tag)}</MetaLink>
-                </Link>
-              ))}
-            </MetaTags>
+            <MetaTags>{imageTags}</MetaTags>
           </MetaItem>
         </MetaList>
         <PrevNextOpts>
@@ -138,10 +192,11 @@ export default function LightboxModal({
         </DownloadIconWrapper>
       </>
     );
-  }, [image, setSelectedImageName, bind]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [image, setSelectedImageName, bind, supportsWebp]);
 
   return (
-    <ModalWrapper isOpen={typeof image.name !== "undefined"}>
+    <ModalWrapper isOpen={image?.name}>
       <CloseModalBtn onClick={closeModal}>&times;</CloseModalBtn>
       <animated.div
         {...bind()}
@@ -155,6 +210,8 @@ export default function LightboxModal({
     </ModalWrapper>
   );
 }
+
+export default memo(LightboxModal);
 
 const ModalWrapperProps = (props) =>
   props.isOpen &&
@@ -293,6 +350,9 @@ const ImageContainerProps = (props) => {
   return imageStyle;
 };
 const ImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   ${ImageContainerProps}
   img {
     touch-action: none;
@@ -307,6 +367,7 @@ const MetaListBreakpoints = setEachBreakpoint({
   svg {
     min-width: 1.2rem;
     width: 1.2rem;
+    height: 1.2rem;
   }
  `,
   sm: `
@@ -316,6 +377,7 @@ const MetaListBreakpoints = setEachBreakpoint({
   svg {
     min-width: 1.3rem;
     width: 1.3rem;
+    height: 1.3rem;
   }
 `,
 });
@@ -330,6 +392,7 @@ const MetaList = styled.div`
   svg {
     min-width: 1.5rem;
     width: 1.5rem;
+    height: 1.5rem;
     fill: var(--background);
     margin-right: 10px;
   }
@@ -365,6 +428,7 @@ const PrevNextOptsBreakpoints = setEachBreakpoint({
   bottom: 15%;
   svg {
     width: 6rem;
+    height: 6rem;
     fill: var(--background);
   }
   `,
@@ -372,6 +436,7 @@ const PrevNextOptsBreakpoints = setEachBreakpoint({
   bottom: 15%;
   svg {
     width: 7rem;
+    height: 7rem;
     fill: var(--background);
   }
   `,
@@ -379,6 +444,7 @@ const PrevNextOptsBreakpoints = setEachBreakpoint({
   bottom: 45%;
   svg {
     width: 10rem;
+    height: 10rem;
     fill: var(--background);
   }
   `,
@@ -386,6 +452,8 @@ const PrevNextOptsBreakpoints = setEachBreakpoint({
   bottom: 45%;
   svg {
     width: 12rem;
+    height: 12rem;
+    fill: var(--background);
     fill: var(--background);
   }
 `,
@@ -393,6 +461,7 @@ const PrevNextOptsBreakpoints = setEachBreakpoint({
   bottom: 45%;
   svg {
     width: 14rem;
+    height: 14rem;
     fill: var(--background);
   }
   `,
@@ -405,6 +474,7 @@ const PrevNextOpts = styled.div`
   width: 100%;
   svg {
     width: 4rem;
+    height: 4rem;
     fill: var(--background);
   }
   ${PrevNextOptsBreakpoints}
@@ -430,6 +500,7 @@ const DownloadIconWrapperBreakpoints = setEachBreakpoint({
   font-size: 1.2rem;
   svg {
     width: 2.5rem;
+    height: 2.5rem;
   }
 `,
 });
@@ -460,6 +531,7 @@ const DownloadIconWrapper = styled.div`
   svg {
     margin-left: 15px;
     width: 3rem;
+    height: 3rem;
     fill: var(--background);
   }
   ${DownloadIconWrapperBreakpoints}
