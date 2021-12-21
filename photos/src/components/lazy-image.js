@@ -1,5 +1,5 @@
 import { memo, useEffect, useMemo, useState } from "react";
-import { SpinnerDotted } from "spinners-react/lib/esm/SpinnerDotted";
+import { SpinnerDotted } from "spinners-react";
 
 // eslint-disable-next-line max-len
 const image = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=`;

@@ -3,10 +3,9 @@ import { useDrag } from "@use-gesture/react";
 import { saveAs } from "file-saver";
 import Link from "next/link";
 import Router from "next/router";
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
-import LazyImage from "../../../shared/components/lazy-image";
 import DateIcon from "../../../shared/svgs/date-icon";
 import LeftArrow from "../../../shared/svgs/left-arrow";
 import RightArrow from "../../../shared/svgs/right-arrow";
@@ -25,6 +24,36 @@ import { capitalizeAll } from "../../../shared/utils/strings";
 import CameraIcon from "../svgs/camera-icon";
 import DownloadIcon from "../svgs/download-icon";
 import LocationIcon from "../svgs/location-icon";
+import LazyImage from "./lazy-image";
+
+// eslint-disable-next-line func-style
+const useKeyPress = function (targetKey) {
+  const [keyPressed, setKeyPressed] = useState(false);
+
+  useEffect(() => {
+    const downHandler = ({ key }) => {
+      if (key === targetKey) {
+        setKeyPressed(true);
+      }
+    };
+
+    const upHandler = ({ key }) => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    };
+
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []);
+
+  return keyPressed;
+};
 
 function LightboxModal({
   images,
@@ -38,6 +67,33 @@ function LightboxModal({
   if (imageName) {
     image = images[imageName];
   }
+
+  const closeModal = useCallback(() => {
+    setSelectedImageName("");
+  }, [setSelectedImageName]);
+
+  // Navigate using keys
+  const rightPres = useKeyPress("ArrowRight");
+  const leftPress = useKeyPress("ArrowLeft");
+  const escapePress = useKeyPress("Escape");
+  useEffect(() => {
+    if (image?.next && rightPres) {
+      setSelectedImageName(image.next);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rightPres]);
+  useEffect(() => {
+    if (image?.prev && leftPress) {
+      setSelectedImageName(image.prev);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leftPress]);
+  useEffect(() => {
+    if (escapePress) {
+      closeModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [escapePress]);
 
   const bind = useDrag(
     ({ down, movement: [mx], active }) => {
@@ -54,10 +110,6 @@ function LightboxModal({
     },
     { bounds: { left: -100, right: 100 }, delay: 2000, threshold: 200 }
   );
-
-  const closeModal = useCallback(() => {
-    setSelectedImageName("");
-  }, [setSelectedImageName]);
 
   const ImageRender = useMemo(() => {
     if (!image || !image.name) {

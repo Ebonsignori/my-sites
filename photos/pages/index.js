@@ -5,13 +5,13 @@ import styled from "styled-components";
 
 import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
-import LazyImage from "../../shared/components/lazy-image";
 import { ASCENDING, DESCENDING } from "../../shared/constants/sort";
 import TagIcon from "../../shared/svgs/tag-icon";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import { getImageSetSrc } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
 import useSupport from "../../shared/utils/support";
+import LazyImage from "../src/components/lazy-image";
 import LightboxModal from "../src/components/lightbox-modal";
 import Meta from "../src/components/meta";
 import CameraIcon from "../src/svgs/camera-icon";
