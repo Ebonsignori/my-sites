@@ -25,7 +25,7 @@
     "react-lazy-load-image-component": "^1.5.1",
     "react-lazyload": "^3.2.0",
     "remark-emoji": "^3.0.2",
-    "spinners-react": "^1.0.6",
+    "spinners-react": "file:../node_modules/spinners-react",
     "styled-components": "file:../node_modules/styled-components",
     "three": "^0.135.0",
     "topojson-client": "^3.1.0"
