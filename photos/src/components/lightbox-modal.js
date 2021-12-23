@@ -82,19 +82,19 @@ function LightboxModal({ images, slug, setSelectedSlug, refreshOnSelect }) {
   const leftPress = useKeyPress("ArrowLeft");
   const escapePress = useKeyPress("Escape");
   useEffect(() => {
-    if (image?.next && rightPres) {
+    if (slug && image?.next && rightPres) {
       setSelectedSlug(image.next);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rightPres]);
   useEffect(() => {
-    if (image?.prev && leftPress) {
+    if (slug && image?.prev && leftPress) {
       setSelectedSlug(image.prev);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leftPress]);
   useEffect(() => {
-    if (escapePress) {
+    if (slug && escapePress) {
       closeModal();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

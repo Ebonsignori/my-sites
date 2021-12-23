@@ -98,7 +98,7 @@ async function main() {
       const slug = row.dimensionValues[0].value;
       const metrics = {
         homepageClicks: row.metricValues[0].value,
-        lightBoxViewed: row.metricValues[1].value,
+        lightBoxViews: row.metricValues[1].value,
         downloads: row.metricValues[2].value,
       };
       if (statsJson.stats[slug]) {

@@ -76,7 +76,6 @@
     },
     {
       "slug": "astoria-houses",
-      "orientation": "big",
       "folder": "",
       "bucket": "evan-bio-photos",
       "date": "2021-09-05T20:00:56.000Z",
@@ -102,7 +101,6 @@
     },
     {
       "slug": "star-fish",
-      "orientation": "wide",
       "folder": "",
       "bucket": "evan-bio-photos",
       "date": "2021-09-06T00:27:52.000Z",
@@ -155,7 +153,6 @@
     },
     {
       "slug": "foggy-short-sand-beach-cliffs",
-      "orientation": "wide",
       "folder": "",
       "bucket": "evan-bio-photos",
       "date": "2021-09-06T00:05:03.000Z",
@@ -234,7 +231,6 @@
     },
     {
       "slug": "horizontal-mt-hood-shrooms",
-      "orientation": "wide",
       "folder": "",
       "bucket": "evan-bio-photos",
       "date": "2021-09-29T23:24:12.000Z",
@@ -256,6 +252,119 @@
         "address": "Mirror Lake OR",
         "latitude": 45.2971917,
         "longitude": -121.793027
+      }
+    },
+    {
+      "slug": "mirror-lake",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "date": "2021-09-29T21:59:04.000Z",
+      "alt": "Mt Hood",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mt Hood",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "slug": "mirror-lake-again",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "date": "2021-09-29T21:58:03.000Z",
+      "alt": "Mirror Lake again",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mirror Lake",
+        "latitude": 45.10780159999999,
+        "longitude": -79.5732337
+      }
+    },
+    {
+      "slug": "mirror-lake-agaiiin",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "date": "2021-09-29T22:00:20.000Z",
+      "alt": "Again",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Savannah GA",
+        "latitude": 32.0808989,
+        "longitude": -81.091203
+      }
+    },
+    {
+      "slug": "testetstset",
+      "orientation": "tall",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "date": "2021-09-29T22:48:39.000Z",
+      "alt": "tewtwe",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "test",
+        "latitude": 37.045812,
+        "longitude": -97.039301
       }
     }
   ]

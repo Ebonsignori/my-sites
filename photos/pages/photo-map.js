@@ -56,7 +56,7 @@ export default function GlobeComponent({ images }) {
   );
   const setSelectedSlug = useCallback(
     (slug) => {
-      slug = slug.toLowerCase();
+      slug = slug?.toLowerCase();
       if (slug) {
         router.push(`#${slug}`, undefined, {
           shallow: true,

@@ -7,8 +7,11 @@ import Copyright from "../../shared/components/copyright";
 import Header from "../../shared/components/header";
 import { ASCENDING, DESCENDING } from "../../shared/constants/sort";
 import TagIcon from "../../shared/svgs/tag-icon";
-import { setEachBreakpoint } from "../../shared/utils/breakpoints";
-import { getImageSetSrc } from "../../shared/utils/image";
+import {
+  BREAKPOINT_XS,
+  setEachBreakpoint,
+} from "../../shared/utils/breakpoints";
+import { getImageSetSrc, getImageSource } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
 import LazyImage from "../src/components/lazy-image";
 import LightboxModal from "../src/components/lightbox-modal";
@@ -17,7 +20,7 @@ import CameraIcon from "../src/svgs/camera-icon";
 import { fetchPhotos } from "../src/utils/fetch-photos";
 
 const ALL_TAG = "all";
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 6;
 const PAGINATE_OFFSET = 200;
 
 const sortByOpts = [
@@ -50,7 +53,7 @@ export default function Home({ images, tags, models }) {
   }, [router.query?.tags]);
   const setSelectedTag = useCallback(
     (tag) => {
-      tag = tag.toLowerCase();
+      tag = tag?.toLowerCase();
       let modelsQuery = "";
       if (queryParams?.includes("?models") || queryParams.includes("&models")) {
         modelsQuery = `&models=${router.query.models}`;
@@ -78,7 +81,7 @@ export default function Home({ images, tags, models }) {
   }, [router.query?.models]);
   const setSelectedModel = useCallback(
     (model) => {
-      model = model.toLowerCase();
+      model = model?.toLowerCase();
       let tagsQuery = "";
       if (queryParams?.includes("?tags") || queryParams?.includes("&tags")) {
         tagsQuery = `&tags=${router.query.tags}`;
@@ -102,7 +105,7 @@ export default function Home({ images, tags, models }) {
   );
   const setSelectedSlug = useCallback(
     (slug) => {
-      slug = slug.toLowerCase();
+      slug = slug?.toLowerCase();
       let existingQuery = "";
       if (queryParams?.includes("?tags") || queryParams?.includes("&tags")) {
         existingQuery += `?tags=${router.query.tags}`;
@@ -133,12 +136,15 @@ export default function Home({ images, tags, models }) {
   );
 
   // Filtering
-  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE);
+  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 3);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState(sortByOpts[0]);
 
-  const maxPages = useMemo(() => images.length + ITEMS_PER_PAGE, [images]);
   let filteredImages = Object.values(images);
+  const maxPages = useMemo(
+    () => filteredImages.length + ITEMS_PER_PAGE,
+    [filteredImages]
+  );
 
   const onScroll = useCallback(
     (e) => {
@@ -272,32 +278,32 @@ export default function Home({ images, tags, models }) {
     [filteredImages, paginationCount]
   );
 
-  const ImagesRender = useMemo(() => {
-    if (!filteredImages.length) {
-      return (
-        <ImageContainer key={`lazy-no-images-found`} big>
-          <img
-            src={process.env.NOT_FOUND_IMAGE_URL}
-            alt="Hide the pain Harold"
-            width="100%"
-            height="100%"
-          />
-          <ImageMeta>
-            <MetaList>
-              <div>No Images Found</div>
-              <br />
-              <img
-                src={process.env.NOT_FOUND_HOVER_IMAGE_URL}
-                alt="Smiley cry emoji with single tear"
-                width="100%"
-                height="100%"
-              />
-            </MetaList>
-          </ImageMeta>
-        </ImageContainer>
-      );
-    }
-    return filteredImages.map((image) => {
+  let ImagesRender = null;
+  if (!filteredImages.length) {
+    ImagesRender = (
+      <ImageContainer key={`lazy-no-images-found`} big>
+        <img
+          src={process.env.NOT_FOUND_IMAGE_URL}
+          alt="Hide the pain Harold"
+          width="100%"
+          height="100%"
+        />
+        <ImageMeta>
+          <MetaList>
+            <div>No Images Found</div>
+            <br />
+            <img
+              src={process.env.NOT_FOUND_HOVER_IMAGE_URL}
+              alt="Smiley cry emoji with single tear"
+              width="100%"
+              height="100%"
+            />
+          </MetaList>
+        </ImageMeta>
+      </ImageContainer>
+    );
+  } else {
+    ImagesRender = filteredImages.map((image) => {
       const imageProps = {};
       if (image.orientation) {
         imageProps[image.orientation] = true;
@@ -319,7 +325,9 @@ export default function Home({ images, tags, models }) {
         >
           <ImageWrapper>
             <LazyImage
+              key={image.slug}
               srcSet={imageUrl}
+              src={getImageSource(image.slug)}
               {...imageProps}
               alt={image.alt}
               width="100%"
@@ -352,7 +360,7 @@ export default function Home({ images, tags, models }) {
         </ImageContainer>
       );
     });
-  }, [filteredImages, setSelectedTag, setSelectedModel, setSelectedSlug]);
+  }
 
   const Modal = useMemo(() => {
     return (
@@ -458,32 +466,39 @@ const ImagesWrapper = styled.div`
 const ImagesBreakpoints = setEachBreakpoint({
   xs: `
   grid-template-columns: 100%;
-  grid-auto-rows: 1fr;
+  grid-auto-rows: 60vw;
   grid-gap: 5px;
+  `,
+  sm: `
+  grid-template-columns: 100%;
+  grid-auto-rows: .5fr;
+  grid-gap: 5px;
+  `,
+  md: `
+  grid-template-columns: repeat(2, minmax(225px, 1fr));
+  grid-auto-rows: .5fr;
   `,
   lg: `
   grid-template-columns: repeat(3, minmax(250px, 1fr));
-  grid-auto-rows: 1fr;
-  margin: 0 200px;
+  grid-auto-rows: .5fr;
   `,
   xl: `
-  grid-template-columns: repeat(4, minmax(250px, 1fr));
-  grid-auto-rows: 1fr;
-  margin: 0 200px;
+  grid-template-columns: repeat(3, minmax(355px, 1fr));
+  grid-auto-rows: .5fr;
   `,
   xxl: `
-  grid-template-columns: repeat(5, minmax(250px, 1fr));
-  grid-auto-rows: 1fr;
-  margin: 0 300px;
+  grid-template-columns: repeat(4, minmax(400px, 1fr));
+  grid-auto-rows: .5fr;
   `,
 });
 
 const Images = styled.div`
+  width: 100%;
   display: grid;
   margin: 0 5px;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-auto-rows: 200px;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  grid-auto-rows: 250px;
   grid-auto-flow: dense;
   ${ImagesBreakpoints}
 `;
@@ -503,7 +518,10 @@ const ImageContainerProps = (props) => {
     `;
   } else if (props.tall) {
     styles = `
-      grid-row: span 2;
+      grid-row: span 3;
+      ${BREAKPOINT_XS} {
+        grid-row: span 3;
+      }
     `;
   } else if (props.wide) {
     styles = `
@@ -540,19 +558,6 @@ const ImageContainer = styled.div`
   border: 1px solid black;
   ${ImageContainerBreakpoints}
   ${ImageContainerProps}
-
-  img {
-    position: relative;
-    user-select: none;
-    max-width: 100%;
-    height: auto;
-    vertical-align: middle;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 5px;
-  }
 
   svg {
     user-select: none;
