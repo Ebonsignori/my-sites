@@ -26,7 +26,7 @@ const components = {
   Tooltip,
 };
 // Fire read event at each interval
-const EVENT_SECONDS = [10, 30, 60, 90, 120];
+const EVENT_SECONDS = [10, 60, 120];
 
 export default function Post({ slug, source, metadata, prev, next }) {
   const [modalContents, setModalContents] = useState(undefined);
