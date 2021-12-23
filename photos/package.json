@@ -6,7 +6,8 @@
     "build": "next build && next export -o build/",
     "postbuild": "next-sitemap",
     "lint": "next lint",
-    "update-catalogue": "node src/update-catalogue.js"
+    "update-catalogue": "node src/update-catalogue.js",
+    "update-stats": "node ./src/update-stats.js"
   },
   "dependencies": {
     "@react-spring/web": "^9.3.1",

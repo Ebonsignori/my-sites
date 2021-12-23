@@ -17,22 +17,22 @@ import { fetchPhotos } from "../src/utils/fetch-photos";
 
 const pointsAltitude = {};
 const ALTITUDE = (image) => {
-  if (!pointsAltitude[image.name]) {
+  if (!pointsAltitude[image.slug]) {
     const randomAltitude = getRandomNumberBetween(0.15, 0.4);
-    pointsAltitude[image.name] = randomAltitude;
+    pointsAltitude[image.slug] = randomAltitude;
     return randomAltitude;
   }
-  return pointsAltitude[image.name];
+  return pointsAltitude[image.slug];
 };
 const pointsColors = {};
 const getColor = (image) => {
-  let color = pointsColors[image.name];
+  let color = pointsColors[image.slug];
   if (!color) {
     color = randomColor({
       format: "rgba",
       alpha: 0.6,
     });
-    pointsColors[image.name] = color;
+    pointsColors[image.slug] = color;
   }
   return color;
 };
@@ -51,14 +51,14 @@ export default function GlobeComponent({ images }) {
   const [imagesWithOrder, setImagesWithOrder] = useState({});
   const [globeLoading, setGlobeLoading] = useState(true);
 
-  const [selectedImageName, rawSetSelectedImageName] = useState(
+  const [selectedSlug, rawSetSelectedSlug] = useState(
     queryHash?.length ? queryHash[0].replace("#", "") : undefined
   );
-  const setSelectedImageName = useCallback(
-    (imageName) => {
-      imageName = imageName.toLowerCase();
-      if (imageName) {
-        router.push(`#${imageName}`, undefined, {
+  const setSelectedSlug = useCallback(
+    (slug) => {
+      slug = slug.toLowerCase();
+      if (slug) {
+        router.push(`#${slug}`, undefined, {
           shallow: true,
         });
       } else {
@@ -66,7 +66,7 @@ export default function GlobeComponent({ images }) {
           shallow: true,
         });
       }
-      rawSetSelectedImageName(imageName);
+      rawSetSelectedSlug(slug);
     },
     [router]
   );
@@ -77,7 +77,7 @@ export default function GlobeComponent({ images }) {
       `
       <div style="text-align: center; color: white; background-color: rgba(0, 0, 0, 0.75); padding: 10px; border-radius: 10px;">
         <div>${image?.location?.address ? image.location.address : ""}, <b>${
-        image.name
+        image.slug
       }</b></div>
         <div><em>${toReadableDateString(image.date)}</em></div>
       </div>
@@ -90,17 +90,16 @@ export default function GlobeComponent({ images }) {
       const sortedImages = { ...images };
       const imagesArr = Object.values(images);
       for (let i = 0; i < imagesArr.length; i++) {
-        const currentImageName = imagesArr[i].name;
+        const currentSlug = imagesArr[i].slug;
         if (i - 1 >= 0) {
-          sortedImages[currentImageName].prev = imagesArr[i - 1].name;
+          sortedImages[currentSlug].prev = imagesArr[i - 1].slug;
         } else {
-          sortedImages[currentImageName].prev =
-            imagesArr[imagesArr.length - 1].name;
+          sortedImages[currentSlug].prev = imagesArr[imagesArr.length - 1].slug;
         }
         if (i + 1 < imagesArr.length) {
-          sortedImages[currentImageName].next = imagesArr[i + 1].name;
+          sortedImages[currentSlug].next = imagesArr[i + 1].slug;
         } else {
-          sortedImages[currentImageName].next = imagesArr[0].name;
+          sortedImages[currentSlug].next = imagesArr[0].slug;
         }
       }
       setImagesWithOrder(sortedImages);
@@ -148,7 +147,7 @@ export default function GlobeComponent({ images }) {
         pointResolution={RESOLUTION}
         pointLabel={getTooltip}
         onPointClick={(image) => {
-          setSelectedImageName(image.name);
+          setSelectedSlug(image.slug);
         }}
         labelsData={Object.values(imagesWithOrder)}
         labelLat={(d) => (d.location ? d.location.latitude : null)}
@@ -161,7 +160,7 @@ export default function GlobeComponent({ images }) {
         labelColor={getColor}
         labelResolution={RESOLUTION}
         onLabelClick={(image) => {
-          setSelectedImageName(image.name);
+          setSelectedSlug(image.slug);
         }}
         onGlobeReady={() => {
           // Set camera to start on NA
@@ -182,12 +181,12 @@ export default function GlobeComponent({ images }) {
     return (
       <LightboxModal
         images={imagesWithOrder}
-        imageName={selectedImageName}
-        setSelectedImageName={setSelectedImageName}
+        slug={selectedSlug}
+        setSelectedSlug={setSelectedSlug}
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedImageName, imagesWithOrder]);
+  }, [selectedSlug, imagesWithOrder]);
 
   return (
     <>

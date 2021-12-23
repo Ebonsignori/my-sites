@@ -20,8 +20,10 @@ export function fetchPhotos() {
   const filteredImages = {};
   for (const image of images) {
     let isMissing = "";
-    if (!image.name) {
-      isMissing += "name";
+    if (!image.title) {
+      isMissing += "title";
+    } else if (!image.slug) {
+      isMissing += "slug";
     } else if (!image.bucket) {
       if (isMissing) {
         isMissing += ", ";
@@ -50,19 +52,19 @@ export function fetchPhotos() {
     }
     if (isMissing) {
       // eslint-disable-next-line no-console
-      console.warn(`Image, ${image?.name} missing fields: ${isMissing}`);
+      console.warn(`Image, ${image?.slug} missing fields: ${isMissing}`);
     }
 
     // Add downloads to metadata
-    if (stats[image.name.toLowerCase()]) {
-      const imageStats = stats[image.name.toLowerCase()];
+    if (stats[image.slug.toLowerCase()]) {
+      const imageStats = stats[image.slug.toLowerCase()];
       image.downloads = imageStats.downloads;
     } else {
       // If update-stats hasn't run since this image was added
       image.downloads = 0;
     }
 
-    filteredImages[image.name.toLowerCase()] = image;
+    filteredImages[image.slug.toLowerCase()] = image;
   }
   return {
     images: filteredImages,

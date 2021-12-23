@@ -13,6 +13,7 @@ const { google } = require("googleapis");
 const { DateTime } = require("luxon");
 
 const todayEST = DateTime.now()
+  .plus({ days: 1 })
   .setZone("America/New_York")
   .toFormat("yyyy-MM-dd");
 
@@ -34,13 +35,13 @@ if (!fs.existsSync(statsJsonPath)) {
 
 // Get env from shell env (GitHub Action) or from local (uncommitted) file
 const secretEnvFile = path.join(__dirname, "..", "..", ".env.secrets");
-let propertyId = process.env.GA_PHOTOS_ID;
+let propertyId = process.env.GA_WRITING_ID;
 let clientEmail = process.env.GA_CLIENT_EMAIL;
 let clientId = process.env.GA_CLIENT_ID;
 let privateKey = process.env.GA_PRIVATE_KEY;
 if (fs.existsSync(secretEnvFile)) {
   const localEnv = dotenv.parse(fs.readFileSync(secretEnvFile));
-  propertyId = localEnv.GA_PHOTOS_ID;
+  propertyId = localEnv.GA_WRITING_ID;
   clientEmail = localEnv.GA_CLIENT_EMAIL;
   clientId = localEnv.GA_CLIENT_ID;
   privateKey = localEnv.GA_PRIVATE_KEY.replaceAll("\\n", "\n");
@@ -73,13 +74,13 @@ async function main() {
       {
         name: "pagePath",
       },
+      {
+        name: "customEvent:read",
+      },
     ],
     metrics: [
       {
-        name: "engagedSessions",
-      },
-      {
-        name: "engagementRate",
+        name: "eventCount",
       },
     ],
   });
@@ -93,16 +94,10 @@ async function main() {
         slug = slug.replace("/", "");
       }
       const metrics = {
-        engagedSessions: row.metricValues[0].value,
-        lastEngagementRate: row.metricValues[1].value,
-        popularity: row.metricValues[0].value * row.metricValues[1].value,
+        popularity: row.metricValues[0].value,
       };
       if (statsJson.stats[slug]) {
-        // Update engagementRate and add sessions to previous stats
-        statsJson.stats[slug].engagedSessions += metrics.engagedSessions;
-        statsJson.stats[slug].lastEngagementRate = metrics.lastEngagementRate;
-        statsJson.stats[slug].popularity +=
-          metrics.engagedSessions * metrics.lastEngagementRate;
+        statsJson.stats[slug].popularity += metrics.popularity;
       } else {
         // New stats for an article
         statsJson.stats[slug] = metrics;
@@ -110,7 +105,7 @@ async function main() {
     }
     writeStatsJson(statsJson);
     // eslint-disable-next-line no-console
-    console.log("Stats.json updated");
+    console.log("Writing stats.json updated");
   } else {
     if (response.rowCount === 0) {
       // eslint-disable-next-line no-console

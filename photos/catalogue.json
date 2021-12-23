@@ -22,7 +22,7 @@
   ],
   "images": [
     {
-      "name": "roses",
+      "slug": "roses",
       "folder": "",
       "orientation": "big",
       "bucket": "evan-bio-photos",
@@ -48,7 +48,7 @@
       }
     },
     {
-      "name": "coast",
+      "slug": "coast",
       "orientation": "wide",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -75,7 +75,7 @@
       }
     },
     {
-      "name": "astoria-houses",
+      "slug": "astoria-houses",
       "orientation": "big",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -101,7 +101,7 @@
       }
     },
     {
-      "name": "star-fish",
+      "slug": "star-fish",
       "orientation": "wide",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -129,7 +129,7 @@
       }
     },
     {
-      "name": "plant-roots",
+      "slug": "plant-roots",
       "folder": "",
       "bucket": "evan-bio-photos",
       "date": "2021-09-06T01:11:38.000Z",
@@ -154,7 +154,7 @@
       }
     },
     {
-      "name": "foggy-short-sand-beach-cliffs",
+      "slug": "foggy-short-sand-beach-cliffs",
       "orientation": "wide",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -181,7 +181,7 @@
       }
     },
     {
-      "name": "vertical-pink-roses",
+      "slug": "vertical-pink-roses",
       "orientation": "tall",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -208,7 +208,7 @@
       }
     },
     {
-      "name": "two-dogs-on-beach",
+      "slug": "two-dogs-on-beach",
       "folder": "",
       "bucket": "evan-bio-photos",
       "date": "2021-09-22T01:12:42.000Z",
@@ -233,7 +233,7 @@
       }
     },
     {
-      "name": "horizontal-mt-hood-shrooms",
+      "slug": "horizontal-mt-hood-shrooms",
       "orientation": "wide",
       "folder": "",
       "bucket": "evan-bio-photos",

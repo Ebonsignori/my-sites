@@ -97,12 +97,12 @@ export default function Home({ images, tags, models }) {
     [queryParams, router]
   );
 
-  const [selectedImageName, rawSetSelectedImageName] = useState(
+  const [selectedSlug, rawSetSelectedSlug] = useState(
     queryHash?.length ? queryHash[0].replace("#", "") : undefined
   );
-  const setSelectedImageName = useCallback(
-    (imageName) => {
-      imageName = imageName.toLowerCase();
+  const setSelectedSlug = useCallback(
+    (slug) => {
+      slug = slug.toLowerCase();
       let existingQuery = "";
       if (queryParams?.includes("?tags") || queryParams?.includes("&tags")) {
         existingQuery += `?tags=${router.query.tags}`;
@@ -118,8 +118,8 @@ export default function Home({ images, tags, models }) {
         }
         existingQuery += `models=${router.query.models}`;
       }
-      if (imageName) {
-        router.push(`/#${imageName}${existingQuery}`, undefined, {
+      if (slug) {
+        router.push(`/#${slug}${existingQuery}`, undefined, {
           shallow: true,
         });
       } else {
@@ -127,7 +127,7 @@ export default function Home({ images, tags, models }) {
           shallow: true,
         });
       }
-      rawSetSelectedImageName(imageName);
+      rawSetSelectedSlug(slug);
     },
     [queryParams, router]
   );
@@ -165,26 +165,26 @@ export default function Home({ images, tags, models }) {
     }
     return fuzzysort
       .go(searchQuery, images, {
-        keys: ["name", "alt", "model"],
+        keys: ["slug", "alt", "model"],
         scoreFn: (keysResult) => {
-          const nameRes = keysResult[0];
+          const slugRes = keysResult[0];
           const altRes = keysResult[1];
           const modelRes = keysResult[2];
           let score = Math.max(
-            nameRes ? nameRes.score : -Infinity,
+            slugRes ? slugRes.score : -Infinity,
             altRes ? altRes.score : -Infinity,
             modelRes ? modelRes.score : -Infinity
           );
           // When all three keys, prioritize over just one two
-          if (nameRes?.score && altRes?.score && modelRes?.score) {
+          if (slugRes?.score && altRes?.score && modelRes?.score) {
             score = score + 1500;
           } else if (
-            (nameRes?.score && altRes?.score) ||
-            (nameRes?.score && modelRes?.score)
+            (slugRes?.score && altRes?.score) ||
+            (slugRes?.score && modelRes?.score)
           ) {
             // When title and one other key, prioritize next
             score = score + 1000;
-          } else if (nameRes?.score) {
+          } else if (slugRes?.score) {
             // When just title, prioritize title over other combos or singles
             score = score + 500;
           }
@@ -249,17 +249,17 @@ export default function Home({ images, tags, models }) {
   const [imagesWithOrder, setImagesWithOrder] = useState({});
   useEffect(() => {
     for (let i = 0; i < filteredImages.length; i++) {
-      const currentImageName = filteredImages[i].name;
+      const currentImageSlug = filteredImages[i].slug;
       if (i - 1 >= 0) {
-        images[currentImageName].prev = filteredImages[i - 1].name;
+        images[currentImageSlug].prev = filteredImages[i - 1].slug;
       } else {
-        images[currentImageName].prev =
-          filteredImages[filteredImages.length - 1].name;
+        images[currentImageSlug].prev =
+          filteredImages[filteredImages.length - 1].slug;
       }
       if (i + 1 < filteredImages.length) {
-        images[currentImageName].next = filteredImages[i + 1].name;
+        images[currentImageSlug].next = filteredImages[i + 1].slug;
       } else {
-        images[currentImageName].next = filteredImages[0].name;
+        images[currentImageSlug].next = filteredImages[0].slug;
       }
     }
     setImagesWithOrder(images);
@@ -302,12 +302,20 @@ export default function Home({ images, tags, models }) {
       if (image.orientation) {
         imageProps[image.orientation] = true;
       }
-      const imageUrl = getImageSetSrc(image.name);
+      const imageUrl = getImageSetSrc(image.slug);
       return (
         <ImageContainer
-          key={`lazy-${image.name}`}
+          key={`lazy-${image.slug}`}
           {...imageProps}
-          onClick={() => setSelectedImageName(image.name)}
+          onClick={() => {
+            if (window?.gtag) {
+              window?.gtag("event", "homepage_click", {
+                // eslint-disable-next-line camelcase
+                page_path: image.slug,
+              });
+            }
+            setSelectedSlug(image.slug);
+          }}
         >
           <ImageWrapper>
             <LazyImage
@@ -331,7 +339,7 @@ export default function Home({ images, tags, models }) {
                     {image.tags.map((tag) => (
                       <MetaLink
                         onClick={() => setSelectedTag(tag)}
-                        key={`${image.name}-${tag}`}
+                        key={`${image.slug}-${tag}`}
                       >
                         {capitalizeAll(tag)}
                       </MetaLink>
@@ -344,19 +352,19 @@ export default function Home({ images, tags, models }) {
         </ImageContainer>
       );
     });
-  }, [filteredImages, setSelectedTag, setSelectedModel, setSelectedImageName]);
+  }, [filteredImages, setSelectedTag, setSelectedModel, setSelectedSlug]);
 
   const Modal = useMemo(() => {
     return (
       <LightboxModal
         images={imagesWithOrder}
-        imageName={selectedImageName}
-        setSelectedImageName={setSelectedImageName}
+        slug={selectedSlug}
+        setSelectedSlug={setSelectedSlug}
         refreshOnSelect
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedImageName, imagesWithOrder]);
+  }, [selectedSlug, imagesWithOrder]);
 
   return (
     <>

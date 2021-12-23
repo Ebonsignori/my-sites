@@ -56,21 +56,26 @@ const useKeyPress = function (targetKey) {
   return keyPressed;
 };
 
-function LightboxModal({
-  images,
-  imageName,
-  setSelectedImageName,
-  refreshOnSelect,
-}) {
-  const [{ x }, api] = useSpring(() => ({ x: 0 }));
+function LightboxModal({ images, slug, setSelectedSlug, refreshOnSelect }) {
+  useEffect(() => {
+    if (window?.gtag && slug) {
+      window?.gtag("event", "lightbox_viewed", {
+        // eslint-disable-next-line camelcase
+        page_path: slug,
+      });
+    }
+  }, [slug]);
+
+  // eslint-disable-next-line no-empty-pattern
+  const [{}, api] = useSpring(() => ({ x: 0 }));
   let image = {};
-  if (imageName) {
-    image = images[imageName];
+  if (slug) {
+    image = images[slug];
   }
 
   const closeModal = useCallback(() => {
-    setSelectedImageName("");
-  }, [setSelectedImageName]);
+    setSelectedSlug("");
+  }, [setSelectedSlug]);
 
   // Navigate using keys
   const rightPres = useKeyPress("ArrowRight");
@@ -78,13 +83,13 @@ function LightboxModal({
   const escapePress = useKeyPress("Escape");
   useEffect(() => {
     if (image?.next && rightPres) {
-      setSelectedImageName(image.next);
+      setSelectedSlug(image.next);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rightPres]);
   useEffect(() => {
     if (image?.prev && leftPress) {
-      setSelectedImageName(image.prev);
+      setSelectedSlug(image.prev);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [leftPress]);
@@ -97,11 +102,11 @@ function LightboxModal({
 
   const bind = useDrag(
     ({ down, movement: [mx], active }) => {
-      if (!active) {
-        setSelectedImageName(image.prev);
+      if (!active && mx > 0) {
+        setSelectedSlug(image.prev);
         mx = 0;
       } else if (!active) {
-        setSelectedImageName(image.next);
+        setSelectedSlug(image.next);
         mx = 0;
       }
       api.start({
@@ -112,10 +117,10 @@ function LightboxModal({
   );
 
   const ImageRender = useMemo(() => {
-    if (!image || !image.name) {
+    if (!image || !image.slug) {
       return null;
     }
-    const imageUrl = getImageSetSrc(image.name);
+    const imageUrl = getImageSetSrc(image.slug);
     const getTagUrl = (tagName) =>
       tagName ? `/?tags=${tagName?.toLowerCase()}` : "";
     const getModelUrl = (modelName) =>
@@ -133,9 +138,9 @@ function LightboxModal({
     const imageTags = image?.tags?.map((tag) => {
       if (refreshOnSelect) {
         return (
-          <Link passHref href={getTagUrl(tag)} key={`${image.name}-${tag}`}>
+          <Link passHref href={getTagUrl(tag)} key={`${image.slug}-${tag}`}>
             <MetaLink
-              key={`${image.name}-${tag}`}
+              key={`${image.slug}-${tag}`}
               onClick={() => {
                 setTimeout(() => {
                   Router.reload();
@@ -148,7 +153,7 @@ function LightboxModal({
         );
       }
       return (
-        <Link passHref href={getTagUrl(tag)} key={`${image.name}-${tag}`}>
+        <Link passHref href={getTagUrl(tag)} key={`${image.slug}-${tag}`}>
           <MetaLink>{capitalizeAll(tag)}</MetaLink>
         </Link>
       );
@@ -158,7 +163,7 @@ function LightboxModal({
       <Link
         passHref
         href={getModelUrl(image.model)}
-        key={`${image.name}-${image.model}`}
+        key={`${image.slug}-${image.model}`}
       >
         <MetaLink>{image.model}</MetaLink>
       </Link>
@@ -168,7 +173,7 @@ function LightboxModal({
         <Link
           passHref
           href={getModelUrl(image.model)}
-          key={`${image.name}-${image.model}`}
+          key={`${image.slug}-${image.model}`}
         >
           <MetaLink
             onClick={() => {
@@ -187,14 +192,14 @@ function LightboxModal({
       <>
         <ImageContainer orientation={image.orientation}>
           <LazyImage
-            key={image.name}
+            key={image.slug}
             loadingSize="50%"
             {...bind()}
             style={{
               touchAction: "none",
             }}
             srcSet={imageUrl}
-            src={getImageSource(image.name)}
+            src={getImageSource(image.slug)}
             alt={image.alt}
             {...orientationProps}
           />
@@ -221,7 +226,7 @@ function LightboxModal({
           {image.prev && (
             <Prev
               title="Previous Image"
-              onClick={() => setSelectedImageName(image.prev)}
+              onClick={() => setSelectedSlug(image.prev)}
             >
               <LeftArrow />
             </Prev>
@@ -229,28 +234,37 @@ function LightboxModal({
           {image.next && (
             <Next
               title="Next Image"
-              onClick={() => setSelectedImageName(image.next)}
+              onClick={() => setSelectedSlug(image.next)}
             >
               <RightArrow />
             </Next>
           )}
         </PrevNextOpts>
-        <DownloadIconWrapper onClick={() => saveAs(getImageSource(image.name))}>
+        <DownloadIconWrapper
+          onClick={() => {
+            if (window?.gtag) {
+              window?.gtag("event", "download", {
+                // eslint-disable-next-line camelcase
+                page_path: slug,
+              });
+            }
+            saveAs(getImageSource(image.slug));
+          }}
+        >
           Download Original
           <DownloadIcon />
         </DownloadIconWrapper>
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image, setSelectedImageName, bind]);
+  }, [image, setSelectedSlug, bind]);
 
   return (
-    <ModalWrapper isOpen={image?.name}>
+    <ModalWrapper isOpen={image?.slug}>
       <CloseModalBtn onClick={closeModal}>&times;</CloseModalBtn>
       <animated.div
         {...bind()}
         style={{
-          x,
           touchAction: "none",
         }}
       >
@@ -402,6 +416,7 @@ const ImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
   ${ImageContainerProps}
   img {
     touch-action: none;

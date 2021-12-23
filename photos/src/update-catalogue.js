@@ -2,6 +2,7 @@ const https = require("https");
 const fs = require("fs");
 const path = require("path");
 
+// Not in .env or shell to make running in GH action easier
 const catalogueUrl = "https://evan-bio-photos.s3.amazonaws.com/catalogue.json";
 
 async function getJson(url) {
