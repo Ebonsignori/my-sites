@@ -42,6 +42,7 @@ jobs:
             echo "SHOULD_BUILD=false" >> $GITHUB_ENV
           fi
           git reset ORIG_HEAD
+
       - name: Set up Node.js
         if: ${{ env.SHOULD_BUILD == 'true' }} 
         uses: actions/setup-node@v1
@@ -49,7 +50,7 @@ jobs:
           node-version: 16
 
       - name: Fetch catalogue if project has one
-        if ${{ env.SHOULD_BUILD == 'true' }}
+        if: ${{ env.SHOULD_BUILD == 'true' }}
         run: |
           cd ./${{ matrix.project }} && npm run update-catalogue --if-present
           if [[ `git status --porcelain .` ]]; then
@@ -60,19 +61,6 @@ jobs:
             git push
           fi
         
-      - name: Fetch stats if project has stats
-        if ${{ env.SHOULD_BUILD == 'true' }}
-        run: |
-          cd ./${{ matrix.project }}
-          npm run update-stats --if-present
-          if [[ `git status --porcelain .` ]]; then
-            echo "Project has stats, updating them..."
-            git config --global user.name 'Deploy Bot'
-            git config --global user.email 'evanabonsignori@gmail.com'
-            git commit -am "update stats via deploy action"
-            git push
-          fi
-
       - name: Install top-level Node.js dependencies
         if: ${{ env.SHOULD_BUILD == 'true' }} 
         run: npm i
