@@ -51,15 +51,15 @@ class CatalogueService {
     return this.replaceCatalogue(bucket, newCatalogue);
   }
 
-  async removeFromCatalogue(bucket, name) {
+  async removeFromCatalogue(bucket, slug) {
     await this.getCatalogue(bucket);
     const newCatalogue = { ...this.catalogue };
-    const foundImage = newCatalogue.images.find((image) => image.name === name);
+    const foundImage = newCatalogue.images.find((image) => image.slug === slug);
     if (!foundImage) {
-      throw Error(`No image in catalogue with name: ${name}`);
+      throw Error(`No image in catalogue with slug: ${slug}`);
     }
     newCatalogue.images = newCatalogue.images.filter(
-      (image) => image.name !== name
+      (image) => image.slug !== slug
     );
     this.catalogue = newCatalogue;
     const updateRes = await this.replaceCatalogue(bucket, newCatalogue);

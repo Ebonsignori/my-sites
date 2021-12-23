@@ -96,11 +96,11 @@ async function syncCatalogue(bucket, context) {
   return res.catalogue;
 }
 
-async function deleteFromCatalogue(bucket, name, context) {
+async function deleteFromCatalogue(bucket, slug, context) {
   const { setSuccessMsg, setErrorMsg, setShowToast } = context;
   setSuccessMsg("");
   setErrorMsg("");
-  const rawRes = await fetch(`${SERVER_URL}/catalogue/${bucket}/${name}`, {
+  const rawRes = await fetch(`${SERVER_URL}/catalogue/${bucket}/${slug}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -127,7 +127,7 @@ async function deleteFromCatalogue(bucket, name, context) {
 export default function Catalogue() {
   const [catalogue, setCatalogue] = useState({});
   const [bucket, setBucket] = useState(process.env.BUCKET_NAME);
-  const [deleteName, setDeleteName] = useState("");
+  const [deleteSlug, setDeleteSlug] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -199,11 +199,11 @@ export default function Catalogue() {
           Sync catalogue tags and models
         </Button>
         <Form.Group className="mt-3">
-          <Form.Label>Delete Name</Form.Label>
+          <Form.Label>Delete by Slug</Form.Label>
           <Form.Control
             type="text"
-            value={deleteName}
-            onChange={(e) => setDeleteName(e.target.value)}
+            value={deleteSlug}
+            onChange={(e) => setDeleteSlug(e.target.value)}
           />
         </Form.Group>
         <Button
@@ -212,7 +212,7 @@ export default function Catalogue() {
           onClick={async () => {
             const updatedCatalogue = await deleteFromCatalogue(
               bucket,
-              deleteName,
+              deleteSlug,
               context
             );
             setCatalogue(updatedCatalogue);

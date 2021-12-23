@@ -61,15 +61,15 @@ async function syncCatalogue(req, res, s3) {
 }
 
 async function deleteFromCatalogue(req, res, s3) {
-  const { bucket, name } = req.params;
+  const { bucket, slug } = req.params;
   try {
     const catalogueService = new CatalogueService(s3);
     // eslint-disable-next-line no-console
     console.log("Removing from catalogue...");
-    const removeRes = await catalogueService.removeFromCatalogue(bucket, name);
+    const removeRes = await catalogueService.removeFromCatalogue(bucket, slug);
     if (removeRes) {
       // Remove from S3
-      let deleteKey = name;
+      let deleteKey = slug;
       if (removeRes.deletedObj.folder) {
         deleteKey = `${removeRes.deletedObj.folder}/${deleteKey}/`;
       }
@@ -80,11 +80,11 @@ async function deleteFromCatalogue(req, res, s3) {
         deleteKey
       );
       // eslint-disable-next-line no-console
-      console.log("Removed ", name);
+      console.log("Removed ", slug);
       // eslint-disable-next-line no-console
       console.log(removeS3Res);
       res.json({
-        success: `Deleted ${name} from catalogue and S3.`,
+        success: `Deleted ${slug} from catalogue and S3.`,
         catalogue: removeRes.catalogue,
       });
     } else {
@@ -95,7 +95,7 @@ async function deleteFromCatalogue(req, res, s3) {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);
-    if (error.message.includes("No image in catalogue with name")) {
+    if (error.message.includes("No image in catalogue with slug")) {
       res.json({
         error: error.message,
       });

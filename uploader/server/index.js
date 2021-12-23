@@ -58,7 +58,7 @@ async function main() {
   server.put("/catalogue/:bucket/sync", async (req, res) => {
     return syncCatalogue(req, res, s3);
   });
-  server.delete("/catalogue/:bucket/:name", async (req, res) => {
+  server.delete("/catalogue/:bucket/:slug", async (req, res) => {
     return deleteFromCatalogue(req, res, s3);
   });
 
@@ -66,7 +66,9 @@ async function main() {
     const {
       imageData,
       updateCatalogue,
-      name,
+      title,
+      dimensions,
+      slug,
       date,
       breakpoints,
       bucket,
@@ -78,7 +80,7 @@ async function main() {
       tags,
       model,
     } = req.body;
-    console.log(`Received image ${name}.`);
+    console.log(`Received image ${slug}.`);
 
     let { imageQuality } = req.body;
     if (!imageQuality) {
@@ -86,7 +88,7 @@ async function main() {
     }
 
     // Create directory to save the intermediary files in for AWS upload
-    const imageDirectory = path.join(TEMP_UPLOAD_PATH, name);
+    const imageDirectory = path.join(TEMP_UPLOAD_PATH, slug);
     fs.mkdirSync(imageDirectory, { recursive: true });
 
     // Create image buffer
@@ -97,9 +99,10 @@ async function main() {
 
     if (updateCatalogue) {
       const catalogueRes = await catalogueService.addToCatalogue(bucket, {
-        name,
+        slug,
         folder,
         bucket,
+        dimensions,
         date,
         description,
         alt,
@@ -122,8 +125,8 @@ async function main() {
         if (isOriginal) {
           extension = "jpeg";
         }
-        const imagePattern = `${name}-${breakpoint}.${extension}`;
-        let imageKey = `${name}/${imagePattern}`;
+        const imagePattern = `${slug}-${breakpoint}.${extension}`;
+        let imageKey = `${slug}/${imagePattern}`;
         if (folder) {
           imageKey = `${folder}/${imageKey}`;
         }
@@ -159,8 +162,10 @@ async function main() {
             // Cache each image "indefinitely"
             CacheControl: "max-age: 31536000",
             Metadata: {
+              title,
               alt,
               model,
+              dimensions: JSON.stringify(dimensions),
               imageQuality: isOriginal ? "100" : imageQuality,
               tags: JSON.stringify(tags),
               location: JSON.stringify(location),
@@ -215,7 +220,7 @@ async function main() {
     console.log("Done.");
 
     return res.json({
-      success: `Resized ${name} and uploaded to ${bucket}`,
+      success: `Resized ${slug} and uploaded to ${bucket}`,
     });
   });
 

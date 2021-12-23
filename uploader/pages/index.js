@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import exifr from "exifr/dist/full.esm.mjs";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -37,9 +37,15 @@ const IMAGE_MODELS_MAP = {
 const socket = io(SOCKET_URL);
 
 // eslint-disable-next-line no-useless-escape
-const imageNameRegex = new RegExp(/^[\w\!\-]+$/);
+const imageNameRegex = new RegExp(/^[\w\-]+$/);
 
-export default function Uploader() {
+// Wrap page to easily change key and reset state
+export default function App() {
+  const [resetKey, setResetKey] = useState(1);
+  return <Uploader key={resetKey} setResetKey={setResetKey} />;
+}
+
+function Uploader({ setResetKey }) {
   const [image, setImage] = useState();
   // S3 opts
   const [bucket, setBucket] = useState(process.env.BUCKET_NAME);
@@ -52,9 +58,9 @@ export default function Uploader() {
   // Metadata
   const [metadata, setMetadata] = useState({});
   // All non-metadata values are set seperately because they will be used for sorting on site
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [alt, setAlt] = useState("");
-  const [description, setDescription] = useState("");
   const [model, setModel] = useState("");
   const [date, setDate] = useState("");
   const [tags, setTags] = useState([]);
@@ -93,10 +99,14 @@ export default function Uploader() {
       setUploads((prev) => [...prev, upload]);
       setUploadProgress(0);
     });
+
+    return () => {
+      socket.off();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onImageUpload = async (e) => {
+  const onImageUpload = useCallback(async (e) => {
     // Reset on image upload
     setSuccessMsg("");
     setUploading(false);
@@ -104,7 +114,11 @@ export default function Uploader() {
       return setImage(undefined);
     }
     const file = e.target.files[0];
-    const exifData = await exifr.parse(file);
+    let exifData = await exifr.parse(file);
+    if (!exifData) {
+      alert("No Exif data found for image");
+      exifData = {};
+    }
     const originalName = file.name;
     exifData.OriginalFilename = originalName;
 
@@ -124,10 +138,14 @@ export default function Uploader() {
     const mappedModel = IMAGE_MODELS_MAP[exifData.Model];
     setModel(mappedModel || exifData.Model);
     setDate(exifData.CreateDate);
-    setName(originalName.replace(/\.[^/.]+$/, ""));
+    setTitle(originalName.replace(/\.[^/.]+$/, ""));
     setMetadata(exifData);
     setImage(file);
-  };
+
+    // Show image preview
+    const imagePreview = document.getElementById("image-preview");
+    imagePreview.src = URL.createObjectURL(file);
+  }, []);
 
   const onSubmit = async () => {
     setErrors([]);
@@ -135,10 +153,35 @@ export default function Uploader() {
     if (!image) {
       onSubmitErrors.push("Missing image file");
     }
-    if (!name) {
-      onSubmitErrors.push("Missing Image name");
-    } else if (!imageNameRegex.test(name)) {
-      onSubmitErrors.push("Invalid image name");
+    // If adding to catalogue, validate everything needed for display
+    if (updateCatalogue) {
+      if (!date) {
+        onSubmitErrors.push("Missing image date");
+      }
+      if (!imageLongitude || !imageLatitude || !imageLocation) {
+        onSubmitErrors.push("Missing location data");
+      }
+      if (!tags.length) {
+        onSubmitErrors.push("Missing image tags");
+      }
+      if (!model) {
+        onSubmitErrors.push("Missing image model");
+      }
+      if (!title) {
+        onSubmitErrors.push("Missing Image title");
+      }
+    }
+    if (!breakpoints.length) {
+      onSubmitErrors.push("Missing Image breakpoints");
+    }
+    if (!alt) {
+      onSubmitErrors.push("Missing Image alt");
+    }
+    if (!slug) {
+      onSubmitErrors.push("Missing Image slug");
+    }
+    if (!imageNameRegex.test(slug)) {
+      onSubmitErrors.push("Invalid image slug");
     }
     if (!bucket) {
       onSubmitErrors.push("Missing S3 Bucket");
@@ -159,21 +202,39 @@ export default function Uploader() {
 
     const imageData = await new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = (e) => resolve(btoa(e.target.result));
-      reader.onerror = (e) => reject(new Error(`Error reading image${e}`));
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = (e) => reject(new Error(`Error reading image: ${e}`));
       reader.readAsBinaryString(image);
     });
 
+    // Get image width and height
+    const dimensions = await new Promise((resolve, reject) => {
+      const imageDom = new Image();
+      imageDom.onload = function () {
+        resolve({
+          width: this.width,
+          height: this.height,
+        });
+      };
+      imageDom.onerror = (error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        reject(new Error(`Error getting image width and height: ${error}`));
+      };
+      imageDom.src = URL.createObjectURL(image);
+    });
+
     const reqBody = {
-      imageData,
+      imageData: btoa(imageData),
+      dimensions,
       metadata,
       imageQuality,
       updateCatalogue,
-      name,
+      title,
+      slug,
       folder,
       bucket,
       date,
-      description,
       alt,
       model,
       tags: tags.map((x) => x.value),
@@ -238,10 +299,12 @@ export default function Uploader() {
     ));
   }, [uploads]);
 
-  let errorsRender = null;
-  if (errors) {
-    errorsRender = errors.map((er) => <li key={er}>{er}</li>);
-  }
+  const errorsRender = useMemo(() => {
+    if (errors) {
+      return errors.map((er) => <li key={er}>{er}</li>);
+    }
+    return null;
+  }, [errors]);
 
   return (
     <PageWrapper>
@@ -267,6 +330,11 @@ export default function Uploader() {
       <Container>
         <FormWrapper>
           <Form.Group className="mb-3">
+            <Form.Text className="text-muted mt-3">
+              Defaults are set from .env
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>Image</Form.Label>
             <Form.Control
               onChange={onImageUpload}
@@ -277,11 +345,29 @@ export default function Uploader() {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Image Name</Form.Label>
+            <Form.Label>Image Title</Form.Label>
             <Form.Control
-              value={name}
+              value={title}
               onChange={(e) => {
-                setName(e.target.value);
+                setTitle(e.target.value);
+                setSlug(
+                  e.target.value
+                    .toLowerCase()
+                    .replace(/ /g, "-")
+                    .replace(/[^\w-]+/g, "")
+                );
+              }}
+              type="text"
+            />
+            <Form.Text className="text-muted">Display name of image</Form.Text>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Image slug</Form.Label>
+            <Form.Control
+              value={slug}
+              onChange={(e) => {
+                setSlug(e.target.value);
               }}
               type="text"
             />
@@ -416,18 +502,6 @@ export default function Uploader() {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    value={description}
-                    onChange={(e) => {
-                      setDescription(e.target.value);
-                    }}
-                    type="text"
-                    as="textarea"
-                    rows={3}
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
                   <Form.Label>Alt Text</Form.Label>
                   <Form.Control
                     value={alt}
@@ -523,20 +597,36 @@ export default function Uploader() {
           </Form.Group>
           <Form.Group className="mt-3">
             <FormSuccess>{successMsg}</FormSuccess>
+            {successMsg && (
+              <>
+                <br />
+                <Button className="mt-3" onClick={() => setResetKey(slug)}>
+                  Reset Form
+                </Button>
+              </>
+            )}
           </Form.Group>
+          {uploading && (
+            <Container className="mt-3">
+              <h2 className="mb-3">Upload Progress</h2>
+              <ProgressBar now={uploadProgress} />
+              <Uploads>{uploadsRender}</Uploads>
+            </Container>
+          )}
         </FormWrapper>
-        <Form.Group className="mt-2">
-          <Form.Text className="text-muted mt-3">
-            Defaults are set from .env
-          </Form.Text>
-        </Form.Group>
-        {uploading && (
-          <Container className="mt-3">
-            <h2 className="mb-3">Upload Progress</h2>
-            <ProgressBar now={uploadProgress} />
-            <Uploads>{uploadsRender}</Uploads>
-          </Container>
-        )}
+      </Container>
+      <Container>
+        <FormWrapper>
+          <h3>Image Preview</h3>
+          <div className="image-area mt-4">
+            <img
+              id="image-preview"
+              src="#"
+              alt=""
+              className="img-fluid rounded shadow-sm mx-auto d-block"
+            />
+          </div>
+        </FormWrapper>
       </Container>
     </PageWrapper>
   );
