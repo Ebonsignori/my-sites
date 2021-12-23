@@ -1,6 +1,10 @@
 name: Deploy All
 
 on:
+  # Rebuild project after stats have been updated
+  workflow_run:
+    workflows:
+      - Update Stats
   push:
     branches:
       - main
@@ -43,6 +47,31 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
+
+      - name: Fetch catalogue if project has one
+        if ${{ env.SHOULD_BUILD == 'true' }}
+        run: |
+          cd ./${{ matrix.project }} && npm run update-catalogue --if-present
+          if [[ `git status --porcelain .` ]]; then
+            echo "Project has catalogue, updating it..."
+            git config --global user.name 'Deploy Bot'
+            git config --global user.email 'evanabonsignori@gmail.com'
+            git commit -am "update catalogue via deploy action"
+            git push
+          fi
+        
+      - name: Fetch stats if project has stats
+        if ${{ env.SHOULD_BUILD == 'true' }}
+        run: |
+          cd ./${{ matrix.project }}
+          npm run update-stats --if-present
+          if [[ `git status --porcelain .` ]]; then
+            echo "Project has stats, updating them..."
+            git config --global user.name 'Deploy Bot'
+            git config --global user.email 'evanabonsignori@gmail.com'
+            git commit -am "update stats via deploy action"
+            git push
+          fi
 
       - name: Install top-level Node.js dependencies
         if: ${{ env.SHOULD_BUILD == 'true' }} 

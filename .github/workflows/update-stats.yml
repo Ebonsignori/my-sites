@@ -1,0 +1,43 @@
+# Secrets used in update-stats.js must be set in GH before running
+name: Update Stats
+
+on:
+  workflow_dispatch: null
+  schedule:
+    # Run at end of day on Sunday
+    - cron: 0 23 * * 0
+
+jobs:
+  update-stats:
+    name: Update Stats
+    runs-on: ubuntu-latest
+
+    # Used to loop through each project with stats
+    strategy:
+      matrix:
+        project: ["writing", "photos"]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Install project-level Node.js dependencies
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
+        run: cd ./${{ matrix.project }} && npm i
+
+      - name: Fetch stats
+        run: |
+          cd ./${{ matrix.project }}
+          npm run update-stats
+          if [[ `git status --porcelain .` ]]; then
+            echo "Project updated stats, updating them..."
+            git config --global user.name 'Deploy Bot'
+            git config --global user.email 'evanabonsignori@gmail.com'
+            git commit -am "update stats via deploy action"
+            git push
+          else
+            echo "Something went wrong, stats were not updated."
+            exit 1;
+          fi
