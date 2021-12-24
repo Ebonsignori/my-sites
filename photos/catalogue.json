@@ -372,6 +372,7 @@
     {
       "slug": "more-mushrooms",
       "folder": "",
+      "orientation": "tall",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 3376,
@@ -400,6 +401,7 @@
     {
       "slug": "tall-branch",
       "folder": "",
+      "orientation": "tall",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 3376,
@@ -423,6 +425,35 @@
         "address": "Alaska",
         "latitude": 64.2008413,
         "longitude": -149.4936733
+      }
+    },
+    {
+      "slug": "water-drip-from-fountain",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-23T20:28:42.000Z",
+      "alt": "Water fountain drip long exposure",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Japanesse Garden",
+        "latitude": 32.7355017,
+        "longitude": -97.366331
       }
     }
   ]
