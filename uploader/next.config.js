@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const setEnv = require("./server/utils/set-env");
 const withTM = require("next-transpile-modules")(["../shared"]);
+const removeImports = require("next-remove-imports")();
 
 const env = dotenv.parse(fs.readFileSync(path.join(__dirname, ".env")));
 
@@ -18,6 +19,7 @@ const options = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: { esmExternals: true },
 };
 
-module.exports = withTM(options);
+module.exports = withTM(removeImports(options));

@@ -15,7 +15,7 @@ const uploadParams = {
 };
 
 class CatalogueService {
-  static CATALOGUE;
+  static CATALOGUE = "catalogue.json";
 
   constructor(s3) {
     this.s3 = s3;
