@@ -24,7 +24,7 @@ jobs:
       - name: Bump version in chosen project to trigger build in that directory
         run: |
           cd ./${{ github.event.inputs.project }}
-          npm version ${{ github.event.inputs.project }}
+          npm version ${{ github.event.inputs.version-change }}
           git config --global user.name 'Deploy Trigger'
           git config --global user.email 'evanabonsignori@gmail.com'
           git add --all
