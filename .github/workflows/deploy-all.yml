@@ -5,6 +5,7 @@ on:
   workflow_run:
     workflows:
       - Update Stats
+      - Trigger Deploy
   push:
     branches:
       - main

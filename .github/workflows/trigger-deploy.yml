@@ -1,0 +1,28 @@
+name: Trigger Deploy 
+
+on: 
+  workflow_dispatch:
+    inputs:
+      project:
+        description: 'Project to deploy: about, writing, photos, music, or shared (to deploy all)'     
+        required: true
+        default: 'photos'
+
+jobs:
+  trigger-deploy:
+    name: Trigger Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Bump version in chosen project to trigger build in that directory
+        run: |
+          cd ./${{ github.event.inputs.project }} && npm run 
+          git config --global user.name 'Deploy Trigger'
+          git config --global user.email 'evanabonsignori@gmail.com'
+          git commit -am "bump version to trigger deploy"
+          git push
+          echo "Project bumped for ${{ github.event.inputs.project }}"
+

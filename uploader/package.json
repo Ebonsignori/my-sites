@@ -34,5 +34,6 @@
     "cross-env": "^7.0.3",
     "next-transpile-modules": "^9.0.0",
     "nodemon": "^2.0.15"
-  }
+  },
+  "version": "0.0.2"
 }
