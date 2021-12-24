@@ -19,9 +19,10 @@ jobs:
 
       - name: Bump version in chosen project to trigger build in that directory
         run: |
-          cd ./${{ github.event.inputs.project }} && npm run 
+          cd ./${{ github.event.inputs.project }}
           git config --global user.name 'Deploy Trigger'
           git config --global user.email 'evanabonsignori@gmail.com'
+          git add --all
           git commit -am "bump version to trigger deploy"
           git push
           echo "Project bumped for ${{ github.event.inputs.project }}"
