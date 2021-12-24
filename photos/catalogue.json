@@ -102,6 +102,7 @@
     {
       "slug": "star-fish",
       "folder": "",
+      "orientation": "wide",
       "bucket": "evan-bio-photos",
       "date": "2021-09-06T00:27:52.000Z",
       "description": "",
@@ -180,6 +181,7 @@
     {
       "slug": "vertical-pink-roses",
       "folder": "",
+      "orientation": "tall",
       "bucket": "evan-bio-photos",
       "date": "2021-09-11T22:47:04.000Z",
       "description": "",
@@ -365,6 +367,62 @@
         "address": "test",
         "latitude": 37.045812,
         "longitude": -97.039301
+      }
+    },
+    {
+      "slug": "more-mushrooms",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "date": "2021-09-29T23:25:26.000Z",
+      "alt": "Mushrooms",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "ireland",
+        "latitude": 53.1423672,
+        "longitude": -7.692053599999999
+      }
+    },
+    {
+      "slug": "tall-branch",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "date": "2021-09-29T23:15:37.000Z",
+      "alt": "reddish tree branch",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Alaska",
+        "latitude": 64.2008413,
+        "longitude": -149.4936733
       }
     }
   ]
