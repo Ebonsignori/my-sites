@@ -24,7 +24,6 @@ async function setCatalogue(req, res, s3) {
       bucket,
       catalogue
     );
-    console.log(newCatalogue)
     if (newCatalogue.key === CatalogueService.CATALOGUE) {
       res.json({
         success: "Updated catalogue!",

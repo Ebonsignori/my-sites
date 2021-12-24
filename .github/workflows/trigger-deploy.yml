@@ -7,6 +7,10 @@ on:
         description: 'Project to deploy: about, writing, photos, music, or shared (to deploy all)'     
         required: true
         default: 'photos'
+      version-change:
+        description: 'Command to run for npm version {command}: patch, minor, or major'     
+        required: true
+        default: 'patch'
 
 jobs:
   trigger-deploy:
@@ -20,6 +24,7 @@ jobs:
       - name: Bump version in chosen project to trigger build in that directory
         run: |
           cd ./${{ github.event.inputs.project }}
+          npm version ${{ github.event.inputs.project }}
           git config --global user.name 'Deploy Trigger'
           git config --global user.email 'evanabonsignori@gmail.com'
           git add --all
