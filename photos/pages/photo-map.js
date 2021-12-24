@@ -77,7 +77,7 @@ export default function GlobeComponent({ images }) {
       `
       <div style="text-align: center; color: white; background-color: rgba(0, 0, 0, 0.75); padding: 10px; border-radius: 10px;">
         <div>${image?.location?.address ? image.location.address : ""}, <b>${
-        image.slug
+        image.title || image.slug
       }</b></div>
         <div><em>${toReadableDateString(image.date)}</em></div>
       </div>

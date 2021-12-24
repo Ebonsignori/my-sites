@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 import exifr from "exifr/dist/full.esm.mjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -11,6 +11,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 import DatePicker from "react-datepicker";
+import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { io } from "socket.io-client";
 import styled from "styled-components";
@@ -33,6 +34,12 @@ const DEFAULT_TAGS = process.env.IMAGE_TAGS.split(", ").map((tag) => ({
 const IMAGE_MODELS_MAP = {
   "ILCE-7M3": "Sony a7 III",
 };
+const DEFAULT_ORIENTATIONS = process.env.IMAGE_ORIENTATIONS.split(", ").map(
+  (orientation) => ({
+    value: orientation.trim(),
+    label: orientation.trim(),
+  })
+);
 
 const socket = io(SOCKET_URL);
 
@@ -46,6 +53,7 @@ export default function App() {
 }
 
 function Uploader({ setResetKey }) {
+  const progressRef = useRef(null);
   const [image, setImage] = useState();
   // S3 opts
   const [bucket, setBucket] = useState(process.env.BUCKET_NAME);
@@ -64,6 +72,8 @@ function Uploader({ setResetKey }) {
   const [model, setModel] = useState("");
   const [date, setDate] = useState("");
   const [tags, setTags] = useState([]);
+  const [dimensions, setDimensions] = useState({});
+  const [orientation, setOrientation] = useState("");
   // Image location
   const [imageLocation, setImageLocation] = useState("");
   const [imageLocations, setImageLocations] = useState([]);
@@ -94,6 +104,7 @@ function Uploader({ setResetKey }) {
         uploadPercent = (1 / (breakpoints.length + 2)) * 100;
       }
       setUploadProgress((prev) => prev + uploadPercent);
+      progressRef.current.scrollIntoView({ behavior: "smooth" });
     });
     socket.on("upload-part-fail", (upload) => {
       setUploads((prev) => [...prev, upload]);
@@ -143,8 +154,33 @@ function Uploader({ setResetKey }) {
     setImage(file);
 
     // Show image preview
+    const imageUrl = URL.createObjectURL(file);
     const imagePreview = document.getElementById("image-preview");
-    imagePreview.src = URL.createObjectURL(file);
+    imagePreview.src = imageUrl;
+
+    // Get image width and height
+    const imageDimensions = await new Promise((resolve, reject) => {
+      const imageDom = new Image();
+      imageDom.onload = function () {
+        resolve({
+          width: this.width,
+          height: this.height,
+        });
+      };
+      imageDom.onerror = (error) => {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        reject(new Error(`Error getting image width and height: ${error}`));
+      };
+      imageDom.src = imageUrl;
+    });
+
+    if (imageDimensions.width > imageDimensions.height) {
+      setOrientation("wide");
+    } else if (imageDimensions.height > imageDimensions.width) {
+      setOrientation("tall");
+    }
+    setDimensions(imageDimensions);
   }, []);
 
   const onSubmit = async () => {
@@ -177,6 +213,12 @@ function Uploader({ setResetKey }) {
     if (!alt) {
       onSubmitErrors.push("Missing Image alt");
     }
+    if (!dimensions) {
+      onSubmitErrors.push("Missing image dimensions");
+    }
+    if (!orientation) {
+      onSubmitErrors.push("Missing image orientation");
+    }
     if (!slug) {
       onSubmitErrors.push("Missing Image slug");
     }
@@ -207,26 +249,10 @@ function Uploader({ setResetKey }) {
       reader.readAsBinaryString(image);
     });
 
-    // Get image width and height
-    const dimensions = await new Promise((resolve, reject) => {
-      const imageDom = new Image();
-      imageDom.onload = function () {
-        resolve({
-          width: this.width,
-          height: this.height,
-        });
-      };
-      imageDom.onerror = (error) => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-        reject(new Error(`Error getting image width and height: ${error}`));
-      };
-      imageDom.src = URL.createObjectURL(image);
-    });
-
     const reqBody = {
       imageData: btoa(imageData),
       dimensions,
+      orientation,
       metadata,
       imageQuality,
       updateCatalogue,
@@ -392,6 +418,23 @@ function Uploader({ setResetKey }) {
               onChange={(e) => setFolder(e.target.value)}
             />
             <Form.Text className="text-muted">e.g. writing</Form.Text>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Image Orientation</Form.Label>
+            <Select
+              id="image-orientation"
+              instanceId="image-orientation"
+              name="image-orientations"
+              options={DEFAULT_ORIENTATIONS}
+              value={{ value: orientation, label: orientation }}
+              onChange={async (option) => {
+                setOrientation(option.value);
+              }}
+            />
+            <Form.Text className="text-muted">
+              If not automatically set, was not part of EXIF photo data
+            </Form.Text>
           </Form.Group>
 
           <Accordion className="mb-5">
@@ -606,13 +649,15 @@ function Uploader({ setResetKey }) {
               </>
             )}
           </Form.Group>
-          {uploading && (
-            <Container className="mt-3">
-              <h2 className="mb-3">Upload Progress</h2>
-              <ProgressBar now={uploadProgress} />
-              <Uploads>{uploadsRender}</Uploads>
-            </Container>
-          )}
+          <Container ref={progressRef} className="mt-3">
+            {uploading && (
+              <>
+                <h2 className="mb-3">Upload Progress</h2>
+                <ProgressBar now={uploadProgress} />
+                <Uploads>{uploadsRender}</Uploads>
+              </>
+            )}
+          </Container>
         </FormWrapper>
       </Container>
       <Container>
