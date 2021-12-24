@@ -338,7 +338,8 @@
       }
     },
     {
-      "slug": "testetstset",
+      "slug": "vert-stump",
+      "orientation": "tall",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
