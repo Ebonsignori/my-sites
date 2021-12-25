@@ -36,7 +36,7 @@ export default function Home({ content }) {
       // Second countdown is for toggling page opacity animation
       startPostLoading();
     }, LOAD_TIME);
-  }, []);
+  }, [startPostLoading]);
 
   const isSunMode = useMemo(() => imageClickCount >= 3, [imageClickCount]);
 

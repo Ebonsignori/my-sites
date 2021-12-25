@@ -8,8 +8,6 @@ import InstagramIcon from "../svgs/social/instagram";
 import LastfmIcon from "../svgs/social/lastfm";
 import LinkedinIcon from "../svgs/social/linkedin";
 
-const NUMBER_OF_LINKS = 5;
-
 // Due to issues with styled components and Next.js, these can't be created dynamically
 export default function SocialIcons({ content, className }) {
   const { socialLinks } = content;
