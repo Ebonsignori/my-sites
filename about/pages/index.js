@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
@@ -26,8 +26,9 @@ export default function Home({ content }) {
   const [imageAnimating, setImageAnimating] = useState(false);
 
   // Kick off loading countdown on first render
-  const startPostLoading = () =>
+  const startPostLoading = useCallback(() => {
     setTimeout(() => setPostLoadingFinished(true), 1000);
+  }, []);
   useEffect(() => {
     setTimeout(() => {
       setIntroLoadFinished(true);
@@ -36,67 +37,98 @@ export default function Home({ content }) {
     }, LOAD_TIME);
   }, []);
 
-  const isSunMode = imageClickCount >= 3;
+  const isSunMode = useMemo(() => imageClickCount >= 3, [imageClickCount]);
 
-  let PageRender = (
-    <>
-      <GreetingTitleSection>
-        {!isSunMode && postLoadingFinished && <ShootingStars />}
-        <WaveHand introLoadFinished={introLoadFinished} />
-        <GreetingTitle>
-          <LetterOne>H</LetterOne>
-          <LetterTwo>i</LetterTwo>
-          <LetterThree postLoadingFinished={postLoadingFinished}>,</LetterThree>
-        </GreetingTitle>
-      </GreetingTitleSection>
-      <ProfileImageWrapper postLoadingFinished={postLoadingFinished}>
-        <StyledProfileImg
-          clickCount={imageClickCount}
-          onAnimationStart={() => setImageAnimating(true)}
-          onAnimationEnd={() => setImageAnimating(false)}
-          onClick={() =>
-            !imageAnimating &&
-            imageClickCount <= 5 &&
-            setImageClickCount((prevCount) => prevCount + 1)
-          }
-          srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
-          width="250"
-          height="250"
-          alt="Evan Bonsignori's profile"
+  const ShootingStarsRender = useMemo(() => {
+    if (!isSunMode && postLoadingFinished) {
+      return <ShootingStars />;
+    }
+    return null;
+  }, [isSunMode, postLoadingFinished]);
+
+  const PageRender = useMemo(() => {
+    if (isSunMode) {
+      return <SunMode content={content} />;
+    }
+    return (
+      <>
+        {ShootingStarsRender}
+        <GreetingTitleSection>
+          <WaveHand introLoadFinished={introLoadFinished} />
+          <GreetingTitle>
+            <LetterOne>H</LetterOne>
+            <LetterTwo>i</LetterTwo>
+            <LetterThree postLoadingFinished={postLoadingFinished}>
+              ,
+            </LetterThree>
+          </GreetingTitle>
+        </GreetingTitleSection>
+        <ProfileImageWrapper postLoadingFinished={postLoadingFinished}>
+          <StyledProfileImg
+            clickCount={imageClickCount}
+            onAnimationStart={() => setImageAnimating(true)}
+            onAnimationEnd={() => setImageAnimating(false)}
+            onClick={() =>
+              !imageAnimating &&
+              imageClickCount <= 5 &&
+              setImageClickCount((prevCount) => prevCount + 1)
+            }
+            srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
+            width="250"
+            height="250"
+            alt="Evan Bonsignori's profile"
+          />
+        </ProfileImageWrapper>
+        <GreetingText postLoadingFinished={postLoadingFinished}>
+          I'm <strong>Evan Bonsignori</strong>, a digital nomad travelling the
+          west. When I'm not writing code for {content.currentCompany} or
+          practicing mindfulness, I'm enjoying one of my hobbies,
+        </GreetingText>
+        <PageLinks postLoadingFinished={postLoadingFinished}>
+          <PageLink href={process.env.WRITING_PAGE_URL}>Writing</PageLink>
+          <PageLink href={process.env.PHOTOS_PAGE_URL}>Photography</PageLink>
+          <PageLink href={process.env.MUSIC_PAGE_URL}>Music</PageLink>
+        </PageLinks>
+        <StyledSocialIcons
+          content={content}
+          postLoadingFinished={postLoadingFinished}
         />
-      </ProfileImageWrapper>
-      <GreetingText postLoadingFinished={postLoadingFinished}>
-        I'm <strong>Evan Bonsignori</strong>, a digital nomad travelling the
-        west. When I'm not writing code for {content.currentCompany} or
-        practicing mindfulness, I'm enjoying one of my hobbies,
-      </GreetingText>
-      <PageLinks postLoadingFinished={postLoadingFinished}>
-        <PageLink href={process.env.WRITING_PAGE_URL}>Writing</PageLink>
-        <PageLink href={process.env.PHOTOS_PAGE_URL}>Photography</PageLink>
-        <PageLink href={process.env.MUSIC_PAGE_URL}>Music</PageLink>
-      </PageLinks>
-      <StyledSocialIcons
-        content={content}
-        postLoadingFinished={postLoadingFinished}
-      />
-      <ScrollDownArrowWrapper
-        postLoadingFinished={postLoadingFinished}
-        onClick={() =>
-          aboutSectionRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-            inline: "nearest",
-          })
-        }
-      >
-        <ScrollDownArrow />
-      </ScrollDownArrowWrapper>
-    </>
-  );
+        <ScrollDownArrowWrapper
+          postLoadingFinished={postLoadingFinished}
+          onClick={() =>
+            aboutSectionRef.current.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+              inline: "nearest",
+            })
+          }
+        >
+          <ScrollDownArrow />
+        </ScrollDownArrowWrapper>
+      </>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    ShootingStarsRender,
+    isSunMode,
+    imageAnimating,
+    imageClickCount,
+    introLoadFinished,
+    postLoadingFinished,
+  ]);
 
-  if (isSunMode) {
-    PageRender = <SunMode content={content} />;
-  }
+  const SectionsRender = useMemo(() => {
+    if (!isSunMode && postLoadingFinished) {
+      return (
+        <>
+          <AboutSection innerRef={aboutSectionRef} content={content} />
+          <UsageSection content={content} />
+          <ContactSection content={content} />
+        </>
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postLoadingFinished, isSunMode]);
 
   return (
     <PageWrapper doneLoading={introLoadFinished}>
@@ -104,13 +136,7 @@ export default function Home({ content }) {
         {PageRender}
         <BackgroundImage postLoadingFinished={postLoadingFinished} />
       </PageHeader>
-      {!isSunMode && (
-        <>
-          <AboutSection innerRef={aboutSectionRef} content={content} />
-          <UsageSection content={content} />
-          <ContactSection content={content} />
-        </>
-      )}
+      {SectionsRender}
     </PageWrapper>
   );
 }
@@ -372,38 +398,42 @@ const GreetingTextBreakpoints = setEachBreakpoint({
       padding-right: 10%;
       justify-content: center;
       text-align: center;
-      font-size: 2.7vh;
-      line-height: 4vh;
+      font-size: 1.5rem;
+      line-height: 2.25rem;
      `,
   sm: `
       padding-left: 10%;
       padding-right: 10%;
       justify-content: center;
       text-align: center;
-      font-size: 2.8vh;
-      line-height: 4.5vh;
+      font-size: 1.7rem;
+      line-height: 2.55rem;
      `,
   md: `
-      font-size: 1.5em;
+      font-size: 1.4rem;
+      line-height: 2.1rem;
       `,
   lg: `
-      font-size: 1.5em;
+      font-size: 1.55rem;
+      line-height: 2.325rem;
       `,
   xl: `
-      font-size: 2em;
-      line-height: 1.5em;
+      font-size: 2rem;
+      line-height: 3rem;
       `,
-  xxl: "",
+  xxl: `
+      max-width: 75%;
+      font-size: 2rem;
+      line-height: 3rem;
+  `,
 });
 const GreetingText = styled.main`
-  margin-block-start: 1em;
-  margin-block-end: 1em;
+  margin-block-start: 1rem;
+  margin-block-end: 1rem;
   ${OPACITY_TRANSITION}
   user-select: none;
   grid-row: 3 / 4;
   grid-column: 2 / 5;
-  font-size: 2em;
-  line-height: 1.5em;
   color: white;
   padding-left: 5%;
   padding-right: 5%;
@@ -441,17 +471,17 @@ const PageLinks = styled.div`
 
 const PageLinkBreakpoints = setEachBreakpoint({
   xs: `
-      font-size: 2em;
-      margin-bottom: 4vh;
+      font-size: 2.1rem;
+      margin-bottom: 1.5rem;
       box-shadow: inset 0 0px 0 white, inset 0 -1px 0 white;
      `,
   sm: `
-      font-size: 2.8em;
-      margin-bottom: 3vh;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
      `,
   md: `
-      font-size: 3em;
-      margin-bottom: 5vh;
+      font-size: 3rem;
+      margin-bottom: 3.5rem;
     `,
   lg: "",
   xl: "",
@@ -462,8 +492,9 @@ const PageLink = styled.a`
   text-decoration: none;
   z-index: 2;
   height: fit-content;
-  font-size: 3em;
+  font-size: 3rem;
   font-weight: 900;
+  padding-bottom: 4px;
   box-shadow: inset 0 0px 0 white, inset 0 -2px 0 white;
 
   ${PageLinkBreakpoints}
@@ -486,13 +517,13 @@ const ScrollDownArrowWrapperBreakpoints = setEachBreakpoint({
 const ScrollDownArrowWrapper = styled.div`
   ${OPACITY_TRANSITION}
   ${ScrollDownArrowWrapperBreakpoints}
-  top: calc(100vh - 6em);
+  bottom: 1%;
   display: flex;
   justify-content: center;
   position: absolute;
   left: 49%;
-  min-width: 5em;
-  min-height: 5em;
+  min-width: 5rem;
+  min-height: 5rem;
   z-index: 5;
   :hover {
     cursor: pointer;
@@ -504,8 +535,8 @@ const ScrollDownArrowWrapper = styled.div`
 `;
 const ScrollDownArrow = styled.span`
   position: absolute;
-  width: 3em;
-  height: 3em;
+  width: 3rem;
+  height: 3rem;
   border-left: 1px solid #fff;
   border-bottom: 1px solid #fff;
   -webkit-transform: rotate(-45deg);

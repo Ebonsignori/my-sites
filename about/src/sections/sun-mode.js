@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import {
@@ -6,6 +6,8 @@ import {
   setEachBreakpoint,
 } from "../../../shared/utils/breakpoints";
 import { getRandomIntBetween } from "../../../shared/utils/random";
+import processEyeOfSauron from "../components/eye-of-sauron";
+import RingIcon from "../svgs/ring";
 import useWindowDimensions from "../utils/window-size";
 
 const MAX_STARS = 200;
@@ -15,12 +17,20 @@ const IMAGES_TO_PRELOAD = 4;
 let musicPlaying = false;
 let audio;
 
+const sauronAudioSource =
+  "https://evan-bio-assets.s3.amazonaws.com/sauron-voice.m4a";
+let sauronAudioPlaying = false;
+let sauronAudio;
+
 export default function SunMode({ content }) {
+  const eyeOfSauronRef = useRef(null);
   const { sunModeImages } = content;
   const windowDimensions = useWindowDimensions();
   const starWrapperRef = useRef(null);
+  const [showEye, setShowEye] = useState(false);
+  const [eyeHasShown, setEyeHasShown] = useState(false);
   const [numberOfStars, setNumberOfStars] = useState(0);
-  const onRemoveStar = () => {
+  const onRemoveStar = useCallback(() => {
     if (numberOfStars > -1) {
       setNumberOfStars((prevCount) => prevCount - 1);
       if (starWrapperRef.current.childNodes.length) {
@@ -29,8 +39,8 @@ export default function SunMode({ content }) {
         );
       }
     }
-  };
-  const onAddStar = () => {
+  }, []);
+  const onAddStar = useCallback(() => {
     if (numberOfStars < MAX_STARS) {
       setNumberOfStars((prevCount) => prevCount + 1);
       if (numberOfStars >= 0) {
@@ -65,7 +75,52 @@ export default function SunMode({ content }) {
         starWrapperRef.current.appendChild(newStarSpinner);
       }
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // Start preload of audio 10 seconds after page load
+    setTimeout(() => {
+      if (typeof window !== "undefined") {
+        sauronAudio = new Audio(sauronAudioSource);
+      }
+    }, 10000);
+  }, []);
+
+  useEffect(() => {
+    if (showEye) {
+      // If pressed before preload, load at press
+      if (!sauronAudio) {
+        sauronAudio = new Audio(sauronAudioSource);
+      }
+      if (!sauronAudioPlaying) {
+        sauronAudioPlaying = true;
+        sauronAudio.play();
+        if (musicPlaying) {
+          audio.pause();
+          musicPlaying = false;
+        }
+        sauronAudio.onended = () => {
+          setShowEye(false);
+          sauronAudio.currentTime = 0;
+          if (!musicPlaying) {
+            audio.play();
+            musicPlaying = true;
+          }
+        };
+      }
+      processEyeOfSauron(eyeOfSauronRef);
+    } else if (sauronAudioPlaying) {
+      setEyeHasShown(true);
+      sauronAudioPlaying = false;
+      sauronAudio.pause();
+      sauronAudio.currentTime = 0;
+      if (!musicPlaying) {
+        audio.play();
+        musicPlaying = true;
+      }
+      processEyeOfSauron(null);
+    }
+  }, [showEye]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -75,35 +130,64 @@ export default function SunMode({ content }) {
     }
   }, []);
 
-  if (!musicPlaying && numberOfStars >= 10) {
-    musicPlaying = true;
-    audio.loop = true;
-    audio.play();
-  }
+  useEffect(() => {
+    if (!musicPlaying && numberOfStars >= 10) {
+      musicPlaying = true;
+      audio.loop = true;
+      audio.play();
+    }
+  }, [musicPlaying, numberOfStars]);
 
-  let ChangeSectionRender = (
-    <>
-      <ChangeCountRow>
-        <AddRemoveStar onClick={onRemoveStar} />
-        <StarCount>{numberOfStars} Stars</StarCount>
-        <AddRemoveStar isPlus onClick={onAddStar} />
-      </ChangeCountRow>
-    </>
+  const ChangeSectionRender = useMemo(() => {
+    if (numberOfStars >= MAX_STARS) {
+      return (
+        <p>
+          Ok, ok, if you want to keep being entertained{" "}
+          <a href="https://www.youtube.com/playlist?list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo">
+            go here.
+          </a>
+        </p>
+      );
+    } else {
+      return (
+        <>
+          <ChangeCountRow>
+            <AddRemoveStar onClick={onRemoveStar} />
+            <StarCount>{numberOfStars} Stars</StarCount>
+            <AddRemoveStar isPlus onClick={onAddStar} />
+          </ChangeCountRow>
+        </>
+      );
+    }
+  }, [numberOfStars, showEye]);
+
+  const currentImage = useMemo(
+    () => getCurrentImage(numberOfStars, sunModeImages),
+    [numberOfStars]
   );
-  if (numberOfStars >= MAX_STARS) {
-    ChangeSectionRender = (
-      <p>
-        Ok, ok, if you want to keep being entertained{" "}
-        <a href="https://www.youtube.com/playlist?list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo">
-          go here.
-        </a>
-      </p>
-    );
-  }
 
-  const currentImage = getCurrentImage(numberOfStars, sunModeImages);
+  const RingRender = useMemo(() => {
+    if (!eyeHasShown && numberOfStars >= 100) {
+      return (
+        <RingWrapper isOn={showEye}>
+          <span onClick={() => setShowEye((prev) => !prev)}>
+            Go ahead, put it on <RingIcon />
+          </span>
+          &nbsp;
+          {showEye && (
+            <button onClick={() => setShowEye(false)}>Take it off?</button>
+          )}
+        </RingWrapper>
+      );
+    }
+    return null;
+  }, [eyeHasShown, showEye, numberOfStars]);
+
   return (
     <>
+      <EyeOfSauronWrapper isOn={showEye}>
+        <canvas ref={eyeOfSauronRef}></canvas>
+      </EyeOfSauronWrapper>
       <StarsWrapper ref={starWrapperRef}></StarsWrapper>
       <ImagePreloader
         imageUrls={sunModeImages.slice(
@@ -116,20 +200,22 @@ export default function SunMode({ content }) {
         <SunImage imageUrl={currentImage?.url} />
         <Sun />
       </SunWrapper>
+      {RingRender}
     </>
   );
 }
 
 // Hidden div that assists with preloading background images
+const ImagePreloaderProps = (props) =>
+  props?.imageUrls?.length &&
+  props.imageUrls.map((img) => `url(${img.url})`).join(" ");
 const ImagePreloader = styled.div`
   position: absolute;
   width: 0;
   height: 0;
   overflow: hidden;
   z-index: -3;
-  content: ${(props) =>
-  props?.imageUrls?.length &&
-    props.imageUrls.map((img) => `url(${img.url})`).join(" ")};
+  content: ${ImagePreloaderProps};
 `;
 
 const SunImageBreakpoints = setEachBreakpoint({
@@ -422,16 +508,23 @@ const AddRemoveStarBreakpoints = (props) =>
     `
     }
     `,
-    lg: `
-
-    `,
   });
+const AddRemoveStarProps = (props) =>
+  props.isPlus &&
+  `
+      :before {
+        height: .5em;
+        width: 0.1em;
+      }
+`;
 const AddRemoveStar = styled.div`
   ${(props) => AddRemoveStarBreakpoints(props)}
   height: 1em;
   width: 1em;
   font-size: 1em;
-  user-select: none;
+  * {
+    user-select: none !important;
+  }
   :hover {
     cursor: pointer;
     opacity: 0.9;
@@ -445,14 +538,7 @@ const AddRemoveStar = styled.div`
     height: 0.1em;
     width: 0.5em;
   }
-  ${(props) =>
-  props.isPlus &&
-    `
-      :before {
-        height: .5em;
-        width: 0.1em;
-      }
-    `}
+  ${AddRemoveStarProps}
 
   &:after,
   &:before {
@@ -547,4 +633,55 @@ const Sun = styled.div`
         0 0 40px 100px rgba(209, 64, 9, 0.06);
     }
   }
+`;
+
+const EyeOfSauronWrapperProps = (props) =>
+  !props.isOn &&
+  `
+   display: none;
+`;
+const EyeOfSauronWrapper = styled.div`
+  ${EyeOfSauronWrapperProps}
+  position: fixed;
+  top: 20%;
+  left: calc(50% - 250px);
+  z-index: 25;
+  border-radius: 100%;
+`;
+
+const RingWrapperProps = (props) =>
+  !props.isOn &&
+  `
+    path:nth-of-type(2) {
+      fill: #e8ac17;
+    }
+
+`;
+const RingWrapper = styled.div`
+  position: absolute;
+  bottom: 5%;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  z-index: 100;
+  button {
+    background-color: white;
+    color: black;
+    border-radius: 15px;
+    padding: 4px;
+    vertical-align: middle;
+    border: 1px solid black;
+    z-index: 2;
+    :hover {
+      cursor: pointer;
+      background-color: red;
+    }
+  }
+
+  svg {
+    vertical-align: middle;
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+  ${RingWrapperProps}
 `;

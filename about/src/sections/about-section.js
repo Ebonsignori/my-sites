@@ -1,81 +1,42 @@
-/* eslint-disable react/no-unescaped-entities */
-import { useEffect, useRef, useState } from "react";
+import { memo, useMemo } from "react";
 import styled from "styled-components";
 
 import { setEachBreakpoint } from "../../../shared/utils/breakpoints";
-import processEyeOfSauron from "../components/eye-of-sauron";
 import {
   ContentSection,
-  LeftContentSection,
   RightContentSection,
   SectionText,
   SectionWrapper,
+  TextContent,
 } from "../components/section-elements";
 import SectionHeader from "../components/section-header";
+import GroupIcon from "../svgs/group-icon";
 import LaptopIcon from "../svgs/laptop";
-import RingIcon from "../svgs/ring";
 
-const sauronAudio = "https://evan-bio-assets.s3.amazonaws.com/sauron-voice.m4a";
-let audioPlaying = false;
-let audio;
-
-export default function AboutSection({ content, innerRef }) {
-  const eyeOfSauronRef = useRef(null);
-  const [showEye, setShowEye] = useState(false);
-  const workItems = content.jobs.map((job) => {
-    return (
-      <JobItem key={job.company}>
-        <JobDate>{job.dates}</JobDate>
-        <CompanyLocationRow>
-          <JobCompany>
-            <a target="_blank" href={job.companyUrl} rel="noreferrer">
-              {job.company}
-            </a>
-          </JobCompany>
-          <JobLocation>{job.location}</JobLocation>
-        </CompanyLocationRow>
-        <JobTitle>{job.title}</JobTitle>
-      </JobItem>
-    );
-  });
-
-  useEffect(() => {
-    // Start preload of audio 6 seconds after page load
-    setTimeout(() => {
-      if (typeof window !== "undefined") {
-        audio = new Audio(sauronAudio);
-      }
-    }, 6000);
-  }, []);
-
-  if (showEye) {
-    // If pressed before preload, load at press
-    if (!audio) {
-      audio = new Audio(sauronAudio);
-    }
-    if (!audioPlaying) {
-      audioPlaying = true;
-      audio.play();
-      audio.onended = () => {
-        setShowEye(false);
-        audio.currentTime = 0;
-      };
-    }
-    processEyeOfSauron(eyeOfSauronRef);
-  } else {
-    if (audio) {
-      audioPlaying = false;
-      audio.pause();
-      audio.currentTime = 0;
-    }
-    processEyeOfSauron(null);
-  }
+function AboutSection({ content, innerRef }) {
+  const workItems = useMemo(
+    () =>
+      content.jobs.map((job) => {
+        return (
+          <JobItem key={job.company}>
+            <JobDate>{job.dates}</JobDate>
+            <CompanyLocationRow>
+              <JobCompany>
+                <a target="_blank" href={job.companyUrl} rel="noreferrer">
+                  {job.company}
+                </a>
+              </JobCompany>
+              <JobLocation>{job.location}</JobLocation>
+            </CompanyLocationRow>
+            <JobTitle>{job.title}</JobTitle>
+          </JobItem>
+        );
+      }),
+    [content.jobs]
+  );
 
   return (
     <SectionWrapper ref={innerRef}>
-      <EyeOfSauronWrapper isOn={showEye}>
-        <canvas ref={eyeOfSauronRef}></canvas>
-      </EyeOfSauronWrapper>
       <SectionHeader
         headerTitle="About"
         linkTitle="Full Resume"
@@ -83,99 +44,69 @@ export default function AboutSection({ content, innerRef }) {
         Icon={LaptopIcon}
       />
       <ContentSection>
-        <LeftContentSection>
-          <Title isFirst>Developer Story</Title>
-          <SectionText isOn={showEye}>
-            Despite what the CSS star animations may suggest, most of my
-            experience has been in backend and full-stack development. I've been
-            on projects dealing entirely with microservices and cloud
-            migrations, and others that required me to design responsive and
-            highly stateful frontends. At GitHub, I'm helping build internal
-            tooling that does a little of everything; like helping ICs with
-            agile automations, managers with Slack notifications/updates, and
-            VPs with responsive HTML reports.
-            <br />
-            <br />
-            In every project, I strive to learn the ever-changing requirements
-            to best contribute. Lately, I've been learning to resist the
-            developer's impulse to tunnel vision into creating a robustly
-            engineered system while losing sight of an MVP. In this way,
-            developers are like Frodo, and removing tech debt is a ring we must
-            keep close. Sometimes you need to wear it, but it may come with a
-            cost.{" "}
-            <span onClick={() => setShowEye((prev) => !prev)}>
-              <RingIcon />
-            </span>
-            &nbsp;
-            {showEye && (
-              <button onClick={() => setShowEye(false)}>Take it off?</button>
-            )}
-            <br />
-            <br />
-            As a co-worker, I value the happiness of the people I work with. I
-            want each team member to feel like they have a voice, are encouraged
-            to contribute, and are happy with their contributions. My work
-            leaves me feeling energized and fulfilled, and I want everyone to
-            have the opportunity to feel the same way about their own work.
+        <TextContent>
+          <Title>Developer Story</Title>
+          <SectionText>
+            <p>
+              Despite what the CSS star animations may suggest, most of my
+              experience has been in backend and full-stack development. I've
+              been on projects dealing entirely with microservices and cloud
+              migrations, and others that required me to design responsive and
+              highly stateful frontends. At GitHub, I'm helping build internal
+              tooling that does a little of everything; like helping ICs with
+              agile automations, managers with Slack notifications/updates, and
+              VPs with responsive HTML reports.
+            </p>
+            <p>
+              As a co-worker, I value the happiness of the people I work with. I
+              want each team member to feel like they have a voice, are
+              encouraged to contribute, and are happy with their contributions.
+              My work leaves me feeling energized and fulfilled, and I want
+              everyone to have the opportunity to feel the same way about their
+              own work.
+            </p>
           </SectionText>
-        </LeftContentSection>
-        <RightContentSection>
+        </TextContent>
+        <RightContentSection hideOnMobile>
           <Title>Where I've Worked</Title>
           {workItems}
         </RightContentSection>
       </ContentSection>
+      <MobileOnlySection>
+        <SectionHeader
+          headerTitle="Work"
+          linkTitle="Linkedin"
+          linkUrl="https://www.linkedin.com/in/ebonsignori/"
+          Icon={GroupIcon}
+        />
+        <MobileWorkSection>
+          <RightContentSection>{workItems}</RightContentSection>
+        </MobileWorkSection>
+      </MobileOnlySection>
     </SectionWrapper>
   );
 }
 
-const EyeOfSauronWrapperProps = (props) =>
-  !props.isOn &&
-  `
-   display: none;
-`;
-const EyeOfSauronWrapper = styled.div`
-  ${EyeOfSauronWrapperProps}
-  position: fixed;
-  top: 20%;
-  left: calc(50% - 250px);
-  z-index: -4;
-  border-radius: 100%;
-`;
+export default memo(AboutSection);
 
-const TitleBreakpoints = (props) =>
+const TitleBreakpoints = () =>
   setEachBreakpoint({
     xs: `
-  ${
-    props.isFirst
-      ? `
-    margin-top: .5em;
-    margin-bottom: .3em;
-  `
-      : `
-    margin-top: 1em;
-    margin-bottom: .5em;
-  `
-  }
-  font-size: 5.5vw;
-  line-height: 1.5em;
+    display: none;
   `,
     sm: `
-  font-size: 4.0vw;
-  line-height: 1.5em;
-  margin-bottom: .5em;
+    display: none;
   `,
     md: `
-  font-size: 3.0vw;
-  line-height: 1.4em;
-  margin-bottom: .7em;
+    display: none;
   `,
   });
 const Title = styled.h3`
-  line-height: 1.5em;
-  font-size: 1.5em;
+  line-height: 1.5rem;
+  font-size: 2rem;
   color: #666;
   font-weight: 500;
-  margin-bottom: 1em;
+  margin-bottom: 0;
   ${TitleBreakpoints}
 `;
 
@@ -192,17 +123,18 @@ const CompanyLocationRow = styled.div`
 `;
 
 const JobDate = styled.span`
-  line-height: 0.9em;
-  font-size: 0.9em;
+  margin-top: 1.5rem;
+  line-height: 0.9rem;
+  font-size: 0.9rem;
   color: #999;
 `;
 
 const JobCompany = styled.h4`
-  line-height: 1.2em;
-  font-size: 1.2em;
-  margin-top: 0.4em;
+  line-height: 1.2rem;
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
   margin-bottom: 0;
-  margin-right: 0.7em;
+  margin-right: 0.7rem;
   min-width: fit-content;
 
   a {
@@ -215,19 +147,31 @@ const JobCompany = styled.h4`
   }
 `;
 const JobLocation = styled.span`
-  margin-top: 0.4em;
+  margin-top: 0.4rem;
   margin-bottom: 0;
-  line-height: 1.2em;
-  font-size: 1.2em;
+  line-height: 1.2rem;
+  font-size: 1.2rem;
   color: #666;
   min-width: fit-content;
 `;
 const JobTitle = styled.h5`
-    font-family: var(--body-family);
-  line-height: 1.2em;
-  font-size: 1.2em;
+  font-family: var(--body-family);
+  line-height: 1.2rem;
+  font-size: 1.2rem;
   font-weight: normal;
   margin: 0;
-  margin-top: 0.4em;
-  margin-bottom: 1.5em;
+  margin-top: 0.4rem;
+`;
+
+const MobileOnlySectionBreakpoints = setEachBreakpoint({
+  lg: "display: none",
+  xl: "display: none",
+  xxl: "display: none",
+});
+const MobileOnlySection = styled.div`
+  ${MobileOnlySectionBreakpoints}
+`;
+const MobileWorkSection = styled(ContentSection)`
+  flex-direction: row;
+  justify-content: center;
 `;

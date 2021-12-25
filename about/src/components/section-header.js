@@ -12,112 +12,158 @@ export default function SectionHeader({
 }) {
   const StyledIcon = Icon ? getStyledIcon(Icon) : null;
   return (
-    <AboutHeaderSection id={headerTitle}>
-      <StyledIcon />
-      <AboutHeaderTitle>{headerTitle}</AboutHeaderTitle>
-      {linkUrl && (
-        <Link href={linkUrl} passHref>
-          <AboutHeaderLink>
-            {linkTitle}
-            <RightArrow />
-          </AboutHeaderLink>
-        </Link>
-      )}
-    </AboutHeaderSection>
+    <SectionHeaderContainer>
+      <SectionHeaderWrapper id={headerTitle}>
+        <StyledIcon />
+        <HeaderTitle>{headerTitle}</HeaderTitle>
+        {linkUrl && (
+          <Link href={linkUrl} passHref>
+            <CTALink>
+              {linkTitle}
+              <RightArrow />
+            </CTALink>
+          </Link>
+        )}
+      </SectionHeaderWrapper>
+    </SectionHeaderContainer>
   );
 }
 
-const AboutHeaderSectionSmall = `
-  margin-top: .5em;
-  margin-bottom: .5em;
-  width: auto;
+const SectionHeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 24px;
 `;
-const AboutHeaderSectionBreakpoints = setEachBreakpoint({
-  xs: AboutHeaderSectionSmall,
-  sm: AboutHeaderSectionSmall,
-  md: AboutHeaderSectionSmall,
+const SectionHeaderSmallBreakpoints = `
+  margin-top: 3rem;
+`;
+const SectionHeaderLargeBreakpoints = `
+  width: 1360px;
+  max-width: 1360px;
+`;
+const SectionHeaderBreakpoints = setEachBreakpoint({
+  xs: SectionHeaderSmallBreakpoints,
+  sm: SectionHeaderSmallBreakpoints,
+  md: SectionHeaderSmallBreakpoints,
+  lg: SectionHeaderLargeBreakpoints,
+  xl: SectionHeaderLargeBreakpoints,
+  xxl: SectionHeaderLargeBreakpoints,
 });
-const AboutHeaderSection = styled.div`
+const SectionHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  border-bottom: 1px solid #e1e1e1;
-  ${AboutHeaderSectionBreakpoints}
+  max-width: 680px;
+  width: 680px;
+  max-width: 100%;
+  display: flex;
+  border-bottom: 2px solid #e1e1e1;
+  margin-top: 3rem;
+  ${SectionHeaderBreakpoints}
 `;
 
 const StyledIconBreakpoints = setEachBreakpoint({
   xs: `
-  width: 2em;
-  margin-right: 1em;
+  width: 2.0rem;
+  height: 2.0rem;
+  `,
+  sm: `
+  width: 4.0rem;
+  height: 4.0rem;
+  `,
+  md: `
+  width: 4.0rem
+  height: 4.0rem
+  `,
+  lg: `
+  width: 4.0rem;
+  height: 4.0rem;
+  margin-right: 2rem;
+  `,
+  xl: `
+  width: 4rem;
+  height: 4rem;
+  margin-right: 2rem;
+  `,
+  xxl: `
+  width: 4.4rem;
+  height: 4.4rem;
+  margin-right: 2rem;
   `,
 });
 
 function getStyledIcon(Icon) {
   return styled(Icon)`
-    width: 3em;
-    margin-right: 1.4em;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
     ${StyledIconBreakpoints}
   `;
 }
 
-const AboutHeaderTitleBreakpoints = setEachBreakpoint({
+const HeaderTitleBreakpoints = setEachBreakpoint({
   xs: `
-  font-size: 1.6em;
-  line-height: 1.3em;
+  font-size: 2.0rem;
   `,
   sm: `
-  font-size: 2em;
-  line-height: 1.6em;
+  font-size: 4.0rem;
   `,
   md: `
-  font-size: 2.2em;
-  line-height: 1.6em;
+  font-size: 4.0rem;
+  `,
+  lg: `
+  font-size: 4.0rem;
   `,
   xl: `
-  font-size: 2em;
+  font-size: 4rem;
   `,
   xxl: `
-  font-size: 2.1em;
+  font-size: 4.4rem;
   `,
 });
-const AboutHeaderTitle = styled.h2`
+const HeaderTitle = styled.h2`
   display: flex;
   flex-direction: row;
-  font-size: 1.8em;
-  line-height: 1.8em;
+  line-height: 1.2em;
   margin: 0;
-  ${AboutHeaderTitleBreakpoints}
+  ${HeaderTitleBreakpoints}
 `;
 
-const AboutHeaderResumeLinkDefaults = `
+const CTALinkDefaults = `
   svg {
-    width: 2em;
-    margin-left: 1em;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: .5rem;
   }
 `;
-const AboutHeaderResumeLinkBreakpoints = setEachBreakpoint({
+const CTALinkBreakpoints = setEachBreakpoint({
   xs: `
+  font-size: 1.0rem;
    svg {
-    width: 1.2em;
-    margin-left: .5em;
+    min-width: 1.2rem;
+    min-height: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: .2rem;
    }
   `,
-  sm: AboutHeaderResumeLinkDefaults,
-  md: AboutHeaderResumeLinkDefaults,
-  lg: AboutHeaderResumeLinkDefaults,
-  xl: AboutHeaderResumeLinkDefaults,
-  xxl: AboutHeaderResumeLinkDefaults,
+  sm: CTALinkDefaults,
+  md: CTALinkDefaults,
+  lg: CTALinkDefaults,
+  xl: CTALinkDefaults,
+  xxl: CTALinkDefaults,
 });
 
-const AboutHeaderLink = styled.a`
+const CTALink = styled.a`
   display: flex;
   align-items: center;
   color: #272727;
   margin-left: auto;
+  font-size: 1.5rem;
   line-height: 1em;
   white-space: nowrap;
   text-decoration: none;
-  ${AboutHeaderResumeLinkBreakpoints}
+  ${CTALinkBreakpoints}
 
   :hover {
     cursor: pointer;

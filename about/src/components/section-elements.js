@@ -1,48 +1,65 @@
 import styled from "styled-components";
 
-import { setEachBreakpoint } from "../../../shared/utils/breakpoints";
+import {
+  BREAKPOINT_LG,
+  BREAKPOINT_XL,
+  BREAKPOINT_XXL,
+  setEachBreakpoint,
+} from "../../../shared/utils/breakpoints";
 
-const SectionBreakpoints = setEachBreakpoint({
+const TextContentBreakpoints = setEachBreakpoint({
   xs: `
-  padding-left: 5vw;
-  padding-right: 5vw;
-  `,
-  sm: `
-  padding-left: 5vw;
-  padding-right: 5vw;
-  `,
-  md: `
-  padding-left: 5vw;
-  padding-right: 5vw;
-  `,
-  lg: `
-  padding-top: 3%;
-  padding-left: 15vw;
-  padding-right: 15vw;
-  `,
-  xl: `
-  padding-top: 3%;
-  padding-left: 20vw;
-  padding-right: 20vw;
-  `,
-  xxl: `
-  padding-top: 2%;
-  padding-left: 25vw;
-  padding-right: 25vw;
+  font-size: 18px;
+  line-height: 28px;
+
+  p {
+    margin-top: 1.4rem;
+  }
   `,
 });
+const TextContentProps = (props) =>
+  props.wide &&
+  `
+  ${BREAKPOINT_LG} {
+    max-width: 1200px;
+    width: 1200px;
+  }
+  ${BREAKPOINT_XL} {
+    max-width: 1200px;
+    width: 1200px;
+  }
+  ${BREAKPOINT_XXL} {
+    max-width: 1200px;
+    width: 1200px;
+  }
+`;
+export const TextContent = styled.div`
+  font-family: var(--body-family), sans-serif;
+  background-color: var(--font);
+  color: var(--background);
+  word-wrap: break-word;
+  max-width: 680px;
+  margin: 0 24px;
+  font-size: 21px;
+  line-height: 33px;
+
+  p {
+    margin-top: 1.7rem;
+    margin-bottom: 0;
+  }
+  ${TextContentBreakpoints}
+  ${TextContentProps}
+`;
+
 export const SectionWrapper = styled.section`
-  display: block;
-  padding-top: 5%;
-  padding-left: 5vw;
-  padding-right: 5vw;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
   justify-content: center;
-  align-items: center;
-  background-color: white;
+  background-color: var(--font);
   position: relative;
   overflow: hidden;
   z-index: 2;
-  ${SectionBreakpoints}
   :last-of-type {
     padding-bottom: 50px;
   }
@@ -60,74 +77,13 @@ const ContentSectionBreakpoints = setEachBreakpoint({
 export const ContentSection = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   ${ContentSectionBreakpoints}
 `;
 
-const LeftContentSectionBreakpoints = setEachBreakpoint({
-  xs: `
-  padding: 0;
-  width: 90%;
-  font-size: .8em;
-  p {
-    line-height: 1.5em !important;
-  }
-`,
-  sm: `
-  padding: 0;
-  width: 80%;
-  font-size: 1.2em;
-  p {
-    line-height: 1.4em !important;
-  }
-`,
-  md: `
-  padding: 0;
-  width: 73%;
-  font-size: 1.3em;
-  p {
-    line-height: 1.4em !important;
-  }
-`,
-  lg: `
-  font-size: 1.1em;
-  p {
-    line-height: 1.3em !important;
-  }
-  `,
-  xl: `
-  font-size: 1.1em;
-  p {
-    line-height: 1.3em !important;
-  }
-  `,
-  xxl: `
-  font-size: 1.2em;
-  p {
-    line-height: 1.3em !important;
-  }
-  `,
-});
-export const LeftContentSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-  padding-right: 5%;
-  ${LeftContentSectionBreakpoints}
-`;
-
-const SectionTextProps = (props) =>
-  !props.isOn &&
-  `
-    path:nth-of-type(2) {
-      fill: #e8ac17;
-    }
-
-`;
 export const SectionText = styled.p`
   font-weight: 300;
   margin: 0;
-  line-height: 1.3em;
-  font-size: 1.2em;
 
   span {
     z-index: 2;
@@ -135,94 +91,60 @@ export const SectionText = styled.p`
       cursor: pointer;
     }
   }
-  button {
-    background-color: white;
-    color: black;
-    border-radius: 15px;
-    padding: 4px;
-    vertical-align: middle;
-    border: 1px solid black;
-    z-index: 2;
-    :hover {
-      cursor: pointer;
-      background-color: red;
-    }
-  }
-
-  svg {
-    ${SectionTextProps}
-    vertical-align: middle;
-    width: 1.7em;
-  }
 `;
 
-const SectionTextCenterBreakpoints = setEachBreakpoint({
-  xs: `
-    width: 90%;
-    font-size: 1.1em;
-    line-height: 1.4em;
-  `,
-  sm: `
-    font-size: 1.3em;
-    line-height: 1.4em;
-  `,
-});
-export const SectionTextCenter = styled(SectionText)`
-  font-weight: 300;
-  margin: 0;
-  padding-top: 1em;
-  font-size: 1.5em;
-  line-height: 1.6em;
-  ${SectionTextCenterBreakpoints}
-
-  a {
-    color: black;
-    :hover {
-      color: rgb(95, 145, 255);
-    }
-  }
-`;
-
-const RightContentSectionBreakpoints = setEachBreakpoint({
-  xs: `
+const RightContentSectionBreakpoints = (props) =>
+  setEachBreakpoint({
+    xs: `
+  ${props.hideOnMobile ? "display: none;" : ""}
   padding: 0;
-  width: 90%;
+  word-wrap: break-word;
+  max-width: 680px;
+  width: 680px;
+  margin: 0 24px;
   font-size: .9em;
   p {
     line-height: 1.4em !important;
   }
 `,
-  sm: `
+    sm: `
+  ${props.hideOnMobile ? "display: none;" : ""}
   padding: 0;
-  width: 80%;
+  word-wrap: break-word;
+  max-width: 680px;
+  width: 680px;
+  margin: 0 24px;
   font-size: 1.2em;
   p {
     line-height: 1.4em !important;
   }
 `,
-  md: `
+    md: `
+  ${props.hideOnMobile ? "display: none;" : ""}
   padding: 0;
-  width: 73%;
+  word-wrap: break-word;
+  width: 680px;
+  max-width: 680px;
+  margin: 0 24px;
   font-size: 1.2em;
 `,
-  lg: `
+    lg: `
   font-size: 1.1em;
   `,
-  xl: `
+    xl: `
   font-size: 1.1em;
   `,
-  xxl: `
+    xxl: `
   font-size: 1.2em;
   p {
     line-height: 1.4em !important;
   }
   `,
-});
+  });
 
 export const RightContentSection = styled.div`
   display: flex;
   flex-direction: column;
-  width: 45%;
-  padding-left: 5%;
+  padding-left: 2%;
   ${RightContentSectionBreakpoints}
 `;

@@ -1,10 +1,13 @@
+import { memo } from "react";
 import styled from "styled-components";
 
 import WaveIcon from "../svgs/wave";
 
-export default function WaveHand({ introLoadFinished }) {
+function WaveHand({ introLoadFinished }) {
   return <StyledWaveIcon wave={!introLoadFinished} />;
 }
+
+export default memo(WaveHand);
 
 const StyledWaveIconProps = (props) =>
   props.wave &&
@@ -13,7 +16,10 @@ const StyledWaveIconProps = (props) =>
 `;
 const StyledWaveIcon = styled(WaveIcon)`
   z-index: 4;
-  min-width: 1em;
+  min-width: 1.2rem;
+  min-height: 1.2rem;
+  width: 1.2em;
+  height: 1.2em;
   visibility: visible;
   path {
     fill: white;

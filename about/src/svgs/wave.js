@@ -1,9 +1,7 @@
-import styled from "styled-components";
-
 /* eslint-disable max-len */
 export default function WaveIcon({ className }) {
   return (
-    <StyledSVG
+    <svg
       className={className}
       id="svg"
       xmlns="http://www.w3.org/2000/svg"
@@ -18,11 +16,6 @@ export default function WaveIcon({ className }) {
           fillRule="evenodd"
         ></path>
       </g>
-    </StyledSVG>
+    </svg>
   );
 }
-
-const StyledSVG = styled.svg`
-  height: auto;
-  width: 1em;
-`;

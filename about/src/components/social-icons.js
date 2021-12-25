@@ -34,8 +34,6 @@ export default function SocialIcons({ content, className }) {
   );
 }
 
-const getLinkOffset = (margin, width) =>
-  Math.abs(100 - (NUMBER_OF_LINKS * margin + NUMBER_OF_LINKS * width)) - 1;
 const IconsWrapperBreakpoints = setEachBreakpoint({
   xs: `
    position: relative;
@@ -48,10 +46,16 @@ const IconsWrapperBreakpoints = setEachBreakpoint({
    left: 0;
   `,
   md: `
-    left: ${getLinkOffset(2, 4.0)}vw;
+  margin-right: .5rem;
   `,
   lg: `
-    left: ${getLinkOffset(1.0, 3.0)}vw;
+  margin-right: 1rem;
+  `,
+  xl: `
+  margin-right: 1rem;
+  `,
+  xxl: `
+  margin-right: 1rem;
   `,
 });
 
@@ -59,48 +63,48 @@ const IconsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   position: absolute;
-  top: 2vh;
-  left: ${getLinkOffset(1.0, 2.0)}vw;
+  top: 2rem;
   z-index: 2;
+  right: 0;
   ${IconsWrapperBreakpoints}
 `;
 
 const IconLinkBreakpoints = setEachBreakpoint({
   xs: `
-  margin: 0 1.6vw;
+  margin: 0 .75rem;
   margin-bottom: 3%;
   svg {
-    width: 8.2vw;
-    height: 8.2vw;
+    width: 2.35rem;
+    height: 2.35rem;
   }
   `,
   sm: `
-  margin: 0 1.1vw;
+  margin: 0 .8rem;
   svg {
-    width: 5vw;
-    height: 5vw;
+    width: 3rem;
+    height: 3rem;
   }
   `,
   md: `
-  margin: 0 1vw;
+  margin: 0 .8rem;
   svg {
-    width: 4.0vw;
-    height: 4.0vw;
+    width: 3.0rem;
+    height: 3.0rem;
   }
   `,
   lg: `
-  margin-right: 1.0vw;
+  margin: 0 .8rem;
   svg {
-    width: 3.0vw;
-    height: 3.0vw;
+    width: 3.0rem;
+    height: 3.0rem;
   }
   `,
 });
 const IconLink = styled.a`
-  margin-right: 1vw;
+  margin-right: 2rem;
   svg {
-    width: 2vw;
-    height: 2vw;
+    width: 3.2rem;
+    height: 3.2rem;
     fill: white;
     :hover {
       fill: rgb(95, 145, 255);
