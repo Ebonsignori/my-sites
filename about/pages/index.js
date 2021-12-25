@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
+import Copyright from "../../shared/components/copyright";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import {
   getImageSetSrc,
@@ -124,6 +125,7 @@ export default function Home({ content }) {
           <AboutSection innerRef={aboutSectionRef} content={content} />
           <UsageSection content={content} />
           <ContactSection content={content} />
+          <Copyright invertColors />
         </>
       );
     }

@@ -61,7 +61,7 @@ export const SectionWrapper = styled.section`
   overflow: hidden;
   z-index: 2;
   :last-of-type {
-    padding-bottom: 50px;
+    padding-bottom: 25px;
   }
 `;
 
