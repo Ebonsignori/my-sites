@@ -14,8 +14,9 @@ export default function License() {
         title="Photo License"
         description="All photos on this site are free to use without attribution or payment"
         keywords="License, Policy, Attribution"
-        image="https://evan-bio-assets.s3.amazonaws.com/blog-themed-pencil-icon.jpg"
-        imageAlt="Pencil icon with colors matching the theme of the blog"
+        image={`${process.env.BASE_ASSET_URL}/photos-themed-camera-icon.png`}
+        imageAlt="Camera icon with colors matching the theme of the photos site"
+        type="website"
       />
       <PageWrapper>
         <Header

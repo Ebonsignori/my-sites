@@ -194,9 +194,9 @@ export default function GlobeComponent({ images }) {
         title="Photo Map"
         description="Globe showing locations of all photos on the site"
         keywords="Photo Map, Locations, Image Globe"
-        // TODO: Change this to globe image
-        image="https://evan-bio-assets.s3.amazonaws.com/blog-themed-pencil-icon.jpg"
-        imageAlt="Pencil icon with colors matching the theme of the blog"
+        image={`${process.env.BASE_ASSET_URL}/photos-themed-camera-icon.png`}
+        imageAlt="Camera icon with colors matching the theme of the photos site"
+        type="website"
       />
       {Modal}
       <Header

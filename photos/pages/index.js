@@ -380,9 +380,9 @@ export default function Home({ images, tags, models }) {
         title="Photography - Evan Bonsignori"
         description="Free to use photos taken by Evan Bonsignori"
         keywords="Photography, Free Images, Evan Bonsignori"
-        image="https://evan-bio-assets.s3.amazonaws.com/blog-themed-pencil-icon.jpg"
-        imageAlt="Pencil icon with colors matching the theme of the blog"
-        type="blog"
+        image={`${process.env.BASE_ASSET_URL}/photos-themed-camera-icon.png`}
+        imageAlt="Camera icon with colors matching the theme of the photos site"
+        type="website"
       />
       {Modal}
       <PageWrapper onScroll={onScroll}>

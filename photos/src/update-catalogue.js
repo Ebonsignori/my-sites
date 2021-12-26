@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 // Not in .env or shell to make running in GH action easier
-const catalogueUrl = "https://evan-bio-photos.s3.amazonaws.com/catalogue.json";
+const catalogueUrl = "https://diy6d7dnpy1l6.cloudfront.net/catalogue.json";
 
 async function getJson(url) {
   return new Promise((resolve, reject) => {

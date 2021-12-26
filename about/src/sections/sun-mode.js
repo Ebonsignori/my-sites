@@ -17,8 +17,7 @@ const IMAGES_TO_PRELOAD = 4;
 let musicPlaying = false;
 let audio;
 
-const sauronAudioSource =
-  "https://evan-bio-assets.s3.amazonaws.com/sauron-voice.m4a";
+const sauronAudioSource = `${process.env.BASE_ASSET_URL}/sauron-voice.m4a`;
 let sauronAudioPlaying = false;
 let sauronAudio;
 
@@ -125,7 +124,7 @@ export default function SunMode({ content }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       audio = new Audio(
-        "https://evan-bio-assets.s3.amazonaws.com/shooting-stars-loop.mp3"
+        `${process.env.BASE_ASSET_URL}/shooting-stars-loop.mp3`
       );
     }
   }, []);

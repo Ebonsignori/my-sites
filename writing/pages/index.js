@@ -233,7 +233,7 @@ export default function Home({ entries, categories }) {
         title="Writing - Evan Bonsignori"
         description="A blog covering life, tech, and music by Evan Bonsignori"
         keywords="Writing, Blog, Evan Bonsignori"
-        image="https://evan-bio-assets.s3.amazonaws.com/blog-themed-pencil-icon.jpg"
+        image={`${process.env.BASE_ASSET_URL}/blog-themed-pencil-icon.jpg`}
         imageAlt="Pencil icon with colors matching the theme of the blog"
         type="blog"
       />

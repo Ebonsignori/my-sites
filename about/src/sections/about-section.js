@@ -40,7 +40,7 @@ function AboutSection({ content, innerRef }) {
       <SectionHeader
         headerTitle="About"
         linkTitle="Full Resume"
-        linkUrl="https://evan-bio-assets.s3.amazonaws.com/Resume+-+Evan+Bonsignori.pdf"
+        linkUrl={`${process.env.BASE_ASSET_URL}/Resume+-+Evan+Bonsignori.pdf`}
         Icon={LaptopIcon}
       />
       <ContentSection>
