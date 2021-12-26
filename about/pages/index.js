@@ -17,7 +17,7 @@ import UsageSection from "../src/sections/usage-section";
 import fetchContent from "../src/utils/fetch-content";
 
 // Total time in ms to show wave intro before displaying full page
-const LOAD_TIME = 2300;
+const LOAD_TIME = 2000;
 
 export default function Home({ content }) {
   const aboutSectionRef = useRef(null);
@@ -28,7 +28,7 @@ export default function Home({ content }) {
 
   // Kick off loading countdown on first render
   const startPostLoading = useCallback(() => {
-    setTimeout(() => setPostLoadingFinished(true), 1000);
+    setTimeout(() => setPostLoadingFinished(true), 250);
   }, []);
   useEffect(() => {
     setTimeout(() => {
@@ -291,7 +291,7 @@ const GreetingTitle = styled.h1`
 const LetterOne = styled.span`
   user-select: none;
   opacity: 0;
-  animation-delay: 1s;
+  animation-delay: 0.5s;
   animation-duration: 1s;
   animation-name: fadeInAnimation;
   animation-fill-mode: forwards;
@@ -299,7 +299,7 @@ const LetterOne = styled.span`
 const LetterTwo = styled.span`
   user-select: none;
   opacity: 0;
-  animation-delay: 1.5s;
+  animation-delay: 1s;
   animation-duration: 1s;
   animation-name: fadeInAnimation;
   animation-fill-mode: forwards;
@@ -307,7 +307,7 @@ const LetterTwo = styled.span`
 const LetterThree = styled.span`
   opacity: 0;
   user-select: none;
-  animation-delay: 2s;
+  animation-delay: 1.5s;
   animation-duration: 1s;
   animation-name: fadeInAnimation;
   animation-fill-mode: forwards;
