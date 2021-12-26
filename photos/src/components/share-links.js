@@ -14,7 +14,7 @@ export default function ShareIcons({ className, slug }) {
   const [copied, setCopied] = useState(false);
   const socialLinks = {
     twitter: `https://twitter.com/intent/tweet?url=${url}`,
-    facebook: `https://www.facebook.com/dialog/feed?app_id=${process.env.FACEBOOK_APP_ID}&link=${url}&redirect_uri=${url}`,
+    facebook: `https://www.facebook.com/dialog/feed?app_id=${process.env.FACEBOOK_APP_ID}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
   };
   return (
