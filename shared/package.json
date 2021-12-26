@@ -10,7 +10,7 @@
     "better-opn": "^3.0.1",
     "next": "file:../node_modules/next",
     "react": "file:../node_modules/react",
-    "react-tooltip": "^4.2.21",
+    "react-tooltip": "file:../node_modules/react-tooltip",
     "styled-components": "file:../node_modules/styled-components"
   }
 }
