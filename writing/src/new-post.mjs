@@ -69,6 +69,7 @@ title: ${postArgs.title}
 slug: ${postArgs.slug}
 categories: ${postArgs.categories}
 date: ${postArgs.date || datePart}
+lastModified: ${postArgs.date || datePart}
 image: ${postArgs.image}
 imageAlt: ${postArgs.imageAlt}${
       postArgs.imageCaption ? `\nimageCaption: ${postArgs.imageCaption}` : ""

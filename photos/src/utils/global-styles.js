@@ -1,10 +1,5 @@
 import { createGlobalStyle } from "styled-components";
 
-import {
-  BREAKPOINT_LG,
-  BREAKPOINT_XL,
-  BREAKPOINT_XXL,
-} from "../../../shared/utils/breakpoints";
 export const linkStyles = `
   color: var(--primary);
   :hover {
@@ -56,60 +51,6 @@ const GlobalStyle = createGlobalStyle`
   textarea:focus,
   button:focus {
       outline: none;
-  }
-
-  .tooltip {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .tooltip .tooltip-text {
-    visibility: hidden;
-    width: fit-content;
-    padding: 6px 1.2vw;
-    background-color: var(--font-secondary);
-    color: var(--background);
-    text-align: center;
-    border-radius: 15px;
-   
-    position: absolute;
-    z-index: 1;
-    ${BREAKPOINT_LG} {
-      top: -47px;
-    }
-    ${BREAKPOINT_XL} {
-      top: -52px;
-    }
-    ${BREAKPOINT_XXL} {
-      top: -57px;
-    }
-    top: -45px;
-    transition: .3s opacity;
-    opacity: 0;
-    white-space: nowrap;
-
-    border-bottom: 2px solid var(--font-secondary);
-    :after {
-      content:'';
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      width: 0;
-      height: 0;
-      border-top: 10px solid var(--font-secondary);
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-    }
-  }
-
-  .tooltip:hover {
-    .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
   }
 `;
 

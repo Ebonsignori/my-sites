@@ -66,6 +66,7 @@ export function fetchEntries() {
     }
 
     // Clean markdown out of excerpt
+    // NOTE: Will not remove footnotes
     metadata.data.preview = stripMarkdown(metadata.excerpt);
 
     // Add popularity to metadata. Weighted by ( viewers ) * ( percent that stayed on page > 10 seconds )
