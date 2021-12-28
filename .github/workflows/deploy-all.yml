@@ -65,14 +65,13 @@ jobs:
           AWS_SECRET: ${{ secrets.AWS_SECRET }}
         run: |
           cd ./${{ matrix.project }}
-          # Remove any package-lock updates
           git reset --hard
+          git pull
           npm run update-catalogue --if-present
           if [[ `git status --porcelain .` ]]; then
             echo "Project has catalogue, updating it..."
             git config --global user.name 'Deploy Bot'
             git config --global user.email 'evanabonsignori@gmail.com'
-            git pull
             git commit -am "update catalogue via deploy action"
             git push
           fi
