@@ -48,6 +48,7 @@ if (fs.existsSync(secretEnvFile)) {
 } else {
   // eslint-disable-next-line no-console
   console.log("Secrets file doesn't exist. Using shell ENV");
+  privateKey = JSON.parse(process.env.GA_PRIVATE_KEY);
 }
 
 const auth = new google.auth.GoogleAuth({
