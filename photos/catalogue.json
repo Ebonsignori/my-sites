@@ -2330,37 +2330,6 @@
       }
     },
     {
-      "title": "Broken Top Trail Mountains",
-      "slug": "broken-top-trail-mountains",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 6000,
-        "height": 3376
-      },
-      "orientation": "wide",
-      "date": "2021-10-07T22:52:43.000Z",
-      "alt": "No Name Lake Trail views of The Sisters Mountains",
-      "model": "Sony a7 III",
-      "tags": [
-        "landscape",
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "No Name Lake, OR",
-        "latitude": 48.2968941,
-        "longitude": -117.1364872
-      }
-    },
-    {
       "title": "The Sisters from No Name Lake",
       "slug": "the-sisters-from-no-name-lake",
       "folder": "",
@@ -2576,38 +2545,6 @@
         "address": "Muir Beach, CA",
         "latitude": 37.8622625,
         "longitude": -122.5787638
-      }
-    },
-    {
-      "title": "IMG_0977",
-      "slug": "muir-beach-trail",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 3024,
-        "height": 4032
-      },
-      "orientation": "tall",
-      "date": "2021-11-23T00:33:43.000Z",
-      "alt": "Sunset over Sweetwater Reservoir in San Diego CA",
-      "model": "iPhone 11 Pro Max",
-      "tags": [
-        "sunset",
-        "landscape",
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Sweetwater Summit Regional Park, CA",
-        "latitude": 32.6825083,
-        "longitude": -117.0025472
       }
     },
     {
