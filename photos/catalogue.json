@@ -2055,68 +2055,6 @@
       }
     },
     {
-      "title": "Grouped Orange Mushrooms",
-      "slug": "grouped-orange-mushrooms",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 6000,
-        "height": 3376
-      },
-      "orientation": "small",
-      "date": "2021-09-29T23:12:45.000Z",
-      "alt": "Grouped orangish mushrooms on the forest floor",
-      "model": "Sony a7 III",
-      "tags": [
-        "plant",
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Mount Hood National Forest",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
-      }
-    },
-    {
-      "title": "Grouped Orange Mushrooms",
-      "slug": "grouped-orange-mushrooms",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 6000,
-        "height": 3376
-      },
-      "orientation": "small",
-      "date": "2021-09-29T23:14:43.000Z",
-      "alt": "Grouped orangish mushrooms on the forest floor",
-      "model": "Sony a7 III",
-      "tags": [
-        "plant",
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Mount Hood National Forest",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
-      }
-    },
-    {
       "title": "Mt Hood Ski Lift",
       "slug": "mt-hood-ski-lift",
       "folder": "",
