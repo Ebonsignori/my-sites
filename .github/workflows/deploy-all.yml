@@ -50,6 +50,14 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install top-level Node.js dependencies
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
+        run: npm i
+
+      - name: Install project-level Node.js dependencies
+        if: ${{ env.SHOULD_BUILD == 'true' }} 
+        run: cd ./${{ matrix.project }} && npm i
+
       - name: Fetch catalogue if project has one
         if: ${{ env.SHOULD_BUILD == 'true' }}
         run: |
@@ -61,14 +69,6 @@ jobs:
             git commit -am "update catalogue via deploy action"
             git push
           fi
-        
-      - name: Install top-level Node.js dependencies
-        if: ${{ env.SHOULD_BUILD == 'true' }} 
-        run: npm i
-
-      - name: Install project-level Node.js dependencies
-        if: ${{ env.SHOULD_BUILD == 'true' }} 
-        run: cd ./${{ matrix.project }} && npm i
 
       - name: Build Using Next.js Static Export
         if: ${{ env.SHOULD_BUILD == 'true' }} 
