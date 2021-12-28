@@ -136,7 +136,7 @@ export default function Home({ images, tags, models }) {
   );
 
   // Filtering
-  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 3);
+  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 2);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState(sortByOpts[0]);
 

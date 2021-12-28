@@ -61,7 +61,10 @@ jobs:
       - name: Fetch catalogue if project has one
         if: ${{ env.SHOULD_BUILD == 'true' }}
         run: |
-          cd ./${{ matrix.project }} && npm run update-catalogue --if-present
+          cd ./${{ matrix.project }}
+          # Remove any package-lock updates
+          git reset --hard
+          npm run update-catalogue --if-present
           if [[ `git status --porcelain .` ]]; then
             echo "Project has catalogue, updating it..."
             git config --global user.name 'Deploy Bot'
