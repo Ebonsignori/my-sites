@@ -60,6 +60,9 @@ jobs:
 
       - name: Fetch catalogue if project has one
         if: ${{ env.SHOULD_BUILD == 'true' }}
+        env: 
+          AWS_ID: ${{ secrets.AWS_ID }}
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
         run: |
           cd ./${{ matrix.project }}
           # Remove any package-lock updates

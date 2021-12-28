@@ -12,8 +12,6 @@ if (fs.existsSync(secretEnvFile)) {
 const accessKeyId = process.env.AWS_ID || secrets?.AWS_ID;
 const secretAccessKey = process.env.AWS_SECRET || secrets?.AWS_SECRET;
 
-console.log(accessKeyId)
-
 const s3 = new AWS.S3({
   accessKeyId,
   secretAccessKey,

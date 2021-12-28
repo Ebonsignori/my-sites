@@ -27,6 +27,12 @@ jobs:
         run: cd ./${{ matrix.project }} && npm i
 
       - name: Fetch stats
+        env: 
+          GA_CLIENT_EMAIL: ${{ secrets.GA_CLIENT_EMAIL }}
+          GA_CLIENT_ID: ${{ secrets.GA_CLIENT_ID }}
+          GA_PHOTOS_ID: ${{ secrets.GA_PHOTOS_ID }}
+          GA_PRIVATE_KEY: ${{ secrets.GA_PRIVATE_KEY }}
+          GA_WRITING_ID: ${{ secrets.GA_WRITING_ID }}
         run: |
           cd ./${{ matrix.project }}
           npm run update-stats
