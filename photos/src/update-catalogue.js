@@ -1,43 +1,36 @@
-const https = require("https");
 const fs = require("fs");
 const path = require("path");
+const AWS = require("aws-sdk");
+const dotenv = require("dotenv");
 
-// Not in .env or shell to make running in GH action easier
-const catalogueUrl = "https://diy6d7dnpy1l6.cloudfront.net/catalogue.json";
+const secretEnvFile = path.join(__dirname, "..", "..", ".env.secrets");
+let secrets;
+if (fs.existsSync(secretEnvFile)) {
+  secrets = dotenv.parse(fs.readFileSync(secretEnvFile));
+}
 
-async function getJson(url) {
-  return new Promise((resolve, reject) => {
-    https
-      .get(url, (res) => {
-        let body = "";
+const accessKeyId = secrets?.AWS_ID || process.env.AWS_ID;
+const secretAccessKey = secrets?.AWS_SECRET || process.env.AWS_SECRET;
 
-        res.on("data", (chunk) => {
-          body += chunk;
-        });
+const s3 = new AWS.S3({
+  accessKeyId,
+  secretAccessKey,
+});
 
-        res.on("end", () => {
-          try {
-            const json = JSON.parse(body);
-            resolve(json);
-          } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error(error.message);
-            reject(error);
-          }
-        });
-      })
-      .on("error", (error) => {
-        // eslint-disable-next-line no-console
-        console.error(error.message);
-        reject(error);
-      });
-  });
+async function getCatalogue() {
+  const getRes = await s3
+    .getObject({
+      Bucket: "evan-bio-photos",
+      Key: "catalogue.json",
+    })
+    .promise();
+  return JSON.parse(getRes.Body.toString());
 }
 
 const cataloguePath = path.join(__dirname, "..", "catalogue.json");
 
 async function main() {
-  const newCatalogue = await getJson(catalogueUrl);
+  const newCatalogue = await getCatalogue();
   fs.writeFileSync(cataloguePath, JSON.stringify(newCatalogue, null, 2));
   // eslint-disable-next-line no-console
   console.log("Catalogue.json Updated.");

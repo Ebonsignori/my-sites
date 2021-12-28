@@ -100,6 +100,7 @@ async function main() {
 
     if (updateCatalogue) {
       const catalogueRes = await catalogueService.addToCatalogue(bucket, {
+        title,
         slug,
         folder,
         bucket,
@@ -160,7 +161,6 @@ async function main() {
             Body: uploadBuffer,
             ContentType: `image/${extension}`,
             ContentLanguage: "en-US",
-            ACL: "public-read",
             // Cache each image "indefinitely"
             CacheControl: "max-age: 31536000",
             Metadata: {

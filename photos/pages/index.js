@@ -526,6 +526,9 @@ const ImageContainerProps = (props) => {
   } else if (props.wide) {
     styles = `
       grid-column: span 2;
+      &:last-child:nth-child(3n - 2) {
+        grid-column: span 3;
+      }
     `;
   }
   return styles;
@@ -556,6 +559,9 @@ const ImageContainer = styled.div`
   height: 100%;
   border-radius: 5px;
   border: 1px solid black;
+  &:last-child:nth-child(3n - 2) {
+    grid-column: span 3 !important;
+  }
   ${ImageContainerBreakpoints}
   ${ImageContainerProps}
 

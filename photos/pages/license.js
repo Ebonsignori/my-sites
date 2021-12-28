@@ -69,7 +69,7 @@ export default function License() {
               donate to the following charities.
             </p>
             <br />
-            Help save the planet we live on,
+            Help preserve the planet we live on,
             <ul>
               <li>
                 <a href="https://www.catf.us/">Clean Air Task Force</a>
@@ -83,7 +83,7 @@ export default function License() {
                 </a>
               </li>
             </ul>
-            Help put a stop to injustice and inequality,
+            Help lessen injustice and inequality,
             <ul>
               <li>
                 <a href="https://www.aclu.org/">ACLU</a>

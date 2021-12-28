@@ -10,7 +10,6 @@ const INIT_CATALOGUE = {
 const uploadParams = {
   ContentType: "application/json",
   ContentLanguage: "en-US",
-  ACL: "public-read",
   Key: CATALOGUE,
 };
 

@@ -32,7 +32,7 @@ const DEFAULT_TAGS = process.env.IMAGE_TAGS.split(", ").map((tag) => ({
   label: tag.trim(),
 }));
 const IMAGE_MODELS_MAP = {
-  "ILCE-7M3": "Sony a7 III",
+  "ilce-7m3": "Sony a7 III",
 };
 const DEFAULT_ORIENTATIONS = process.env.IMAGE_ORIENTATIONS.split(", ").map(
   (orientation) => ({
@@ -45,6 +45,13 @@ const socket = io(SOCKET_URL);
 
 // eslint-disable-next-line no-useless-escape
 const imageNameRegex = new RegExp(/^[\w\-]+$/);
+
+let successSound;
+if (typeof window !== "undefined") {
+  successSound = new Audio(
+    "https://raw.githubusercontent.com/Ebonsignori/pitch-trainer-instruments/master/effects/success_1.mp3"
+  );
+}
 
 // Wrap page to easily change key and reset state
 export default function App() {
@@ -146,7 +153,9 @@ function Uploader({ setResetKey }) {
     }
 
     // Set model
-    const mappedModel = IMAGE_MODELS_MAP[exifData.Model];
+    const mappedModel = exifData?.Model
+      ? IMAGE_MODELS_MAP[exifData.Model.toLowerCase()]
+      : "";
     setModel(mappedModel || exifData.Model);
     setDate(exifData.CreateDate);
     setTitle(originalName.replace(/\.[^/.]+$/, ""));
@@ -286,6 +295,8 @@ function Uploader({ setResetKey }) {
     } else if (res.success) {
       setErrors([]);
       setSuccessMsg([res.success]);
+      successSound.currentTime = 0;
+      successSound.play();
     }
   };
 

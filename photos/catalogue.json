@@ -1,11 +1,16 @@
 {
   "tags": [
     "nature",
-    "landscape",
-    "architecture",
-    "wildlife",
     "animal",
-    "plant"
+    "plant",
+    "urban",
+    "architecture",
+    "sunset",
+    "sky",
+    "night",
+    "landscape",
+    "miscellaneous",
+    "ocean"
   ],
   "breakpoints": [
     [
@@ -18,17 +23,21 @@
     ]
   ],
   "models": [
-    "Sony a7 III"
+    "Sony a7 III",
+    "iPhone 11 Pro Max"
   ],
   "images": [
     {
-      "slug": "roses",
+      "slug": "kubota-garden-stone",
       "folder": "",
-      "orientation": "big",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-11T22:44:24.000Z",
-      "description": "",
-      "alt": "",
+      "dimensions": {
+        "width": 1440,
+        "height": 1440
+      },
+      "orientation": "small",
+      "date": "2021-07-23T07:00:00.000Z",
+      "alt": "Standing stone with Japanese text in Kubota Japanese Garden",
       "model": "Sony a7 III",
       "tags": [
         "nature"
@@ -42,22 +51,823 @@
         "3000"
       ],
       "location": {
-        "address": "Canada",
-        "latitude": 56.130366,
-        "longitude": -106.346771
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
       }
     },
     {
-      "slug": "coast",
-      "orientation": "wide",
+      "slug": "slightly-spooky-trees-with-bench",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-05T22:26:04.000Z",
-      "description": "",
-      "alt": "",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T00:56:23.000Z",
+      "alt": "Slightly spooky shaded trees with a bench in the background",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "slug": "twisted-branches",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T00:58:42.000Z",
+      "alt": "Two trees with twisted branches",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "slug": "twisted-tree",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T00:59:03.000Z",
+      "alt": "Tree composed of a body of two branches twisted together",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "slug": "water-strider-bug",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T01:14:16.000Z",
+      "alt": "Lone water strider on still water",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "slug": "red-berries-white-plant",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T01:48:41.000Z",
+      "alt": "Red berries plant contrasted by a white-petaled plant",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "slug": "pink-and-purple-hydrangea",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T01:52:42.000Z",
+      "alt": "Pink hydrangea flower with purple hydrangeas in the background",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "slug": "blueish-hydrangeas",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T01:53:31.000Z",
+      "alt": "Blue and slightly purple hydrangea flowers",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "slug": "seattle-skyline",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T02:44:01.000Z",
+      "alt": "Skyline of Seattle taken from Kerry Park",
+      "model": "Sony a7 III",
+      "tags": [
+        "urban"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kerry Park Seattle",
+        "latitude": 47.6294692,
+        "longitude": -122.3599224
+      }
+    },
+    {
+      "slug": "old-stone-japanese-garden-lantern",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-07-28T22:19:43.000Z",
+      "alt": "Fern-covered stone lantern in Portland's Japanese Garden",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "open-mouthed-koi-fish",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-28T22:27:18.000Z",
+      "alt": "Orange and black Koi fish with its mouth open and head above water",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "motley-koi",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-28T22:29:59.000Z",
+      "alt": "Collection of different colored Koi fish",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "zen-bench",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-28T22:46:43.000Z",
+      "alt": "Bench shaded by a red-leafed tree",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "orange-rose",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-28T23:03:30.000Z",
+      "alt": "Orange tinted roses",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "bench-hugged-by-bush",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-29T00:19:57.000Z",
+      "alt": "Bench almost covered by a bush",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Hoyt Arboretum",
+        "latitude": 45.51567989999999,
+        "longitude": -122.715625
+      }
+    },
+    {
+      "slug": "fingers-brushing-mossy-branch",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-29T00:57:50.000Z",
+      "alt": "Bench almost covered by a bush",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Hoyt Arboretum",
+        "latitude": 45.51567989999999,
+        "longitude": -122.715625
+      }
+    },
+    {
+      "slug": "japanese-garden-buildings",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-29T01:24:52.000Z",
+      "alt": "Buildings at the Portland Japanese Garden with mossy roofs",
+      "model": "Sony a7 III",
+      "tags": [
+        "architecture"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "tree-sap",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-08-01T21:49:31.000Z",
+      "alt": "Tree wound of peeled-off bark exposing drops of sap",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "tree-stumps-with-wildflowers",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-01T22:01:44.000Z",
+      "alt": "Tree stumps spread out over a field before a lake with wildflowers",
       "model": "Sony a7 III",
       "tags": [
         "nature",
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "yellow-wildflowers",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-08-01T22:02:01.000Z",
+      "alt": "Yellow wildflowers",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "white-spotted-sawyer-beetle",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-08-02T01:09:53.000Z",
+      "alt": "White Spotted Sawyer Beetle with long antennae on a backpack",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "animal"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "algae-water",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-03T22:45:38.000Z",
+      "alt": "Water with a heavy layer of algae on top in a shaded swamp-like spot",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Columbia Children's Arboretum, Portland, OR",
+        "latitude": 45.5960596,
+        "longitude": -122.6619304
+      }
+    },
+    {
+      "slug": "tall-brown-grass",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-08-03T22:52:28.000Z",
+      "alt": "Tall brown grasss",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Columbia Children's Arboretum, Portland, OR",
+        "latitude": 45.5960596,
+        "longitude": -122.6619304
+      }
+    },
+    {
+      "slug": "clackamas-river-sunset",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-08-09T02:50:51.000Z",
+      "alt": "Clackamas River sunset outside of Carver Park",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "sunset"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Carver Park, Portland, OR",
+        "latitude": 45.3918044,
+        "longitude": -122.4947971
+      }
+    },
+    {
+      "slug": "single-shooting-star",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-13T07:46:44.000Z",
+      "alt": "Prineville night sky full of stars and a single small shooting star",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky",
+        "night"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "single-shooting-star-2",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 2421,
+        "height": 3471
+      },
+      "orientation": "tall",
+      "date": "2021-08-13T08:36:23.000Z",
+      "alt": "Prineville night sky full of stars and a single small shooting star in vertical orientation",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky",
+        "night"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "shooting-stars-with-trees",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3802,
+        "height": 1782
+      },
+      "orientation": "wide",
+      "date": "2021-08-13T08:13:09.000Z",
+      "alt": "Prineville night sky full of stars and three shooting stars with trees in the foreground",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky",
+        "night"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "nighttime-crooked-river",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-15T02:38:13.000Z",
+      "alt": "Crooked river at night taken at Post Pile Campground",
+      "model": "Sony a7 III",
+      "tags": [
+        "night",
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "old-fort-turret",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-04T20:24:56.000Z",
+      "alt": "Old turret at Fort Stevens State Park with old bridge in the background",
+      "model": "Sony a7 III",
+      "tags": [
         "landscape"
       ],
       "breakpoints": [
@@ -69,18 +879,260 @@
         "3000"
       ],
       "location": {
-        "address": "Cannon Beach",
-        "latitude": 45.8917738,
-        "longitude": -123.9615274
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
       }
     },
     {
+      "slug": "old-fort-turret",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-04T20:24:56.000Z",
+      "alt": "Old turret at Fort Stevens State Park with old bridge in the background",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
+      }
+    },
+    {
+      "slug": "area-closed",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-04T20:37:58.000Z",
+      "alt": "Area Closed sign at Fort Stevens State Park",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
+      }
+    },
+    {
+      "slug": "plant-in-a-hole",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3560,
+        "height": 4000
+      },
+      "orientation": "tall",
+      "date": "2021-09-04T20:43:57.000Z",
+      "alt": "Plant growing out of a concrete hole in Fort Stevens State Park",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
+      }
+    },
+    {
+      "slug": "bubbles-in-the-sky",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-04T20:58:29.000Z",
+      "alt": "Bubbles floating in a blue sky",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
+      }
+    },
+    {
+      "title": "Bubble in the sky 2",
+      "slug": "bubble-in-the-sky-2",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3391,
+        "height": 2615
+      },
+      "orientation": "small",
+      "date": "2021-09-04T21:00:27.000Z",
+      "alt": "Bubble floating in a blue sky",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
+      }
+    },
+    {
+      "title": "Single Bubble",
+      "slug": "single-bubble",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-04T21:00:29.000Z",
+      "alt": "Bubble floating in a blue sky",
+      "model": "Sony a7 III",
+      "tags": [
+        "miscellaneous"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
+      }
+    },
+    {
+      "title": "Hazy Cargo Ship",
+      "slug": "hazy-cargo-ship",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-05T19:50:32.000Z",
+      "alt": "Broken dock with a cargo ship in the foggy background",
+      "model": "Sony a7 III",
+      "tags": [
+        "ocean"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Astoria, OR",
+        "latitude": 46.1878841,
+        "longitude": -123.8312534
+      }
+    },
+    {
+      "title": "Seagull In Flight",
+      "slug": "seagull-in-flight",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 5516,
+        "height": 3145
+      },
+      "orientation": "small",
+      "date": "2021-09-05T19:51:00.000Z",
+      "alt": "Flying seagull in front of a grey sky",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "sky"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Astoria, OR",
+        "latitude": 46.1878841,
+        "longitude": -123.8312534
+      }
+    },
+    {
+      "title": "Astoria Houses",
       "slug": "astoria-houses",
       "folder": "",
       "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "big",
       "date": "2021-09-05T20:00:56.000Z",
-      "description": "",
-      "alt": "Houses in Astoria",
+      "alt": "Colorful houses on an overcast day in Astoria",
       "model": "Sony a7 III",
       "tags": [
         "architecture"
@@ -100,17 +1152,301 @@
       }
     },
     {
-      "slug": "star-fish",
+      "title": "Ocean Building",
+      "slug": "ocean-building",
       "folder": "",
-      "orientation": "wide",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-06T00:27:52.000Z",
-      "description": "",
-      "alt": "Orange starfish on a rock",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-05T20:04:07.000Z",
+      "alt": "Old structure on a dilapidated dock in the ocean",
       "model": "Sony a7 III",
       "tags": [
-        "wildlife",
+        "architecture",
+        "ocean"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Astoria, OR",
+        "latitude": 46.1878841,
+        "longitude": -123.8312534
+      }
+    },
+    {
+      "title": "Pride and USA Flags",
+      "slug": "pride-and-usa-flags",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-05T20:05:52.000Z",
+      "alt": "USA and rainbow LGBT flags flying backdropped by a grey sky",
+      "model": "Sony a7 III",
+      "tags": [
+        "miscellaneous",
+        "sky"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Astoria, OR",
+        "latitude": 46.1878841,
+        "longitude": -123.8312534
+      }
+    },
+    {
+      "title": "Cannon Beach",
+      "slug": "cannon-beach",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-05T21:47:26.000Z",
+      "alt": "Cannon beach with people on it during an overcast day",
+      "model": "Sony a7 III",
+      "tags": [
+        "ocean",
+        "landscape"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Cannon Beach, OR",
+        "latitude": 45.8917738,
+        "longitude": -123.9615274
+      }
+    },
+    {
+      "title": "Beach Dog",
+      "slug": "beach-dog",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-05T21:55:32.000Z",
+      "alt": "Dog walking along on the beach on an overcast day",
+      "model": "Sony a7 III",
+      "tags": [
         "animal",
+        "ocean"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Cannon Beach, OR",
+        "latitude": 45.8917738,
+        "longitude": -123.9615274
+      }
+    },
+    {
+      "title": "Beach Jelly",
+      "slug": "beach-jelly",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 4944,
+        "height": 2297
+      },
+      "orientation": "small",
+      "date": "2021-09-05T22:07:39.000Z",
+      "alt": "Dog walking along on the beach on an overcast day",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "ocean"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Cannon Beach, OR",
+        "latitude": 45.8917738,
+        "longitude": -123.9615274
+      }
+    },
+    {
+      "title": "Cannon Beach Boulders",
+      "slug": "cannon-beach-boulders",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-05T22:10:12.000Z",
+      "alt": "Sea stacks (boulders) at Cannon Beach",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "ocean",
+        "landscape"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Cannon Beach, OR",
+        "latitude": 45.8917738,
+        "longitude": -123.9615274
+      }
+    },
+    {
+      "title": "Wave Breaking on Rock",
+      "slug": "wave-breaking-on-rock",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-05T22:27:09.000Z",
+      "alt": "Wave breaking on boulder at Cannon Beach",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "ocean"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Cannon Beach, OR",
+        "latitude": 45.8917738,
+        "longitude": -123.9615274
+      }
+    },
+    {
+      "title": "Large Wave Breaking on Rock",
+      "slug": "large-wave-breaking-on-rock",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "big",
+      "date": "2021-09-05T22:27:33.000Z",
+      "alt": "Wave breaking on boulder at Cannon Beach",
+      "model": "Sony a7 III",
+      "tags": [
+        "ocean",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Cannon Beach, OR",
+        "latitude": 45.8917738,
+        "longitude": -123.9615274
+      }
+    },
+    {
+      "title": "Short Sand Beach From Behind The Trees",
+      "slug": "short-sand-beach-from-behind-the-trees",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "big",
+      "date": "2021-09-06T00:05:03.000Z",
+      "alt": "Hazy shot of short sand beach cliffs from behind trees",
+      "model": "Sony a7 III",
+      "tags": [
+        "ocean",
+        "nature",
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
+      }
+    },
+    {
+      "title": "Short Sand Beach Cliffs",
+      "slug": "short-sand-beach-cliffs",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 5845,
+        "height": 3289
+      },
+      "orientation": "small",
+      "date": "2021-09-06T00:06:05.000Z",
+      "alt": "Hazy shot of short sand beach cliffs",
+      "model": "Sony a7 III",
+      "tags": [
+        "ocean",
         "nature"
       ],
       "breakpoints": [
@@ -128,14 +1464,21 @@
       }
     },
     {
-      "slug": "plant-roots",
+      "title": "Orange Starfish",
+      "slug": "orange-starfish",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-06T01:11:38.000Z",
-      "description": "",
-      "alt": "Roots of a tree",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-06T00:27:52.000Z",
+      "alt": "Orange starfish on a rock above a tidepool",
       "model": "Sony a7 III",
       "tags": [
+        "animal",
+        "ocean",
         "nature"
       ],
       "breakpoints": [
@@ -147,21 +1490,123 @@
         "3000"
       ],
       "location": {
-        "address": "Mount Hood",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
       }
     },
     {
-      "slug": "foggy-short-sand-beach-cliffs",
+      "title": "Starfish Under a Rock",
+      "slug": "starfish-under-a-rock",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-06T00:05:03.000Z",
-      "description": "",
-      "alt": "Short sand beach cliffs through fog",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-06T00:35:25.000Z",
+      "alt": "Orange and purple starfish under rock above a tidepool",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "ocean",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
+      }
+    },
+    {
+      "title": "Starfish Under a Rock 2",
+      "slug": "starfish-under-a-rock-2",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-06T00:40:10.000Z",
+      "alt": "Orange and purple starfish under rock",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "ocean",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
+      }
+    },
+    {
+      "title": "Purple Starfish",
+      "slug": "purple-starfish",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-09-06T00:43:45.000Z",
+      "alt": "Purple starfish on top of a rock",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "ocean",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
+      }
+    },
+    {
+      "title": "Water Reflected Beach Cliffs",
+      "slug": "water-reflected-beach-cliffs",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-06T00:51:00.000Z",
+      "alt": "Short Sand Beach cliffs reflected in the wave water",
       "model": "Sony a7 III",
       "tags": [
         "landscape",
+        "ocean",
         "nature"
       ],
       "breakpoints": [
@@ -173,23 +1618,212 @@
         "3000"
       ],
       "location": {
-        "address": "Mount Hood",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
       }
     },
     {
-      "slug": "vertical-pink-roses",
+      "title": "Mossy Tree Twins",
+      "slug": "mossy-tree-twins",
       "folder": "",
-      "orientation": "tall",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-11T22:47:04.000Z",
-      "description": "",
-      "alt": "Pink Roses",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-09-06T01:14:23.000Z",
+      "alt": "Two parallel trees covered in green moss",
       "model": "Sony a7 III",
       "tags": [
-        "nature",
-        "plant"
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
+      }
+    },
+    {
+      "title": "Red Roses",
+      "slug": "red-roses",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-11T22:44:24.000Z",
+      "alt": "Red roses from Portland's International Rose Test Garden",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "International Rose Test Garden",
+        "latitude": 45.5189524,
+        "longitude": -122.7052687
+      }
+    },
+    {
+      "title": "Purple-Yellow Roses",
+      "slug": "purple-yellow-roses",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-09-11T22:47:04.000Z",
+      "alt": "Yellow roses with purple tint from Portland's International Rose Test Garden",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "International Rose Test Garden",
+        "latitude": 45.5189524,
+        "longitude": -122.7052687
+      }
+    },
+    {
+      "title": "Red Rose Bulbs",
+      "slug": "red-rose-bulbs",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-11T22:52:50.000Z",
+      "alt": "Red rose bulbs from Portland's International Rose Test Garden",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "International Rose Test Garden",
+        "latitude": 45.5189524,
+        "longitude": -122.7052687
+      }
+    },
+    {
+      "title": "Rose Pedals in Water",
+      "slug": "rose-pedals-in-water",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-11T23:28:17.000Z",
+      "alt": "Rose pedals floating in a fountain's water",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "International Rose Test Garden",
+        "latitude": 45.5189524,
+        "longitude": -122.7052687
+      }
+    },
+    {
+      "title": "Beach Dogs",
+      "slug": "beach-dogs",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-22T01:12:42.000Z",
+      "alt": "White and Black dogs together on a beach",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Short Sand Beach, OR",
+        "latitude": 45.7626064,
+        "longitude": -123.9673596
+      }
+    },
+    {
+      "title": "Portland Skyline",
+      "slug": "portland-skyline",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-23T20:00:15.000Z",
+      "alt": "Cityscape view of Portland with Mt Hood in the background",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "urban"
       ],
       "breakpoints": [
         "600",
@@ -206,12 +1840,47 @@
       }
     },
     {
-      "slug": "two-dogs-on-beach",
+      "title": "Zig-Zag Bamboo Fenced Walkway",
+      "slug": "zig-zag-bamboo-fenced-walkway",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-22T01:12:42.000Z",
-      "description": "",
-      "alt": "Two dogs on Short Sand Beach",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-23T20:14:28.000Z",
+      "alt": "Zig-zagging walkway bordered by a short bamboo fence",
+      "model": "Sony a7 III",
+      "tags": [
+        "miscellaneous"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "title": "Koi Fish",
+      "slug": "koi-fish",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-23T20:19:57.000Z",
+      "alt": "Orange, black, and white speckled Koi fish in a pond",
       "model": "Sony a7 III",
       "tags": [
         "animal"
@@ -225,20 +1894,57 @@
         "3000"
       ],
       "location": {
-        "address": "Short Sand Beach",
-        "latitude": 45.7626064,
-        "longitude": -123.9673596
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
       }
     },
     {
-      "slug": "horizontal-mt-hood-shrooms",
+      "title": "Bamboo Water Spout",
+      "slug": "bamboo-water-spout",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-29T23:24:12.000Z",
-      "description": "",
-      "alt": "Mushrooms growing in a column",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-23T20:28:42.000Z",
+      "alt": "Bamboo water spout in Portland's Japanese Garden",
       "model": "Sony a7 III",
       "tags": [
+        "miscellaneous"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "title": "Bee Finds a White Rose",
+      "slug": "bee-finds-a-white-rose",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "big",
+      "date": "2021-09-23T21:05:22.000Z",
+      "alt": "A bee hovering over a white rose",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "plant",
         "nature"
       ],
       "breakpoints": [
@@ -250,107 +1956,178 @@
         "3000"
       ],
       "location": {
-        "address": "Mirror Lake OR",
+        "address": "International Rose Test Garden",
+        "latitude": 45.5189524,
+        "longitude": -122.7052687
+      }
+    },
+    {
+      "title": "Red Leaves at Mirror Lake",
+      "slug": "red-leaves-at-mirror-lake",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-29T22:00:20.000Z",
+      "alt": "Red leaved tree with Mirror Lake in the background",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mirror Lake, OR",
         "latitude": 45.2971917,
         "longitude": -121.793027
       }
     },
     {
-      "slug": "mirror-lake",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 6000,
-        "height": 3376
-      },
-      "date": "2021-09-29T21:59:04.000Z",
-      "alt": "Mt Hood",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Mt Hood",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
-      }
-    },
-    {
-      "slug": "mirror-lake-again",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 6000,
-        "height": 3376
-      },
-      "date": "2021-09-29T21:58:03.000Z",
-      "alt": "Mirror Lake again",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Mirror Lake",
-        "latitude": 45.10780159999999,
-        "longitude": -79.5732337
-      }
-    },
-    {
-      "slug": "mirror-lake-agaiiin",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 6000,
-        "height": 3376
-      },
-      "date": "2021-09-29T22:00:20.000Z",
-      "alt": "Again",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Savannah GA",
-        "latitude": 32.0808989,
-        "longitude": -81.091203
-      }
-    },
-    {
-      "title": "vertical stump",
-      "slug": "testetstset",
-      "orientation": "tall",
+      "title": "Strange Root",
+      "slug": "strange-root",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 3376,
         "height": 6000
       },
-      "date": "2021-09-29T22:48:39.000Z",
-      "alt": "tewtwe",
+      "orientation": "tall",
+      "date": "2021-09-29T23:11:05.000Z",
+      "alt": "A strange root in a bell shaped curve growing on a dead tree",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood National Forest",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "title": "Russula Aeruginea Mushroom",
+      "slug": "russula-aeruginea-mushroom",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-29T23:12:45.000Z",
+      "alt": "A Russula Aeruginea mushroom on the forest floor",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood National Forest",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "title": "Grouped Orange Mushrooms",
+      "slug": "grouped-orange-mushrooms",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-29T23:12:45.000Z",
+      "alt": "Grouped orangish mushrooms on the forest floor",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood National Forest",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "title": "Grouped Orange Mushrooms",
+      "slug": "grouped-orange-mushrooms",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-09-29T23:14:43.000Z",
+      "alt": "Grouped orangish mushrooms on the forest floor",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood National Forest",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "title": "Mt Hood Ski Lift",
+      "slug": "mt-hood-ski-lift",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 4534,
+        "height": 3668
+      },
+      "orientation": "small",
+      "date": "2021-10-01T20:04:24.000Z",
+      "alt": "Ski Lift during the summer at Mount Hood Meadows",
       "model": "Sony a7 III",
       "tags": [
         "landscape"
@@ -364,71 +2141,14 @@
         "3000"
       ],
       "location": {
-        "address": "test",
-        "latitude": 37.045812,
-        "longitude": -97.039301
+        "address": "Mount Hood Meadows, OR",
+        "latitude": 45.3317552,
+        "longitude": -121.6651848
       }
     },
     {
-      "slug": "more-mushrooms",
-      "folder": "",
-      "orientation": "tall",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 3376,
-        "height": 6000
-      },
-      "date": "2021-09-29T23:25:26.000Z",
-      "alt": "Mushrooms",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "ireland",
-        "latitude": 53.1423672,
-        "longitude": -7.692053599999999
-      }
-    },
-    {
-      "slug": "tall-branch",
-      "folder": "",
-      "orientation": "tall",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 3376,
-        "height": 6000
-      },
-      "date": "2021-09-29T23:15:37.000Z",
-      "alt": "reddish tree branch",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Alaska",
-        "latitude": 64.2008413,
-        "longitude": -149.4936733
-      }
-    },
-    {
-      "slug": "water-drip-from-fountain",
+      "title": "Mount Hood Pacific Crest Trail Marker 2000",
+      "slug": "mount-hood-pacific-crest-trail-marker-2000",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
@@ -436,9 +2156,629 @@
         "height": 3376
       },
       "orientation": "small",
-      "date": "2021-09-23T20:28:42.000Z",
-      "alt": "Water fountain drip long exposure",
+      "date": "2021-10-01T20:16:10.000Z",
+      "alt": "Mount Hood Pacific Crest Trail marker sign no. 2000",
       "model": "Sony a7 III",
+      "tags": [
+        "miscellaneous"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood Meadows, OR",
+        "latitude": 45.3317552,
+        "longitude": -121.6651848
+      }
+    },
+    {
+      "title": "Rocky Mount Hood Meadows Loop Trail",
+      "slug": "rocky-mount-hood-meadows-loop-trail",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 5312,
+        "height": 2757
+      },
+      "orientation": "small",
+      "date": "2021-10-01T20:50:37.000Z",
+      "alt": "Rocky dirt trail surrounded by rocks on the Mount Hood Meadows Loop Hike",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood National Forest",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "title": "Mount Hood Forest Skyline",
+      "slug": "mount-hood-forest-skyline",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-10-01T21:25:00.000Z",
+      "alt": "Mount Hood Forest skyline on the Mount Hood Meadows Loop Hike",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood National Forest",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "title": "Cute Chipmonk",
+      "slug": "cute-chipmonk",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 4350,
+        "height": 2874
+      },
+      "orientation": "small",
+      "date": "2021-10-01T23:06:58.000Z",
+      "alt": "Cute little chipmonk found on the Mount Hood Meadows Loop Hike",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mount Hood National Forest",
+        "latitude": 45.373615,
+        "longitude": -121.6959511
+      }
+    },
+    {
+      "title": "Chain Link Fireplace",
+      "slug": "chain-link-fireplace",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 4784,
+        "height": 3360
+      },
+      "orientation": "small",
+      "date": "2021-10-01T23:49:07.000Z",
+      "alt": "Chain link fireplace cover in the Mt. Hood Meadows lodge",
+      "model": "Sony a7 III",
+      "tags": [
+        "miscellaneous"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Mt. Hood Meadows, OR",
+        "latitude": 45.3317552,
+        "longitude": -121.6651848
+      }
+    },
+    {
+      "title": "Multnomah Falls",
+      "slug": "multnomah-falls",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-10-03T23:42:53.000Z",
+      "alt": "Multnomah Falls with visitors on the bridge",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Multnomah Falls, OR",
+        "latitude": 45.5761597,
+        "longitude": -122.1157756
+      }
+    },
+    {
+      "title": "Multnomah Falls Water",
+      "slug": "multnomah-falls-water",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-10-03T23:56:30.000Z",
+      "alt": "Multnomah Falls close up of the falls",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Multnomah Falls, OR",
+        "latitude": 45.5761597,
+        "longitude": -122.1157756
+      }
+    },
+    {
+      "title": "Broken Top Trail",
+      "slug": "broken-top-trail",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-10-07T22:52:43.000Z",
+      "alt": "Broken Top Crater Trailhead with Broken Top Mountain in the background",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Broken Top Crater Trailhead, OR",
+        "latitude": 44.0558942,
+        "longitude": -121.6754699
+      }
+    },
+    {
+      "title": "Broken Top Trail Mountains",
+      "slug": "broken-top-trail-mountains",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-10-07T22:52:43.000Z",
+      "alt": "No Name Lake Trail views of The Sisters Mountains",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "No Name Lake, OR",
+        "latitude": 48.2968941,
+        "longitude": -117.1364872
+      }
+    },
+    {
+      "title": "The Sisters from No Name Lake",
+      "slug": "the-sisters-from-no-name-lake",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-10-07T23:43:20.000Z",
+      "alt": "No Name Lake Trail views of The Sisters Mountains",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "No Name Lake, Blue River, OR",
+        "latitude": 44.0558942,
+        "longitude": -121.6754699
+      }
+    },
+    {
+      "title": "No Name Lake at Broken Top",
+      "slug": "no-name-lake-at-broken-top",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-10-08T00:03:40.000Z",
+      "alt": "No Name Lake at Broken Top Summit",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "No Name Lake, Blue River, OR",
+        "latitude": 44.0558942,
+        "longitude": -121.6754699
+      }
+    },
+    {
+      "title": "Smith Rock Sunset",
+      "slug": "smith-rock-sunset",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-10-08T23:56:51.000Z",
+      "alt": "Sunset at Smith Rock State Park",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature",
+        "sunset"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Smith Rock State Park, OR",
+        "latitude": 44.3682459,
+        "longitude": -121.1405814
+      }
+    },
+    {
+      "title": "Three Sisters from Bend Rock quarry",
+      "slug": "three-sisters-from-bend-rock-quarry",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-10-12T00:19:49.000Z",
+      "alt": "View of the Three Sisters from the top of the Rock Quarry off of Lava Cast Forest Road outside of Bend OR",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Lava Cast Forest Rd, Bend OR",
+        "latitude": 43.8444795,
+        "longitude": -121.3549119
+      }
+    },
+    {
+      "title": "Night RV on top of Rock Quarry",
+      "slug": "night-rv-on-top-of-rock-quarry",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-10-14T07:33:46.000Z",
+      "alt": "RV at night on top of the Rock Quarry off of Lava Cast Forest Road outside of Bend OR",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Lava Cast Forest Rd, Bend OR",
+        "latitude": 43.8444795,
+        "longitude": -121.3549119
+      }
+    },
+    {
+      "title": "Sparks Lake",
+      "slug": "sparks-lake",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-10-16T22:35:46.000Z",
+      "alt": "View of The Three Sisters from Sparks Lake",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Sparks Lake, OR",
+        "latitude": 44.01622039999999,
+        "longitude": -121.7441995
+      }
+    },
+    {
+      "title": "Muir Beach Trail",
+      "slug": "muir-beach-trail",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-11-06T21:50:53.000Z",
+      "alt": "Shoreline view from a cliff next to Muir Beach",
+      "model": "Sony a7 III",
+      "tags": [
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Muir Beach, CA",
+        "latitude": 37.8622625,
+        "longitude": -122.5787638
+      }
+    },
+    {
+      "title": "IMG_0977",
+      "slug": "muir-beach-trail",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "orientation": "tall",
+      "date": "2021-11-23T00:33:43.000Z",
+      "alt": "Sunset over Sweetwater Reservoir in San Diego CA",
+      "model": "iPhone 11 Pro Max",
+      "tags": [
+        "sunset",
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Sweetwater Summit Regional Park, CA",
+        "latitude": 32.6825083,
+        "longitude": -117.0025472
+      }
+    },
+    {
+      "title": "Sweetwater Reservoir Sunset",
+      "slug": "sweetwater-reservoir-sunset",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "orientation": "tall",
+      "date": "2021-11-23T00:33:43.000Z",
+      "alt": "Sunset over Sweetwater Reservoir in San Diego CA",
+      "model": "iPhone 11 Pro Max",
+      "tags": [
+        "sunset",
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Sweetwater Summit Regional Park, CA",
+        "latitude": 32.6825083,
+        "longitude": -117.0025472
+      }
+    },
+    {
+      "title": "Torrey Pines Tidepool",
+      "slug": "torrey-pines-tidepool",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "orientation": "tall",
+      "date": "2021-12-02T21:51:54.000Z",
+      "alt": "Rock in middle of a tidepool found in Torrey Pines State Reserve",
+      "model": "iPhone 11 Pro Max",
+      "tags": [
+        "ocean",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Torrey Pines State Reserve, CA",
+        "latitude": 32.9268576,
+        "longitude": -117.2593912
+      }
+    },
+    {
+      "title": "Torrey Pines Tidepool 2",
+      "slug": "torrey-pines-tidepool-2",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "orientation": "tall",
+      "date": "2021-12-02T21:56:19.000Z",
+      "alt": "Tidepool found in Torrey Pines State Reserve",
+      "model": "iPhone 11 Pro Max",
+      "tags": [
+        "ocean",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Torrey Pines State Reserve, CA",
+        "latitude": 32.9268576,
+        "longitude": -117.2593912
+      }
+    },
+    {
+      "title": "Mission Bay Palms",
+      "slug": "mission-bay-palms",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "orientation": "tall",
+      "date": "2021-12-09T00:47:41.000Z",
+      "alt": "Tidepool found in Torrey Pines State Reserve",
+      "model": "iPhone 11 Pro Max",
       "tags": [
         "nature"
       ],
@@ -451,9 +2791,103 @@
         "3000"
       ],
       "location": {
-        "address": "Japanesse Garden",
-        "latitude": 32.7355017,
-        "longitude": -97.366331
+        "address": "Mission Bay RV Resort, San Diego, CA",
+        "latitude": 32.7979418,
+        "longitude": -117.2159179
+      }
+    },
+    {
+      "title": "Kubota Japanese Garden Duck",
+      "slug": "kubota-japanese-garden-duck",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "big",
+      "date": "2021-07-24T01:05:48.000Z",
+      "alt": "Duck in sunlight with pink and blue hydrangeas in the background",
+      "model": "Sony a7 III",
+      "tags": [
+        "animal",
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden, Seattle, WA",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "title": "Sunset RV Rock Quarry",
+      "slug": "sunset-rv-rock-quarry",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "orientation": "tall",
+      "date": "2021-10-16T01:45:05.000Z",
+      "alt": "RV during sunset at the top of the Rock Quarry off of Lava Cast Forest Road outside of Bend OR",
+      "model": "iPhone 11 Pro Max",
+      "tags": [
+        "sunset",
+        "landscape",
+        "miscellaneous"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Lava Cast Forest Rd, Bend OR",
+        "latitude": 43.8444795,
+        "longitude": -121.3549119
+      }
+    },
+    {
+      "title": "Rainy Spring Hill Trail",
+      "slug": "rainy-spring-hill-trail",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "orientation": "tall",
+      "date": "2021-10-21T20:09:58.000Z",
+      "alt": "Rainy overcast Spring Hill Trail in Mount Shasta CA",
+      "model": "iPhone 11 Pro Max",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Spring Hill Trail, Mount Shasta, CA",
+        "latitude": 41.3288,
+        "longitude": -122.322
       }
     }
   ]
