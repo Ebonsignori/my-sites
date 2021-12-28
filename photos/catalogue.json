@@ -1,11 +1,14 @@
 {
   "tags": [
     "nature",
-    "landscape",
-    "architecture",
-    "wildlife",
     "animal",
-    "plant"
+    "plant",
+    "urban",
+    "architecture",
+    "sunset",
+    "sky",
+    "night",
+    "landscape"
   ],
   "breakpoints": [
     [
@@ -22,13 +25,17 @@
   ],
   "images": [
     {
-      "slug": "roses",
+      "title": "Kubota Garden Stone",
+      "slug": "kubota-garden-stone",
       "folder": "",
-      "orientation": "big",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-11T22:44:24.000Z",
-      "description": "",
-      "alt": "",
+      "dimensions": {
+        "width": 1440,
+        "height": 1440
+      },
+      "orientation": "small",
+      "date": "2021-07-23T07:00:00.000Z",
+      "alt": "Standing stone with Japanese text in Kubota Japanese Garden",
       "model": "Sony a7 III",
       "tags": [
         "nature"
@@ -42,23 +49,26 @@
         "3000"
       ],
       "location": {
-        "address": "Canada",
-        "latitude": 56.130366,
-        "longitude": -106.346771
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
       }
     },
     {
-      "slug": "coast",
-      "orientation": "wide",
+      "title": "Slightly Spooky Trees with Bench",
+      "slug": "slightly-spooky-trees-with-bench",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-05T22:26:04.000Z",
-      "description": "",
-      "alt": "",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T00:56:23.000Z",
+      "alt": "Slightly spooky shaded trees with a bench in the background",
       "model": "Sony a7 III",
       "tags": [
-        "nature",
-        "landscape"
+        "nature"
       ],
       "breakpoints": [
         "600",
@@ -69,21 +79,26 @@
         "3000"
       ],
       "location": {
-        "address": "Cannon Beach",
-        "latitude": 45.8917738,
-        "longitude": -123.9615274
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
       }
     },
     {
-      "slug": "astoria-houses",
+      "title": "Twisted Branches",
+      "slug": "twisted-branches",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-05T20:00:56.000Z",
-      "description": "",
-      "alt": "Houses in Astoria",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T00:58:42.000Z",
+      "alt": "Two trees with twisted branches",
       "model": "Sony a7 III",
       "tags": [
-        "architecture"
+        "nature"
       ],
       "breakpoints": [
         "600",
@@ -94,22 +109,55 @@
         "3000"
       ],
       "location": {
-        "address": "Astoria, OR",
-        "latitude": 46.1878841,
-        "longitude": -123.8312534
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
       }
     },
     {
-      "slug": "star-fish",
+      "title": "Twisted Tree",
+      "slug": "twisted-tree",
       "folder": "",
-      "orientation": "wide",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-06T00:27:52.000Z",
-      "description": "",
-      "alt": "Orange starfish on a rock",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T00:59:03.000Z",
+      "alt": "Tree composed of a body of two branches twisted together",
       "model": "Sony a7 III",
       "tags": [
-        "wildlife",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "title": "Water Strider Bug",
+      "slug": "water-strider-bug",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T01:14:16.000Z",
+      "alt": "Lone water strider on still water",
+      "model": "Sony a7 III",
+      "tags": [
         "animal",
         "nature"
       ],
@@ -122,20 +170,26 @@
         "3000"
       ],
       "location": {
-        "address": "Short Sand Beach, OR",
-        "latitude": 45.7626064,
-        "longitude": -123.9673596
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
       }
     },
     {
-      "slug": "plant-roots",
+      "title": "Red Berries White Plant",
+      "slug": "red-berries-white-plant",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-06T01:11:38.000Z",
-      "description": "",
-      "alt": "Roots of a tree",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T01:48:41.000Z",
+      "alt": "Red berries plant contrasted by a white-petaled plant",
       "model": "Sony a7 III",
       "tags": [
+        "plant",
         "nature"
       ],
       "breakpoints": [
@@ -147,21 +201,26 @@
         "3000"
       ],
       "location": {
-        "address": "Mount Hood",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
       }
     },
     {
-      "slug": "foggy-short-sand-beach-cliffs",
+      "title": "Pink and Purple Hydrangea",
+      "slug": "pink-and-purple-hydrangea",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-06T00:05:03.000Z",
-      "description": "",
-      "alt": "Short sand beach cliffs through fog",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T01:52:42.000Z",
+      "alt": "Pink hydrangea flower with purple hydrangeas in the background",
       "model": "Sony a7 III",
       "tags": [
-        "landscape",
+        "plant",
         "nature"
       ],
       "breakpoints": [
@@ -173,23 +232,86 @@
         "3000"
       ],
       "location": {
-        "address": "Mount Hood",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
       }
     },
     {
-      "slug": "vertical-pink-roses",
+      "title": "Blueish Hydrangeas",
+      "slug": "blueish-hydrangeas",
       "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-24T01:53:31.000Z",
+      "alt": "Blue and slightly purple hydrangea flowers",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kubota Japanese Garden",
+        "latitude": 47.5133132,
+        "longitude": -122.2664459
+      }
+    },
+    {
+      "title": "Seattle Skyline",
+      "slug": "seattle-skyline",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-24T02:44:01.000Z",
+      "alt": "Skyline of Seattle taken from Kerry Park",
+      "model": "Sony a7 III",
+      "tags": [
+        "urban"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Kerry Park Seattle",
+        "latitude": 47.6294692,
+        "longitude": -122.3599224
+      }
+    },
+    {
+      "slug": "old-stone-japanese-garden-lantern",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
       "orientation": "tall",
-      "bucket": "evan-bio-photos",
-      "date": "2021-09-11T22:47:04.000Z",
-      "description": "",
-      "alt": "Pink Roses",
+      "date": "2021-07-28T22:19:43.000Z",
+      "alt": "Fern-covered stone lantern in Portland's Japanese Garden",
       "model": "Sony a7 III",
       "tags": [
-        "nature",
-        "plant"
+        "nature"
       ],
       "breakpoints": [
         "600",
@@ -206,12 +328,16 @@
       }
     },
     {
-      "slug": "two-dogs-on-beach",
+      "slug": "open-mouthed-koi-fish",
       "folder": "",
       "bucket": "evan-bio-photos",
-      "date": "2021-09-22T01:12:42.000Z",
-      "description": "",
-      "alt": "Two dogs on Short Sand Beach",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-28T22:27:18.000Z",
+      "alt": "Orange and black Koi fish with its mouth open and head above water",
       "model": "Sony a7 III",
       "tags": [
         "animal"
@@ -225,49 +351,25 @@
         "3000"
       ],
       "location": {
-        "address": "Short Sand Beach",
-        "latitude": 45.7626064,
-        "longitude": -123.9673596
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
       }
     },
     {
-      "slug": "horizontal-mt-hood-shrooms",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "date": "2021-09-29T23:24:12.000Z",
-      "description": "",
-      "alt": "Mushrooms growing in a column",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Mirror Lake OR",
-        "latitude": 45.2971917,
-        "longitude": -121.793027
-      }
-    },
-    {
-      "slug": "mirror-lake",
+      "slug": "motley-koi",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 6000,
         "height": 3376
       },
-      "date": "2021-09-29T21:59:04.000Z",
-      "alt": "Mt Hood",
+      "orientation": "small",
+      "date": "2021-07-28T22:29:59.000Z",
+      "alt": "Collection of different colored Koi fish",
       "model": "Sony a7 III",
       "tags": [
-        "nature"
+        "animal"
       ],
       "breakpoints": [
         "600",
@@ -278,24 +380,25 @@
         "3000"
       ],
       "location": {
-        "address": "Mt Hood",
-        "latitude": 45.373615,
-        "longitude": -121.6959511
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
       }
     },
     {
-      "slug": "mirror-lake-again",
+      "slug": "zen-bench",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 6000,
         "height": 3376
       },
-      "date": "2021-09-29T21:58:03.000Z",
-      "alt": "Mirror Lake again",
+      "orientation": "wide",
+      "date": "2021-07-28T22:46:43.000Z",
+      "alt": "Bench shaded by a red-leafed tree",
       "model": "Sony a7 III",
       "tags": [
-        "nature"
+        "animal"
       ],
       "breakpoints": [
         "600",
@@ -306,21 +409,52 @@
         "3000"
       ],
       "location": {
-        "address": "Mirror Lake",
-        "latitude": 45.10780159999999,
-        "longitude": -79.5732337
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
       }
     },
     {
-      "slug": "mirror-lake-agaiiin",
+      "slug": "orange-rose",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 6000,
         "height": 3376
       },
-      "date": "2021-09-29T22:00:20.000Z",
-      "alt": "Again",
+      "orientation": "small",
+      "date": "2021-07-28T23:03:30.000Z",
+      "alt": "Orange tinted roses",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "bench-hugged-by-bush",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-29T00:19:57.000Z",
+      "alt": "Bench almost covered by a bush",
       "model": "Sony a7 III",
       "tags": [
         "nature"
@@ -334,23 +468,410 @@
         "3000"
       ],
       "location": {
-        "address": "Savannah GA",
-        "latitude": 32.0808989,
-        "longitude": -81.091203
+        "address": "Hoyt Arboretum",
+        "latitude": 45.51567989999999,
+        "longitude": -122.715625
       }
     },
     {
-      "title": "vertical stump",
-      "slug": "testetstset",
-      "orientation": "tall",
+      "slug": "fingers-brushing-mossy-branch",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-07-29T00:57:50.000Z",
+      "alt": "Bench almost covered by a bush",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Hoyt Arboretum",
+        "latitude": 45.51567989999999,
+        "longitude": -122.715625
+      }
+    },
+    {
+      "slug": "japanese-garden-buildings",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-07-29T01:24:52.000Z",
+      "alt": "Buildings at the Portland Japanese Garden with mossy roofs",
+      "model": "Sony a7 III",
+      "tags": [
+        "architecture"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Portland Japanese Garden",
+        "latitude": 45.5194078,
+        "longitude": -122.7068794
+      }
+    },
+    {
+      "slug": "tree-sap",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 3376,
         "height": 6000
       },
-      "date": "2021-09-29T22:48:39.000Z",
-      "alt": "tewtwe",
+      "orientation": "tall",
+      "date": "2021-08-01T21:49:31.000Z",
+      "alt": "Tree wound of peeled-off bark exposing drops of sap",
+      "model": "Sony a7 III",
+      "tags": [
+        "plant",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "tree-stumps-with-wildflowers",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-01T22:01:44.000Z",
+      "alt": "Tree stumps spread out over a field before a lake with wildflowers",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "yellow-wildflowers",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-08-01T22:02:01.000Z",
+      "alt": "Yellow wildflowers",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "white-spotted-sawyer-beetle",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-08-02T01:09:53.000Z",
+      "alt": "White Spotted Sawyer Beetle with long antennae on a backpack",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "animal"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Clear Lake, Government Camp, OR",
+        "latitude": 45.1780289,
+        "longitude": -121.7091892
+      }
+    },
+    {
+      "slug": "algae-water",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-03T22:45:38.000Z",
+      "alt": "Water with a heavy layer of algae on top in a shaded swamp-like spot",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Columbia Children's Arboretum, Portland, OR",
+        "latitude": 45.5960596,
+        "longitude": -122.6619304
+      }
+    },
+    {
+      "slug": "tall-brown-grass",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "small",
+      "date": "2021-08-03T22:52:28.000Z",
+      "alt": "Tall brown grasss",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "plant"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Columbia Children's Arboretum, Portland, OR",
+        "latitude": 45.5960596,
+        "longitude": -122.6619304
+      }
+    },
+    {
+      "slug": "clackamas-river-sunset",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3376,
+        "height": 6000
+      },
+      "orientation": "tall",
+      "date": "2021-08-09T02:50:51.000Z",
+      "alt": "Clackamas River sunset outside of Carver Park",
+      "model": "Sony a7 III",
+      "tags": [
+        "nature",
+        "sunset"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Carver Park, Portland, OR",
+        "latitude": 45.3918044,
+        "longitude": -122.4947971
+      }
+    },
+    {
+      "slug": "single-shooting-star",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-13T07:46:44.000Z",
+      "alt": "Prineville night sky full of stars and a single small shooting star",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky",
+        "night"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "single-shooting-star-2",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 2421,
+        "height": 3471
+      },
+      "orientation": "tall",
+      "date": "2021-08-13T08:36:23.000Z",
+      "alt": "Prineville night sky full of stars and a single small shooting star in vertical orientation",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky",
+        "night"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "shooting-stars-with-trees",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 3802,
+        "height": 1782
+      },
+      "orientation": "wide",
+      "date": "2021-08-13T08:13:09.000Z",
+      "alt": "Prineville night sky full of stars and three shooting stars with trees in the foreground",
+      "model": "Sony a7 III",
+      "tags": [
+        "sky",
+        "night"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "nighttime-crooked-river",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-08-15T02:38:13.000Z",
+      "alt": "Crooked river at night taken at Post Pile Campground",
+      "model": "Sony a7 III",
+      "tags": [
+        "night",
+        "landscape",
+        "nature"
+      ],
+      "breakpoints": [
+        "600",
+        "900",
+        "1200",
+        "1800",
+        "2500",
+        "3000"
+      ],
+      "location": {
+        "address": "Post Pile Campground, Prineville, OR",
+        "latitude": 44.1289384,
+        "longitude": -120.800515
+      }
+    },
+    {
+      "slug": "old-fort-turret",
+      "folder": "",
+      "bucket": "evan-bio-photos",
+      "dimensions": {
+        "width": 6000,
+        "height": 3376
+      },
+      "orientation": "wide",
+      "date": "2021-09-04T20:24:56.000Z",
+      "alt": "Old turret at Fort Stevens State Park with old bridge in the background",
       "model": "Sony a7 III",
       "tags": [
         "landscape"
@@ -364,83 +885,25 @@
         "3000"
       ],
       "location": {
-        "address": "test",
-        "latitude": 37.045812,
-        "longitude": -97.039301
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
       }
     },
     {
-      "slug": "more-mushrooms",
-      "folder": "",
-      "orientation": "tall",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 3376,
-        "height": 6000
-      },
-      "date": "2021-09-29T23:25:26.000Z",
-      "alt": "Mushrooms",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "ireland",
-        "latitude": 53.1423672,
-        "longitude": -7.692053599999999
-      }
-    },
-    {
-      "slug": "tall-branch",
-      "folder": "",
-      "orientation": "tall",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 3376,
-        "height": 6000
-      },
-      "date": "2021-09-29T23:15:37.000Z",
-      "alt": "reddish tree branch",
-      "model": "Sony a7 III",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Alaska",
-        "latitude": 64.2008413,
-        "longitude": -149.4936733
-      }
-    },
-    {
-      "slug": "water-drip-from-fountain",
+      "slug": "old-fort-turret",
       "folder": "",
       "bucket": "evan-bio-photos",
       "dimensions": {
         "width": 6000,
         "height": 3376
       },
-      "orientation": "small",
-      "date": "2021-09-23T20:28:42.000Z",
-      "alt": "Water fountain drip long exposure",
+      "orientation": "wide",
+      "date": "2021-09-04T20:24:56.000Z",
+      "alt": "Old turret at Fort Stevens State Park with old bridge in the background",
       "model": "Sony a7 III",
       "tags": [
-        "nature"
+        "landscape"
       ],
       "breakpoints": [
         "600",
@@ -451,9 +914,9 @@
         "3000"
       ],
       "location": {
-        "address": "Japanesse Garden",
-        "latitude": 32.7355017,
-        "longitude": -97.366331
+        "address": "Fort Stevens State Park, OR",
+        "latitude": 46.1993713,
+        "longitude": -123.9790652
       }
     }
   ]
