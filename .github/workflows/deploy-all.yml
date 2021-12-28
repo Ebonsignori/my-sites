@@ -66,6 +66,7 @@ jobs:
             echo "Project has catalogue, updating it..."
             git config --global user.name 'Deploy Bot'
             git config --global user.email 'evanabonsignori@gmail.com'
+            git pull
             git commit -am "update catalogue via deploy action"
             git push
           fi
