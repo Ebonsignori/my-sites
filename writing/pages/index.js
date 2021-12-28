@@ -293,6 +293,7 @@ export async function getStaticProps() {
       }
       return {
         ...entry.data,
+        lastModified: "",
         date: entry.data.date.toString(),
       };
     })

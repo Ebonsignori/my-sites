@@ -24,7 +24,6 @@ jobs:
           fetch-depth: 2
 
       - name: Install project-level Node.js dependencies
-        if: ${{ env.SHOULD_BUILD == 'true' }} 
         run: cd ./${{ matrix.project }} && npm i
 
       - name: Fetch stats

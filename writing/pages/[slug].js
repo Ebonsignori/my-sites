@@ -147,6 +147,7 @@ export async function getStaticProps({ params }) {
     delete entry.content;
     if (isValidDate(entry.data.date)) {
       entry.data.date = toReadableDateString(entry.data.date);
+      entry.data.lastModified = "";
     }
   }
   const { current, prev = {}, next = {} } = entries;

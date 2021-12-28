@@ -103,12 +103,11 @@ async function main() {
       };
       if (statsJson.stats[slug]) {
         // Update engagementRate and add sessions to previous stats
-        statsJson.stats[slug].engagedSessions += metrics.engagedSessions;
-        statsJson.stats[slug].lastEngagementRate = metrics.lastEngagementRate;
-        statsJson.stats[slug].popularity +=
-          metrics.engagedSessions * metrics.lastEngagementRate;
+        statsJson.stats[slug].homepageClicks += metrics.homepageClicks;
+        statsJson.stats[slug].lightBoxViews = metrics.lightBoxViews;
+        statsJson.stats[slug].downloads = metrics.downloads;
       } else {
-        // New stats for an photo
+        // New stats for a photo
         statsJson.stats[slug] = metrics;
       }
     }
