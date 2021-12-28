@@ -133,7 +133,7 @@ export default function Home({ content }) {
   }, [postLoadingFinished, isSunMode]);
 
   return (
-    <PageWrapper doneLoading={introLoadFinished}>
+    <PageWrapper doneLoading={introLoadFinished} isSunMode={isSunMode}>
       <PageHeader postLoadingFinished={postLoadingFinished}>
         {PageRender}
         <BackgroundImage postLoadingFinished={postLoadingFinished} />
@@ -163,15 +163,27 @@ export async function getStaticProps() {
   };
 }
 
-const PageWrapperProps = (props) =>
-  props.doneLoading
-    ? `
+const PageWrapperProps = (props) => {
+  if (props.isSunMode) {
+    return `
 visibility: visible;
-`
-    : `
-visibility: hidden;
-
-`;
+    overflow: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+}
+    `;
+  } else {
+    return props.doneLoading
+      ? `
+    visibility: visible;
+    `
+      : `
+    visibility: hidden;
+    `;
+  }
+};
 const PageWrapper = styled.div`
   position: relative;
   overflow: hidden;

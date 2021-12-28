@@ -9,8 +9,8 @@ if (fs.existsSync(secretEnvFile)) {
   secrets = dotenv.parse(fs.readFileSync(secretEnvFile));
 }
 
-const accessKeyId = secrets?.AWS_ID || process.env.AWS_ID;
-const secretAccessKey = secrets?.AWS_SECRET || process.env.AWS_SECRET;
+const accessKeyId = process.env.AWS_ID || secrets?.AWS_ID;
+const secretAccessKey = process.env.AWS_SECRET || secrets?.AWS_SECRET;
 
 const s3 = new AWS.S3({
   accessKeyId,
