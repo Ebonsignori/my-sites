@@ -73,31 +73,27 @@ async function main() {
     ],
     dimensions: [
       {
-        name: "pagePath",
-      },
-      {
-        name: "customEvent:read",
+        name: "customEvent:slug",
       },
     ],
     metrics: [
       {
-        name: "eventCount",
+        name: "countCustomEvent:opened",
+      },
+      {
+        name: "countCustomEvent:read_time",
       },
     ],
   });
 
-     console.log(JSON.stringify(response.rows, null, 2))
-  return
-
+  console.log(JSON.stringify(response, null, 2));
+  return;
 
   if (response && response.rows.length) {
     // Update stats-json
     statsJson.lastUpdated = todayEST;
     for (const row of response.rows) {
-      let slug = row.dimensionValues[0].value;
-      if (slug !== "/") {
-        slug = slug.replace("/", "");
-      }
+      const slug = row.dimensionValues[0].value;
       const metrics = {
         popularity: row.metricValues[0].value,
       };

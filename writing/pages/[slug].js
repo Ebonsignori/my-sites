@@ -26,17 +26,24 @@ const components = {
   Tooltip,
 };
 // Fire read event at each interval
-const EVENT_SECONDS = [10, 60, 120];
+const EVENT_SECONDS = [10, 30, 60, 120, 300];
 
 export default function Post({ slug, source, metadata, prev, next }) {
   const [modalContents, setModalContents] = useState(undefined);
   useEffect(() => {
+    if (window?.gtag) {
+      window?.gtag("event", "read", {
+        slug,
+        opened: 1,
+      });
+    }
     for (const seconds of EVENT_SECONDS) {
       if (window?.gtag) {
         setTimeout(() => {
           window?.gtag("event", "read", {
+            slug,
             // eslint-disable-next-line camelcase
-            event_label: slug,
+            read_time: seconds,
           });
         }, seconds * 1000);
       }

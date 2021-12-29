@@ -73,6 +73,7 @@ class CatalogueService {
   async replaceCatalogue(bucket, catalogue) {
     await this.getCatalogue(bucket);
     await this.s3.remove(bucket, CATALOGUE);
+
     const res = await this.s3.upload({
       ...uploadParams,
       Bucket: bucket,

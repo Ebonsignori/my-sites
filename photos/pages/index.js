@@ -315,9 +315,10 @@ export default function Home({ images, tags, models }) {
           {...imageProps}
           onClick={() => {
             if (window?.gtag) {
-              window?.gtag("event", "homepage_click", {
+              window?.gtag("event", "click", {
+                slug: image.slug,
                 // eslint-disable-next-line camelcase
-                event_label: image.slug,
+                homepage_click: 1,
               });
             }
             setSelectedSlug(image.slug);

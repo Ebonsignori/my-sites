@@ -59,9 +59,10 @@ const useKeyPress = function (targetKey) {
 function LightboxModal({ images, slug, setSelectedSlug, refreshOnSelect }) {
   useEffect(() => {
     if (window?.gtag && slug) {
-      window?.gtag("event", "lightbox_viewed", {
+      window?.gtag("event", "lightbox", {
+        slug,
         // eslint-disable-next-line camelcase
-        page_title: slug,
+        lightbox_view: 1,
       });
     }
   }, [slug]);
@@ -244,8 +245,9 @@ function LightboxModal({ images, slug, setSelectedSlug, refreshOnSelect }) {
           onClick={() => {
             if (window?.gtag) {
               window?.gtag("event", "download", {
+                slug,
                 // eslint-disable-next-line camelcase
-                page_title: slug,
+                download_count: 1,
               });
             }
             saveAs(getImageSource(image.slug));

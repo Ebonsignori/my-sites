@@ -74,19 +74,22 @@ async function main() {
       ],
       dimensions: [
         {
-          name: "pageTitle",
-        },
-        {
-          name: `customEvent:${stat}`,
+          name: "customEvent:slug",
         },
       ],
       metrics: [
         {
-          name: "eventCount",
+          name: `countCustomEvent:${stat}`,
         },
       ],
     });
+
+    console.log(JSON.stringify(response, null, 2));
+    return;
+
     if (response && response.rows.length) {
+      // eslint-disable-next-line no-console
+      console.log("Updating ", stat);
       for (const row of response.rows) {
         const slug = row.dimensionValues[0].value;
         const metrics = {
