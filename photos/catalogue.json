@@ -28,6 +28,7 @@
   ],
   "images": [
     {
+      "title": "Kubota Garden Stone",
       "slug": "kubota-garden-stone",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -57,6 +58,7 @@
       }
     },
     {
+      "title": "Slightly Spooky Trees With Bench",
       "slug": "slightly-spooky-trees-with-bench",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -86,6 +88,7 @@
       }
     },
     {
+      "title": "Twisted Branches",
       "slug": "twisted-branches",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -115,6 +118,7 @@
       }
     },
     {
+      "title": "Twisted Tree",
       "slug": "twisted-tree",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -144,6 +148,7 @@
       }
     },
     {
+      "title": "Water Strider Bug",
       "slug": "water-strider-bug",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -174,6 +179,7 @@
       }
     },
     {
+      "title": "Red Berries White Plant",
       "slug": "red-berries-white-plant",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -204,6 +210,7 @@
       }
     },
     {
+      "title": "Pink And Purple Hydrangea",
       "slug": "pink-and-purple-hydrangea",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -234,6 +241,7 @@
       }
     },
     {
+      "title": "Blueish Hydrangeas",
       "slug": "blueish-hydrangeas",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -264,6 +272,7 @@
       }
     },
     {
+      "title": "Seattle Skyline",
       "slug": "seattle-skyline",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -293,6 +302,7 @@
       }
     },
     {
+      "title": "Old Stone Japanese Garden Lantern",
       "slug": "old-stone-japanese-garden-lantern",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -322,6 +332,7 @@
       }
     },
     {
+      "title": "Open Mouthed Koi Fish",
       "slug": "open-mouthed-koi-fish",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -351,6 +362,7 @@
       }
     },
     {
+      "title": "Motley Koi",
       "slug": "motley-koi",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -380,6 +392,7 @@
       }
     },
     {
+      "title": "Zen Bench",
       "slug": "zen-bench",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -409,6 +422,7 @@
       }
     },
     {
+      "title": "Orange Rose",
       "slug": "orange-rose",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -439,6 +453,7 @@
       }
     },
     {
+      "title": "Bench Hugged By Bush",
       "slug": "bench-hugged-by-bush",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -468,6 +483,7 @@
       }
     },
     {
+      "title": "Fingers Brushing Mossy Branch",
       "slug": "fingers-brushing-mossy-branch",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -497,6 +513,7 @@
       }
     },
     {
+      "title": "Japanese Garden Buildings",
       "slug": "japanese-garden-buildings",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -526,6 +543,7 @@
       }
     },
     {
+      "title": "Tree Sap",
       "slug": "tree-sap",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -556,6 +574,7 @@
       }
     },
     {
+      "title": "Tree Stumps With Wildflowers",
       "slug": "tree-stumps-with-wildflowers",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -586,6 +605,7 @@
       }
     },
     {
+      "title": "Yellow Wildflowers",
       "slug": "yellow-wildflowers",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -616,6 +636,7 @@
       }
     },
     {
+      "title": "White Spotted Sawyer Beetle",
       "slug": "white-spotted-sawyer-beetle",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -646,6 +667,7 @@
       }
     },
     {
+      "title": "Algae Water",
       "slug": "algae-water",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -675,6 +697,7 @@
       }
     },
     {
+      "title": "Tall Brown Grass",
       "slug": "tall-brown-grass",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -705,6 +728,7 @@
       }
     },
     {
+      "title": "Clackamas River Sunset",
       "slug": "clackamas-river-sunset",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -735,6 +759,7 @@
       }
     },
     {
+      "title": "Single Shooting Star",
       "slug": "single-shooting-star",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -765,6 +790,7 @@
       }
     },
     {
+      "title": "Single Shooting Star 2",
       "slug": "single-shooting-star-2",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -795,6 +821,7 @@
       }
     },
     {
+      "title": "Shooting Stars With Trees",
       "slug": "shooting-stars-with-trees",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -825,6 +852,7 @@
       }
     },
     {
+      "title": "Nighttime Crooked River",
       "slug": "nighttime-crooked-river",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -856,6 +884,7 @@
       }
     },
     {
+      "title": "Old Fort Turret",
       "slug": "old-fort-turret",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -885,6 +914,7 @@
       }
     },
     {
+      "title": "Old Fort Turret",
       "slug": "old-fort-turret",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -914,6 +944,7 @@
       }
     },
     {
+      "title": "Area Closed",
       "slug": "area-closed",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -943,6 +974,7 @@
       }
     },
     {
+      "title": "Plant In A Hole",
       "slug": "plant-in-a-hole",
       "folder": "",
       "bucket": "evan-bio-photos",
@@ -972,6 +1004,7 @@
       }
     },
     {
+      "title": "Bubbles In The Sky",
       "slug": "bubbles-in-the-sky",
       "folder": "",
       "bucket": "evan-bio-photos",
