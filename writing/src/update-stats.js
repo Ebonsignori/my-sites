@@ -44,12 +44,12 @@ if (fs.existsSync(secretEnvFile)) {
   propertyId = localEnv.GA_WRITING_ID;
   clientEmail = localEnv.GA_CLIENT_EMAIL;
   clientId = localEnv.GA_CLIENT_ID;
-  privateKey = localEnv.GA_PRIVATE_KEY.replaceAll("\\n", "\n");
+  privateKey = localEnv.GA_PRIVATE_KEY;
 } else {
   // eslint-disable-next-line no-console
   console.log("Secrets file doesn't exist. Using shell ENV");
-  privateKey = JSON.parse(process.env.GA_PRIVATE_KEY);
 }
+privateKey = privateKey.replaceAll("\\n", "\n");
 
 const auth = new google.auth.GoogleAuth({
   credentials: {
