@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emoji from "remark-emoji";
 import styled from "styled-components";
 
@@ -28,11 +28,54 @@ const components = {
 // Fire read event at each interval
 const EVENT_SECONDS = [10, 30, 60, 120, 300];
 
+// Article is finished when bottom has been hit and at least 10 seconds have passed
+let hasFiredFinished = false;
+let hasReachedBottom = false;
+let hasHitTime = false;
+
+// Called whenever bottom is hit or time interval passes, if both conditions met, event fires
+function articleFinished(slug) {
+  if (hasFiredFinished) {
+    return;
+  }
+  if (hasReachedBottom && hasHitTime) {
+    hasFiredFinished = true;
+    window?.gtag("event", "finished", {
+      slug,
+      // eslint-disable-next-line camelcase
+      has_read: 1,
+    });
+  }
+}
+
 export default function Post({ slug, source, metadata, prev, next }) {
+  const bottomRef = useRef(null);
   const [modalContents, setModalContents] = useState(undefined);
+
+  useEffect(() => {
+    if (!bottomRef.current) {
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        hasReachedBottom = true;
+        articleFinished(slug);
+        observer.disconnect();
+      }
+    });
+
+    if (!hasReachedBottom) {
+      observer.observe(bottomRef.current);
+    }
+    return () => {
+      observer.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bottomRef]);
+
   useEffect(() => {
     if (window?.gtag) {
-      window?.gtag("event", "read", {
+      window?.gtag("event", "viewed", {
         slug,
         opened: 1,
       });
@@ -40,6 +83,8 @@ export default function Post({ slug, source, metadata, prev, next }) {
     for (const seconds of EVENT_SECONDS) {
       if (window?.gtag) {
         setTimeout(() => {
+          hasHitTime = true;
+          articleFinished(slug);
           window?.gtag("event", "read", {
             slug,
             // eslint-disable-next-line camelcase
@@ -109,7 +154,7 @@ export default function Post({ slug, source, metadata, prev, next }) {
               />
               <MDXRemote {...source} components={components} />
               <hr />
-              <BottomHeading>More Reads</BottomHeading>
+              <BottomHeading ref={bottomRef}>More Reads</BottomHeading>
               <BottomCTA href={process.env.ABOUT_PAGE_URL}>
                 About Author
               </BottomCTA>

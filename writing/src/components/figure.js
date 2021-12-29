@@ -24,11 +24,14 @@ export default function Figure({ image, caption, imageAlt, priority }) {
   );
   let ImageComponent = LazyLoadImage;
   if (priority) {
-    ImageComponent = styled.img``;
+    ImageComponent = function ImageFigure(props) {
+      return <img {...props} />;
+    };
   }
   return (
     <>
       <ImageContainer
+        key={image}
         onClick={() => {
           appState.setModalContents(modalContents);
         }}

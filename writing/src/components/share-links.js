@@ -20,23 +20,23 @@ export default function ShareIcons({ className, slug }) {
   };
   return (
     <IconsWrapper className={className}>
-      <Tooltip key="twitter" text="Share to Twitter" noUnderline>
+      <Tooltip customKey="twitter" text="Share to Twitter" noUnderline>
         <IconLink color="#00acee" href={socialLinks.twitter}>
           <TwitterIcon />
         </IconLink>
       </Tooltip>
-      <Tooltip key="linkedin" text="Share to Linkedin" noUnderline>
+      <Tooltip customKey="linkedin" text="Share to Linkedin" noUnderline>
         <IconLink color="#0e76a8" href={socialLinks.linkedin}>
           <LinkedinIcon />
         </IconLink>
       </Tooltip>
-      <Tooltip key="facebook" text="Share to Facebook" noUnderline>
+      <Tooltip customKey="facebook" text="Share to Facebook" noUnderline>
         <IconLink href={socialLinks.facebook} color="#3b5998">
           <FacebookIcon />
         </IconLink>
       </Tooltip>
       <Tooltip
-        key="clipboard"
+        customKey="clipboard"
         text={copied ? "URL Copied!" : "Copy URL to Clipboard"}
         noUnderline
       >

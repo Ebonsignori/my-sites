@@ -63,7 +63,7 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
 });
 
 async function main() {
-  for (const stat of ["homepage_click", "lightbox_viewed", "download"]) {
+  for (const stat of ["homepage_click", "lightbox_view", "download_count"]) {
     const [response] = await analyticsDataClient.runReport({
       property: `properties/${propertyId}`,
       dateRanges: [
@@ -79,13 +79,16 @@ async function main() {
       ],
       metrics: [
         {
-          name: `countCustomEvent:${stat}`,
+          name: `countCustomEvent:homepage_click`,
+        },
+        {
+          name: `countCustomEvent:lightbox_view`,
+        },
+        {
+          name: `countCustomEvent:download_count`,
         },
       ],
     });
-
-    console.log(JSON.stringify(response, null, 2));
-    return;
 
     if (response && response.rows.length) {
       // eslint-disable-next-line no-console
@@ -93,15 +96,16 @@ async function main() {
       for (const row of response.rows) {
         const slug = row.dimensionValues[0].value;
         const metrics = {
-          [stat]: row.metricValues[0].value,
+          homepage_click: row.metricValues[0].value,
+          lightbox_view: row.metricValues[1].value,
+          download_count: row.metricValues[2].value,
         };
         if (!statsJson.stats[slug]) {
-          statsJson.stats[slug] = {};
-        }
-        if (!statsJson.stats[slug]?.[stat]) {
-          statsJson.stats[slug][stat] = metrics[stat];
+          statsJson.stats[slug] = metrics;
         } else {
-          statsJson.stats[slug][stat] += metrics[stat];
+          statsJson.stats[slug].homepage_click += metrics.homepage_click;
+          statsJson.stats[slug].lightbox_view += metrics.lightbox_view;
+          statsJson.stats[slug].download_count += metrics.download_count;
         }
       }
     } else {

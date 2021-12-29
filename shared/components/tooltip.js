@@ -1,15 +1,42 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import ReactTooltip from "react-tooltip";
 import styled from "styled-components";
 
-function Tooltip({ key, children, text, noUnderline }) {
+function Tooltip({ customKey, children, text, noUnderline }) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (isMounted) {
+    return (
+      <>
+        <ReactTooltip
+          wrapper="span"
+          instanceId={customKey || text}
+          id={customKey || text}
+        >
+          {text}
+        </ReactTooltip>
+        <TooltipWrapper
+          data-tip
+          data-for={customKey || text}
+          noUnderline={noUnderline}
+        >
+          {children}
+        </TooltipWrapper>
+      </>
+    );
+  }
+
   return (
-    <>
-      <ReactTooltip id={key || text}>{text}</ReactTooltip>
-      <TooltipWrapper data-tip data-for={key || text} noUnderline={noUnderline}>
-        {children}
-      </TooltipWrapper>
-    </>
+    <TooltipWrapper
+      data-tip
+      data-for={customKey || text}
+      noUnderline={noUnderline}
+    >
+      {children}
+    </TooltipWrapper>
   );
 }
 
@@ -18,7 +45,7 @@ const ToolTipWrapperProps = (props) =>
   `
   border-bottom: none;
 `;
-const TooltipWrapper = styled.div`
+const TooltipWrapper = styled.span`
   display: inline-block !important;
   border-bottom: 1px dotted var(--font-secondary);
 
