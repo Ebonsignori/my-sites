@@ -83,24 +83,31 @@ async function main() {
       {
         name: "countCustomEvent:read_time",
       },
+      {
+        name: "countCustomEvent:has_read",
+      },
     ],
   });
 
   if (response && response.rows.length) {
-    // Update stats-json
-    statsJson.lastUpdated = todayEST;
     for (const row of response.rows) {
-      const slug = row.dimensionValues[0].value;
+      const slug = row.dimensionValues[0].value.toLowerCase();
       const metrics = {
-        popularity: row.metricValues[0].value,
+        opened: row.metricValues[0].value,
+        read_time: row.metricValues[1].value,
+        has_read: row.metricValues[2].value,
       };
       if (statsJson.stats[slug]) {
-        statsJson.stats[slug].popularity += metrics.popularity;
+        statsJson.stats[slug].opened += metrics.opened;
+        statsJson.stats[slug].read_time += metrics.read_time;
+        statsJson.stats[slug].has_read += metrics.has_read;
       } else {
         // New stats for an article
         statsJson.stats[slug] = metrics;
       }
     }
+    // Update stats-json
+    statsJson.lastUpdated = todayEST;
     writeStatsJson(statsJson);
     // eslint-disable-next-line no-console
     console.log("Writing stats.json updated");

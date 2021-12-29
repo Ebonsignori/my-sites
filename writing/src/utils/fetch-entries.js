@@ -69,10 +69,10 @@ export function fetchEntries() {
     // NOTE: Will not remove footnotes
     metadata.data.preview = stripMarkdown(metadata.excerpt);
 
-    // Add popularity to metadata. Weighted by ( viewers ) * ( percent that stayed on page > 10 seconds )
+    // Add popularity to metadata.
     if (stats[metadata.data.slug]) {
-      const articleStats = stats[metadata.data.slug];
-      metadata.data.popularity = articleStats.popularity;
+      const articleStats = stats[metadata.data.slug.toLowerCase()];
+      metadata.data.popularity = articleStats.has_read;
     } else {
       // If update-stats hasn't run since this article was added
       metadata.data.popularity = 0;

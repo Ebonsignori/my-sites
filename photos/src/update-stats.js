@@ -63,66 +63,61 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
 });
 
 async function main() {
-  for (const stat of ["homepage_click", "lightbox_view", "download_count"]) {
-    const [response] = await analyticsDataClient.runReport({
-      property: `properties/${propertyId}`,
-      dateRanges: [
-        {
-          startDate: statsJson.lastUpdated,
-          endDate: todayEST,
-        },
-      ],
-      dimensions: [
-        {
-          name: "customEvent:slug",
-        },
-      ],
-      metrics: [
-        {
-          name: `countCustomEvent:homepage_click`,
-        },
-        {
-          name: `countCustomEvent:lightbox_view`,
-        },
-        {
-          name: `countCustomEvent:download_count`,
-        },
-      ],
-    });
+  const [response] = await analyticsDataClient.runReport({
+    property: `properties/${propertyId}`,
+    dateRanges: [
+      {
+        startDate: statsJson.lastUpdated,
+        endDate: todayEST,
+      },
+    ],
+    dimensions: [
+      {
+        name: "customEvent:slug",
+      },
+    ],
+    metrics: [
+      {
+        name: `countCustomEvent:homepage_click`,
+      },
+      {
+        name: `countCustomEvent:lightbox_view`,
+      },
+      {
+        name: `countCustomEvent:download_count`,
+      },
+    ],
+  });
 
-    if (response && response.rows.length) {
-      // eslint-disable-next-line no-console
-      console.log("Updating ", stat);
-      for (const row of response.rows) {
-        const slug = row.dimensionValues[0].value;
-        const metrics = {
-          homepage_click: row.metricValues[0].value,
-          lightbox_view: row.metricValues[1].value,
-          download_count: row.metricValues[2].value,
-        };
-        if (!statsJson.stats[slug]) {
-          statsJson.stats[slug] = metrics;
-        } else {
-          statsJson.stats[slug].homepage_click += metrics.homepage_click;
-          statsJson.stats[slug].lightbox_view += metrics.lightbox_view;
-          statsJson.stats[slug].download_count += metrics.download_count;
-        }
-      }
-    } else {
-      if (response.rowCount === 0) {
-        // eslint-disable-next-line no-console
-        console.log(`No new metrics since last update for ${stat}`);
+  if (response && response.rows.length) {
+    for (const row of response.rows) {
+      const slug = row.dimensionValues[0].value.toLowerCase();
+      const metrics = {
+        homepage_click: row.metricValues[0].value,
+        lightbox_view: row.metricValues[1].value,
+        download_count: row.metricValues[2].value,
+      };
+      if (!statsJson.stats[slug]) {
+        statsJson.stats[slug] = metrics;
       } else {
-        throw Error(`Missing rows in GA response for ${stat}.`);
+        statsJson.stats[slug].homepage_click += metrics.homepage_click;
+        statsJson.stats[slug].lightbox_view += metrics.lightbox_view;
+        statsJson.stats[slug].download_count += metrics.download_count;
       }
     }
+    // Update stats-json
+    statsJson.lastUpdated = todayEST;
+    writeStatsJson(statsJson);
+    // eslint-disable-next-line no-console
+    console.log("Photos stats.json updated");
+  } else {
+    if (response.rowCount === 0) {
+      // eslint-disable-next-line no-console
+      console.log(`No new metrics since last update`);
+    } else {
+      throw Error(`Missing rows in GA response`);
+    }
   }
-
-  // Update stats-json
-  statsJson.lastUpdated = todayEST;
-  writeStatsJson(statsJson);
-  // eslint-disable-next-line no-console
-  console.log("Photos stats.json updated");
 }
 
 main();
