@@ -20,7 +20,7 @@ import CameraIcon from "../src/svgs/camera-icon";
 import { fetchPhotos } from "../src/utils/fetch-photos";
 
 const ALL_TAG = "all";
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 8;
 const PAGINATE_OFFSET = 200;
 
 const sortByOpts = [
@@ -136,7 +136,7 @@ export default function Home({ images, tags, models }) {
   );
 
   // Filtering
-  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE + 2);
+  const [paginationCount, setPaginationCount] = useState(ITEMS_PER_PAGE);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState(sortByOpts[0]);
 
