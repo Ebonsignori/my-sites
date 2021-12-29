@@ -317,7 +317,7 @@ export default function Home({ images, tags, models }) {
             if (window?.gtag) {
               window?.gtag("event", "homepage_click", {
                 // eslint-disable-next-line camelcase
-                page_path: image.slug,
+                event_label: image.slug,
               });
             }
             setSelectedSlug(image.slug);

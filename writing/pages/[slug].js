@@ -35,8 +35,8 @@ export default function Post({ slug, source, metadata, prev, next }) {
       if (window?.gtag) {
         setTimeout(() => {
           window?.gtag("event", "read", {
-            article: slug,
-            time: seconds,
+            // eslint-disable-next-line camelcase
+            event_label: slug,
           });
         }, seconds * 1000);
       }

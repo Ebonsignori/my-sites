@@ -86,6 +86,10 @@ async function main() {
     ],
   });
 
+     console.log(JSON.stringify(response.rows, null, 2))
+  return
+
+
   if (response && response.rows.length) {
     // Update stats-json
     statsJson.lastUpdated = todayEST;

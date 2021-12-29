@@ -61,7 +61,7 @@ function LightboxModal({ images, slug, setSelectedSlug, refreshOnSelect }) {
     if (window?.gtag && slug) {
       window?.gtag("event", "lightbox_viewed", {
         // eslint-disable-next-line camelcase
-        page_path: slug,
+        page_title: slug,
       });
     }
   }, [slug]);
@@ -245,7 +245,7 @@ function LightboxModal({ images, slug, setSelectedSlug, refreshOnSelect }) {
             if (window?.gtag) {
               window?.gtag("event", "download", {
                 // eslint-disable-next-line camelcase
-                page_path: slug,
+                page_title: slug,
               });
             }
             saveAs(getImageSource(image.slug));
