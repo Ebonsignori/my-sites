@@ -10,9 +10,11 @@ export function fetchPhotos() {
 
   // Get stats.json to include get download stats for each photo
   const statsJson = fs.readFileSync(path.join(process.cwd(), "stats.json"));
-  const { stats } = JSON.parse(statsJson);
+  let { stats } = JSON.parse(statsJson);
   if (!stats) {
-    throw new Error("Stats.json missing or path incorrect.");
+    // eslint-disable-next-line no-console
+    console.log("Stats.json missing or path incorrect.");
+    stats = {};
   }
 
   const { images } = catalogueJson;

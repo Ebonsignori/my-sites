@@ -2675,36 +2675,6 @@
       }
     },
     {
-      "title": "Mission Bay Palms",
-      "slug": "mission-bay-palms",
-      "folder": "",
-      "bucket": "evan-bio-photos",
-      "dimensions": {
-        "width": 3024,
-        "height": 4032
-      },
-      "orientation": "tall",
-      "date": "2021-12-09T00:47:41.000Z",
-      "alt": "Tidepool found in Torrey Pines State Reserve",
-      "model": "iPhone 11 Pro Max",
-      "tags": [
-        "nature"
-      ],
-      "breakpoints": [
-        "600",
-        "900",
-        "1200",
-        "1800",
-        "2500",
-        "3000"
-      ],
-      "location": {
-        "address": "Mission Bay RV Resort, San Diego, CA",
-        "latitude": 32.7979418,
-        "longitude": -117.2159179
-      }
-    },
-    {
       "title": "Kubota Japanese Garden Duck",
       "slug": "kubota-japanese-garden-duck",
       "folder": "",

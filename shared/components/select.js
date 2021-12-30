@@ -65,6 +65,9 @@ export default function Select({ config }) {
 
   const selectedRender = useMemo(() => {
     if (!multiple) {
+      if (selected.includes("iii")) {
+        return capitalizeAll(selected.replace("iii", "III"));
+      }
       return capitalizeAll(selected);
     }
     if (selected.length < 3) {

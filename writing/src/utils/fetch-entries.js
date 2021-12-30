@@ -9,7 +9,12 @@ const entriesPath = path.join(process.cwd(), "entries");
 export function fetchEntries() {
   // Get stats.json to include read count for each article
   const statsJson = fs.readFileSync(path.join(process.cwd(), "stats.json"));
-  const { stats } = JSON.parse(statsJson);
+  let { stats } = JSON.parse(statsJson);
+  if (!stats) {
+    // eslint-disable-next-line no-console
+    console.log("Stats.json missing or path incorrect.");
+    stats = {};
+  }
 
   const entriesMap = {};
   const entries = fs.readdirSync(entriesPath);

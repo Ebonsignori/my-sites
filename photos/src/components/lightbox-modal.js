@@ -427,13 +427,13 @@ const ImageContainer = styled.div`
 
 const MetaListBreakpoints = setEachBreakpoint({
   xs: `
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--background);
   max-width: 70%;
   svg {
-    min-width: 1.2rem;
-    width: 1.2rem;
-    height: 1.2rem;
+    min-width: 1rem;
+    width: 1rem;
+    height: 1rem;
   }
  `,
   sm: `
@@ -563,10 +563,10 @@ const Next = styled(Prev)`
 
 const DownloadIconWrapperBreakpoints = setEachBreakpoint({
   xs: `
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   svg {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
   }
 `,
 });
