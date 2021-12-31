@@ -153,7 +153,7 @@ export default function Home({ entries, categories }) {
   const EntriesRender = useMemo(() => {
     if (!filteredEntries.length) {
       const image = `
-        background-image: url("%{NOT_FOUND_IMAGE_URL}");
+        background-image: url("${process.env.NOT_FOUND_IMAGE_URL}");
       `;
       return (
         <Entry>
@@ -182,7 +182,11 @@ export default function Home({ entries, categories }) {
         background-image: url("${entry.image}");
       `;
       if (!entry.image?.includes("://")) {
-        image = responsiveBackgroundImageUrl(entry.image, true, "writing");
+        image = responsiveBackgroundImageUrl(
+          entry.image,
+          true,
+          `writing/${entry.slug}`
+        );
       }
       const entryCategories = entry.categories.map((category, catIndex) => (
         <li
