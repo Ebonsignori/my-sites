@@ -22,7 +22,7 @@ export default function UsageSection({ content }) {
             <a href={process.env.WRITING_PAGE_URL}>Writing</a>,{" "}
             <a href={process.env.PHOTOS_PAGE_URL}>Photography</a>, and{" "}
             <a href={process.env.MUSIC_PAGE_URL}>Music</a> sites are all freely
-            available at <a href={content.repoUrl}>GitHub</a>.{" "}
+            available on <a href={content.repoUrl}>GitHub</a>.{" "}
           </p>
         </TextContent>
       </ContentSection>

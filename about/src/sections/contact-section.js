@@ -23,7 +23,14 @@ export default function ContactSection({ content }) {
           </p>{" "}
           <p>
             If you'd like to get in touch, please{" "}
-            <a href={content.socialLinks.linkedin}>message me on Linkedin!</a>
+            <a href={content.socialLinks.linkedin}>message me on Linkedin</a>,{" "}
+            or you can find my personal email in{" "}
+            <a
+              href={`${process.env.BASE_ASSET_URL}/Resume+-+Evan+Bonsignori.pdf`}
+            >
+              my resume
+            </a>
+            .
           </p>
         </TextContent>
       </ContentSection>
