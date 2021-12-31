@@ -20,14 +20,16 @@ import CameraIcon from "../src/svgs/camera-icon";
 import { fetchPhotos } from "../src/utils/fetch-photos";
 
 const ALL_TAG = "all";
-const ITEMS_PER_PAGE = 8;
-const PAGINATE_OFFSET = 200;
+const ITEMS_PER_PAGE = 10;
+const PAGINATE_OFFSET = 500;
 
 const sortByOpts = [
+  { key: "order", direction: ASCENDING, label: "Custom Order" },
   { key: "date", direction: DESCENDING, label: "Newest First" },
   { key: "downloads", direction: DESCENDING, label: "Most Downloaded" },
   { key: "date", direction: ASCENDING, label: "Oldest First" },
   { key: "downloads", direction: ASCENDING, label: "Least Downloaded" },
+  { key: "order", direction: DESCENDING, label: "Reverse Custom" },
 ];
 
 export default function Home({ images, tags, models }) {
@@ -205,8 +207,8 @@ export default function Home({ images, tags, models }) {
     () =>
       [...filteredImages].sort((a, b) => {
         const isAscending = sortBy.direction === ASCENDING ? 1 : -1;
-        let aCompare = a[sortBy.key];
-        let bCompare = b[sortBy.key];
+        let aCompare = a[sortBy.key] || 9999;
+        let bCompare = b[sortBy.key] || 9999;
         if (sortBy.key === "date") {
           aCompare = new Date(aCompare);
           bCompare = new Date(bCompare);
@@ -303,7 +305,7 @@ export default function Home({ images, tags, models }) {
       </ImageContainer>
     );
   } else {
-    ImagesRender = filteredImages.map((image) => {
+    ImagesRender = filteredImages.map((image, index) => {
       const imageProps = {};
       if (image.orientation) {
         imageProps[image.orientation] = true;
@@ -333,6 +335,7 @@ export default function Home({ images, tags, models }) {
               alt={image.alt}
               width="100%"
               height="100%"
+              index={index}
             />
             <ImageMeta>
               <MetaList>

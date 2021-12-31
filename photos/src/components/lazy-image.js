@@ -27,6 +27,10 @@ function LazyImage(props) {
       alt: props.alt,
     };
 
+    if (props.index > 5) {
+      loadedProps.loading = "lazy";
+    }
+
     if (loaded) {
       return loadedProps;
     }
