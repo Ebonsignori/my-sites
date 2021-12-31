@@ -34,5 +34,6 @@
     "next-transpile-modules": "^9.0.0",
     "prompts": "^2.4.2",
     "yargs": "^17.3.0"
-  }
+  },
+  "version": "0.0.1"
 }
