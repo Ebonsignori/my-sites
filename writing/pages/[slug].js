@@ -116,7 +116,7 @@ export default function Post({ slug, source, metadata, prev, next }) {
     <>
       <Meta
         title={metadata.title}
-        description={metadata.description}
+        description={metadata.preview}
         keywords={metadata.keywords}
         image={metadata.image}
         imageAlt={metadata.imageAlt}
