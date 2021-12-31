@@ -24,6 +24,7 @@ export default function Meta({
       <meta property="og:type" content={type} />
       <meta property="og:title" content={title} />
       <meta property="og:image" content={imagePreviewUrl} />
+      <meta property="og:description" content={description} />
       <meta property="og:image:secure_url" content={imagePreviewUrl} />
       <meta property="og:image:alt" content={imageAlt} />
     </Head>

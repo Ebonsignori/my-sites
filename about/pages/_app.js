@@ -24,6 +24,10 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:image" content={imagePreviewUrl} />
         <meta property="og:image:secure_url" content={imagePreviewUrl} />
         <meta property="og:image:alt" content="Night sky with stars" />
+        <meta
+          property="og:description"
+          content="About page for Evan Bonsignori"
+        />
       </Head>
       <Analytics trackingId={process.env.ABOUT_TRACKING_ID} />
       <Component {...pageProps} />
