@@ -7,9 +7,14 @@ import styled from "styled-components";
 import AppContext from "../../../shared/utils/app-context";
 import { getImageSetSrc } from "../../../shared/utils/image";
 
-export default function Figure({ image, caption, imageAlt, priority }) {
+export default function Figure({ image, caption, imageAlt, priority, slug }) {
   if (!image?.includes("://")) {
-    image = getImageSetSrc(image, true, "writing");
+    // When slug is passed, we nest the image in a parent folder by slug name
+    if (slug) {
+      image = getImageSetSrc(image, true, `writing/${slug}`);
+    } else {
+      image = getImageSetSrc(image, true, "writing");
+    }
   }
   const appState = useContext(AppContext);
   const modalContents = (

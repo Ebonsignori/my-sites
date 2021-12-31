@@ -120,6 +120,7 @@ export default function Post({ slug, source, metadata, prev, next }) {
         keywords={metadata.keywords}
         image={metadata.image}
         imageAlt={metadata.imageAlt}
+        slug={slug}
       />
       <AppContext.Provider value={appState}>
         <ImageModal modalContents={modalContents} />
@@ -147,6 +148,7 @@ export default function Post({ slug, source, metadata, prev, next }) {
           <MainContentContainer>
             <MainContent>
               <Figure
+                slug={slug}
                 image={metadata.image}
                 imageAlt={metadata.imageAlt}
                 caption={metadata.imageCaption}
@@ -203,7 +205,9 @@ export async function getStaticProps({ params }) {
     }
   }
   const { current, prev = {}, next = {} } = entries;
-  return { props: { source: mdxSource, metadata: current.data, prev, next } };
+  return {
+    props: { slug, source: mdxSource, metadata: current.data, prev, next },
+  };
 }
 
 export async function getStaticPaths() {

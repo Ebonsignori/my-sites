@@ -46,7 +46,6 @@ const ToolTipWrapperProps = (props) =>
   border-bottom: none;
 `;
 const TooltipWrapper = styled.span`
-  display: inline-block !important;
   border-bottom: 1px dotted var(--font-secondary);
 
   ${ToolTipWrapperProps}

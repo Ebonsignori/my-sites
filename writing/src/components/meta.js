@@ -9,12 +9,23 @@ export default function Meta({
   keywords,
   image,
   imageAlt,
+  slug,
   type = "article",
   imageIsAsset = true,
 }) {
   let imagePreviewUrl = image;
   if (!image?.includes("://")) {
-    imagePreviewUrl = getImageSource(image, BREAKPOINTS[2], imageIsAsset);
+    // When slug is passed, we nest the image in a parent folder by slug name
+    if (slug) {
+      imagePreviewUrl = getImageSource(
+        image,
+        BREAKPOINTS[2],
+        imageIsAsset,
+        `writing/${slug}`
+      );
+    } else {
+      imagePreviewUrl = getImageSource(image, BREAKPOINTS[2], imageIsAsset);
+    }
   }
   return (
     <Head>
