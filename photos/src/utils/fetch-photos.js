@@ -65,10 +65,12 @@ export function fetchPhotos() {
       const imageStats = stats[image.slug.toLowerCase()];
       image.downloads = imageStats.download_count;
       image.click = imageStats.homepage_click;
+      image.popularity = image.downloads + image.click;
     } else {
       // If update-stats hasn't run since this image was added
       image.downloads = 0;
       image.click = 0;
+      image.popularity = image.downloads + image.click;
     }
 
     filteredImages[image.slug.toLowerCase()] = image;

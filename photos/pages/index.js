@@ -25,11 +25,10 @@ const PAGINATE_OFFSET = 500;
 
 const sortByOpts = [
   { key: "order", direction: ASCENDING, label: "Custom Order" },
+  { key: "popularity", direction: DESCENDING, label: "Most Viewed" },
+  { key: "popularity", direction: ASCENDING, label: "Least Viewed" },
   { key: "date", direction: DESCENDING, label: "Newest First" },
-  { key: "downloads", direction: DESCENDING, label: "Most Downloaded" },
   { key: "date", direction: ASCENDING, label: "Oldest First" },
-  { key: "downloads", direction: ASCENDING, label: "Least Downloaded" },
-  { key: "order", direction: DESCENDING, label: "Reverse Custom" },
 ];
 
 export default function Home({ images, tags, models }) {
