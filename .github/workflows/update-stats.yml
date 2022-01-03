@@ -45,6 +45,5 @@ jobs:
             git commit -m "update stats via deploy action"
             git push
           else
-            echo "Something went wrong, stats were not updated."
-            exit 1;
+            echo "No new stats to update"
           fi
