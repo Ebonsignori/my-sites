@@ -36,7 +36,14 @@ jobs:
         run: |
           cd ./${{ matrix.project }}
           npm run update-stats
-          if [[ `git status --porcelain .` ]]; then
+  commit-changes:
+    name: Commit Changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Commit changes from stat fetches
+        run: |
+          git status
+          if [[ `git status --porcelain` ]]; then
             echo "Project updated stats, updating them..."
             git config --global user.name 'Deploy Bot'
             git config --global user.email 'evanabonsignori@gmail.com'
