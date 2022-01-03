@@ -34,16 +34,10 @@ jobs:
           GA_PRIVATE_KEY: ${{ secrets.GA_PRIVATE_KEY }}
           GA_WRITING_ID: ${{ secrets.GA_WRITING_ID }}
         run: |
+          git pull
           cd ./${{ matrix.project }}
           npm run update-stats
-  commit-changes:
-    name: Commit Changes
-    runs-on: ubuntu-latest
-    steps:
-      - name: Commit changes from stat fetches
-        run: |
-          git status
-          if [[ `git status --porcelain` ]]; then
+          if [[ `git status --porcelain .` ]]; then
             echo "Project updated stats, updating them..."
             git config --global user.name 'Deploy Bot'
             git config --global user.email 'evanabonsignori@gmail.com'
