@@ -274,20 +274,11 @@ const MainContentBreakpoints = setEachBreakpoint({
   }
   `,
   xl: `
-  max-width: 1200px;
-  font-size: 36px;
-  line-height: 56px;
+  font-size: 21px;
+  line-height: 33px;
 
   p, figure {
     margin-top: 1.7rem;
-  }
-
-  .footnotes {
-    ol {
-      li::marker {
-        font-size: 4rem;
-      }
-    }
   }
   `,
   xxl: `
@@ -376,7 +367,7 @@ const PostHeaderWrapperBreakpoints = setEachBreakpoint({
   `,
   xl: `
   margin-bottom: 0;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   `,
   xxl: `
   margin-bottom: 0;
@@ -395,10 +386,6 @@ export const PostHeaderWrappper = styled.div`
 const PostHeaderBreakpoints = setEachBreakpoint({
   xs: `
   margin: 0;
-  `,
-  xl: `
-  max-width: 1200px;
-  width: 1200px;
   `,
   xxl: `
   max-width: 1200px;
@@ -430,7 +417,7 @@ const PostTitleBreakpoints = setEachBreakpoint({
   font-size: 4.0rem;
   `,
   xl: `
-  font-size: 6rem;
+  font-size: 4.5rem;
   `,
   xxl: `
   font-size: 6.4rem;
@@ -502,10 +489,6 @@ const BottomCTA = styled.a`
 `;
 
 const PrevNextOptsBreakpoints = setEachBreakpoint({
-  xl: `
-  max-width: 1200px;
-  width: 1200px;
-  `,
   xxl: `
   max-width: 1200px;
   width: 1200px;
