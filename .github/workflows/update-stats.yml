@@ -41,7 +41,8 @@ jobs:
             echo "Project updated stats, updating them..."
             git config --global user.name 'Deploy Bot'
             git config --global user.email 'evanabonsignori@gmail.com'
-            git commit -am "update stats via deploy action"
+            git add stats.json
+            git commit -m "update stats via deploy action"
             git push
           else
             echo "Something went wrong, stats were not updated."
