@@ -93,16 +93,25 @@ async function main() {
     for (const row of response.rows) {
       const slug = row.dimensionValues[0].value.toLowerCase();
       const metrics = {
-        homepage_click: row.metricValues[0].value,
-        lightbox_view: row.metricValues[1].value,
-        download_count: row.metricValues[2].value,
+        homepage_click: parseInt(row.metricValues[0].value, 10),
+        lightbox_view: parseInt(row.metricValues[1].value, 10),
+        download_count: parseInt(row.metricValues[2].value, 10),
       };
       if (!statsJson.stats[slug]) {
         statsJson.stats[slug] = metrics;
       } else {
-        statsJson.stats[slug].homepage_click += metrics.homepage_click;
-        statsJson.stats[slug].lightbox_view += metrics.lightbox_view;
-        statsJson.stats[slug].download_count += metrics.download_count;
+        statsJson.stats[slug].homepage_click += parseInt(
+          metrics.homepage_click,
+          10
+        );
+        statsJson.stats[slug].lightbox_view += parseInt(
+          metrics.lightbox_view,
+          10
+        );
+        statsJson.stats[slug].download_count += parseInt(
+          metrics.download_count,
+          10
+        );
       }
     }
     // Update stats-json

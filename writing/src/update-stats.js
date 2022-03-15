@@ -93,14 +93,14 @@ async function main() {
     for (const row of response.rows) {
       const slug = row.dimensionValues[0].value.toLowerCase();
       const metrics = {
-        opened: row.metricValues[0].value,
-        read_time: row.metricValues[1].value,
-        has_read: row.metricValues[2].value,
+        opened: parseInt(row.metricValues[0].value, 10),
+        read_time: parseInt(row.metricValues[1].value),
+        has_read: parseInt(row.metricValues[2].value),
       };
       if (statsJson.stats[slug]) {
-        statsJson.stats[slug].opened += metrics.opened;
-        statsJson.stats[slug].read_time += metrics.read_time;
-        statsJson.stats[slug].has_read += metrics.has_read;
+        statsJson.stats[slug].opened += parseInt(metrics.opened, 10);
+        statsJson.stats[slug].read_time += parseInt(metrics.read_time, 10);
+        statsJson.stats[slug].has_read += parseInt(metrics.has_read, 10);
       } else {
         // New stats for an article
         statsJson.stats[slug] = metrics;
