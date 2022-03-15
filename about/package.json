@@ -13,5 +13,6 @@
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
     "styled-components": "file:../node_modules/styled-components"
-  }
+  },
+  "version": "0.0.1"
 }
