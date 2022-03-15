@@ -33,7 +33,7 @@ See [Photo README](./photos) for more details.
 
 ## Development
 
-Run `npm install` in each child directory, including `shared`
+Run `npm install` in each child directory, including `shared` and top-level directory
 
 ## Acknowledgements
 

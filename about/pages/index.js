@@ -81,8 +81,8 @@ export default function Home({ content }) {
           />
         </ProfileImageWrapper>
         <GreetingText postLoadingFinished={postLoadingFinished}>
-          I'm <strong>Evan Bonsignori</strong>, a digital nomad travelling the
-          west. When I'm not writing code for {content.currentCompany} or
+          I'm <strong>Evan Bonsignori</strong>, based out of Portland, Oregon.
+          When I'm not writing code for {content.currentCompany} or
           practicing mindfulness, I'm enjoying one of my hobbies,
         </GreetingText>
         <PageLinks postLoadingFinished={postLoadingFinished}>
