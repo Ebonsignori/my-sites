@@ -1,5 +1,15 @@
 {
-  "lastUpdated": "2021-01-01",
+  "lastUpdated": "2022-12-03",
   "stats": {
+    "why-write": {
+      "opened": 150,
+      "read_time": 402,
+      "has_read": 100
+    },
+    "(not set)": {
+      "opened": 28,
+      "read_time": 56,
+      "has_read": 4
+    }
   }
 }
