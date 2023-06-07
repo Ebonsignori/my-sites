@@ -201,7 +201,7 @@ export default function Home({ images, tags, models }) {
       })
       .filter((result) => result.score > -1000)
       .map((result) => result.obj);
-  }, [filteredImages, searchQuery, images]);
+  }, [filteredImages, searchQuery]);
 
   // Sort Images
   filteredImages = useMemo(
