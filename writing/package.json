@@ -14,7 +14,7 @@
     "@google-analytics/data": "^2.8.0",
     "copy-to-clipboard": "^3.3.1",
     "dotenv": "^10.0.0",
-    "fuzzysort": "^1.1.4",
+    "fuzzysort": "^2.0.4",
     "googleapis": "^92.0.0",
     "gray-matter": "^4.0.3",
     "luxon": "^2.2.0",

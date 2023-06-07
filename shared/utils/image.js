@@ -83,7 +83,7 @@ const PNG_BREAKPOINT_MAP = {
 };
 /* eslint-enable max-len */
 
-// Transparent pngs at eact breakpoint
+// Transparent pngs at each breakpoint
 export function getPlaceholderSetSrc() {
   let srcSetStr = "";
   for (const breakpoint of BREAKPOINTS) {

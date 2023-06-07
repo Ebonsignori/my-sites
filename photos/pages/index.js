@@ -1,4 +1,5 @@
 import fuzzysort from "fuzzysort";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
@@ -141,7 +142,7 @@ export default function Home({ images, tags, models }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState(sortByOpts[0]);
 
-  let filteredImages = Object.values(images);
+  let filteredImages = useMemo(() => Object.values(images), [images]);
   const maxPages = useMemo(
     () => filteredImages.length + ITEMS_PER_PAGE,
     [filteredImages]
@@ -171,7 +172,7 @@ export default function Home({ images, tags, models }) {
       return filteredImages;
     }
     return fuzzysort
-      .go(searchQuery, images, {
+      .go(searchQuery, filteredImages, {
         keys: ["slug", "alt", "model"],
         scoreFn: (keysResult) => {
           const slugRes = keysResult[0];
@@ -198,7 +199,8 @@ export default function Home({ images, tags, models }) {
           return score;
         },
       })
-      .map((e) => e.obj);
+      .filter((result) => result.score > -1000)
+      .map((result) => result.obj);
   }, [filteredImages, searchQuery, images]);
 
   // Sort Images
@@ -282,26 +284,15 @@ export default function Home({ images, tags, models }) {
   let ImagesRender = null;
   if (!filteredImages.length) {
     ImagesRender = (
-      <ImageContainer key={`lazy-no-images-found`} big>
-        <img
-          src={process.env.NOT_FOUND_IMAGE_URL}
-          alt="Hide the pain Harold"
-          width="100%"
-          height="100%"
+      <NoResultsWrapper>
+        <h2>No Images Found for "{searchQuery}"</h2>
+        <Image
+          src="/smiling-face-with-tear.png"
+          alt="Smiley cry emoji with single tear"
+          width="1000"
+          height="1000"
         />
-        <ImageMeta>
-          <MetaList>
-            <div>No Images Found</div>
-            <br />
-            <img
-              src={process.env.NOT_FOUND_HOVER_IMAGE_URL}
-              alt="Smiley cry emoji with single tear"
-              width="100%"
-              height="100%"
-            />
-          </MetaList>
-        </ImageMeta>
-      </ImageContainer>
+      </NoResultsWrapper>
     );
   } else {
     ImagesRender = filteredImages.map((image, index) => {
@@ -654,5 +645,21 @@ const MetaLink = styled.a`
   margin-left: 0.5rem;
   :first-of-type {
     margin-left: 0;
+  }
+`;
+
+const NoResultsWrapper = styled.div`
+  display: flex;
+  justify-self: center;
+  align-self: baseline;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1/-1;
+
+  margin: 0 10px;
+
+  img {
+    width: 200px !important;
   }
 `;

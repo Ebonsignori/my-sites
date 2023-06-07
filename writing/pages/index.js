@@ -13,6 +13,7 @@ import TagIcon from "../../shared/svgs/tag-icon";
 import { toReadableDateString } from "../../shared/utils/dates";
 import { responsiveBackgroundImageUrl } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
+import SmileyTearImg from "../public/smiling-face-with-tear.png";
 import Meta from "../src/components/meta";
 import { fetchEntries } from "../src/utils/fetch-entries";
 import { linkStyles } from "../src/utils/global-styles";
@@ -106,6 +107,7 @@ export default function Home({ entries, categories }) {
           return score;
         },
       })
+      .filter((e) => e.score > -1000)
       .map((e) => e.obj);
   }, [filteredEntries, searchQuery, entries]);
 
@@ -153,21 +155,12 @@ export default function Home({ entries, categories }) {
   const EntriesRender = useMemo(() => {
     if (!filteredEntries.length) {
       const image = `
-        background-image: url("${process.env.NOT_FOUND_IMAGE_URL}");
+        background-image: url("${SmileyTearImg.src}");
       `;
       return (
         <Entry>
           <EntryMeta>
             <EntryPhoto backgroundImage={image}></EntryPhoto>
-            <EntryDetails>
-              <CenteredImage>
-                <img
-                  src={process.env.NOT_FOUND_HOVER_IMAGE_URL}
-                  width="200px"
-                  height="200px"
-                />
-              </CenteredImage>
-            </EntryDetails>
           </EntryMeta>
           <EntryContents noneFound>
             <h1>No Articles Found</h1>
@@ -519,10 +512,4 @@ const EntryContents = styled.div`
     }
     ${EntryContentsProps}
   }
-`;
-
-const CenteredImage = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: -10px;
 `;
