@@ -1,2 +1,4 @@
 // Ignore uploads dir
 uploads/
+
+.env
