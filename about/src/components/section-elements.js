@@ -133,14 +133,12 @@ const RightContentSectionBreakpoints = (props) =>
   `,
     xl: `
   font-size: 1.1em;
-  padding-left: 8%;
   `,
     xxl: `
   font-size: 1.2em;
   p {
     line-height: 1.4em !important;
   }
-  padding-left: 8%;
   `,
   });
 

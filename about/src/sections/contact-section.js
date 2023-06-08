@@ -18,10 +18,6 @@ export default function ContactSection({ content }) {
       <ContentSection>
         <TextContent wide>
           <p>
-            Typically this section has a nice little contact form, but I've had
-            mixed success in preventing spam.
-          </p>{" "}
-          <p>
             If you'd like to get in touch, please{" "}
             <a href={content.socialLinks.linkedin}>message me on Linkedin</a>,{" "}
             or you can find my personal email in{" "}
