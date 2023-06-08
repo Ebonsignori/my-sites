@@ -49,7 +49,7 @@ function AboutSection({ content, innerRef }) {
           <SectionText>
             <p>
               In many ways, I'm a recovering ADHD kid who has learned to adapt
-              via lifestyle changes. I've spent the last few years abstaining
+              via lifestyle changes. I've spent most of my adult life abstaining
               from video games, news, social media, TV, added sugar, alcohol,
               and caffeine. Avoiding these things has enabled me to focus on
               habits that keep me healthy, happy, and productive.
@@ -58,8 +58,7 @@ function AboutSection({ content, innerRef }) {
               I love to climb, camp, and hike outdoors with my dog Syl, but look
               forward to rainy PNW winters when I can devote time to indoor
               hobbies without sun FOMO. Then I enjoy playing classical piano,
-              reading books for book club, and DMing an incredibly well-designed
-              {" "}
+              reading books for book club, and DMing an incredibly well-designed{" "}
               <a href="https://mausritter.com/">mouse themed D&D campaign</a>{" "}
               for friends.
             </p>
