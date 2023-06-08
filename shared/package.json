@@ -1,6 +1,6 @@
 {
   "name": "shared",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Shared code between my-sites",
   "private": true,
   "main": "index.js",
