@@ -19,7 +19,7 @@ export default function ContactSection({ content }) {
         <TextContent wide>
           <p>
             Typically this section has a nice little contact form, but I've had
-            mixed success in preventing bots from hitting it.
+            mixed success in preventing spam.
           </p>{" "}
           <p>
             If you'd like to get in touch, please{" "}

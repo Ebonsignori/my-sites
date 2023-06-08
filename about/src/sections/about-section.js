@@ -45,25 +45,23 @@ function AboutSection({ content, innerRef }) {
       />
       <ContentSection>
         <TextContent>
-          <Title>Developer Story</Title>
+          <Title>Me</Title>
           <SectionText>
             <p>
-              Despite what the CSS star animations may suggest, most of my
-              experience has been in backend and full-stack development. I've
-              been on projects dealing entirely with microservices and cloud
-              migrations, and others that required me to design responsive and
-              highly stateful frontends. At GitHub, I'm helping build internal
-              tooling that does a little of everything; like helping ICs with
-              agile automations, managers with Slack notifications/updates, and
-              VPs with responsive HTML reports.
+              In many ways, I'm a recovering ADHD kid who has learned to adapt
+              via lifestyle changes. I've spent the last few years abstaining
+              from video games, news, social media, TV, added sugar, alcohol,
+              and caffeine. Avoiding these things has enabled me to focus on
+              habits that keep me healthy, happy, and productive.
             </p>
             <p>
-              As a co-worker, I value the happiness of the people I work with. I
-              want each team member to feel like they have a voice, are
-              encouraged to contribute, and are happy with their contributions.
-              My work leaves me feeling energized and fulfilled, and I want
-              everyone to have the opportunity to feel the same way about their
-              own work.
+              I love to climb, camp, and hike outdoors with my dog Syl, but look
+              forward to rainy PNW winters when I can devote time to indoor
+              hobbies without sun FOMO. Then I enjoy playing classical piano,
+              reading books for book club, and DMing an incredibly well-designed
+              {" "}
+              <a href="https://mausritter.com/">mouse themed D&D campaign</a>{" "}
+              for friends.
             </p>
           </SectionText>
         </TextContent>

@@ -74,7 +74,7 @@ export default function Home({ content }) {
               imageClickCount <= 5 &&
               setImageClickCount((prevCount) => prevCount + 1)
             }
-            srcSet={getImageSetSrc("evan-2021-profile-picture", true)}
+            srcSet={getImageSetSrc("evan-2023-profile-picture", true)}
             width="250"
             height="250"
             alt="Evan Bonsignori's profile"
@@ -82,8 +82,7 @@ export default function Home({ content }) {
         </ProfileImageWrapper>
         <GreetingText postLoadingFinished={postLoadingFinished}>
           I'm <strong>Evan Bonsignori</strong>, based out of Portland, Oregon.
-          When I'm not writing code for {content.currentCompany} or
-          practicing mindfulness, I'm enjoying one of my hobbies,
+          Trying to create more than I consume,
         </GreetingText>
         <PageLinks postLoadingFinished={postLoadingFinished}>
           <PageLink href={process.env.WRITING_PAGE_URL}>Writing</PageLink>
@@ -146,12 +145,7 @@ export default function Home({ content }) {
 const OPACITY_TRANSITION = (props) => `
   opacity: 0;
   transition: opacity 2s ease-in;
-  ${
-    props.postLoadingFinished &&
-    `
-    opacity: 1;
-  `
-  }
+  ${props.postLoadingFinished && `opacity: 1;`}
 `;
 
 export async function getStaticProps() {

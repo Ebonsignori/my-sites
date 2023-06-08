@@ -142,7 +142,7 @@ export default function SunMode({ content }) {
       return (
         <p>
           Ok, ok, if you want to keep being entertained{" "}
-          <a href="https://www.youtube.com/playlist?list=PLFsQleAWXsj_4yDeebiIADdH5FMayBiJo">
+          <a href="https://www.youtube.com/playlist?list=PLXKAG8g1Ls_Ax-SU7rCgyiGWjylB5NHL-">
             go here.
           </a>
         </p>
