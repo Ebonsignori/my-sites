@@ -1,5 +1,4 @@
 import fuzzysort from "fuzzysort";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
@@ -14,6 +13,7 @@ import {
 } from "../../shared/utils/breakpoints";
 import { getImageSetSrc, getImageSource } from "../../shared/utils/image";
 import { capitalizeAll } from "../../shared/utils/strings";
+import SmileyFaceWithTear from "../public/smiling-face-with-tear.png";
 import LazyImage from "../src/components/lazy-image";
 import LightboxModal from "../src/components/lightbox-modal";
 import Meta from "../src/components/meta";
@@ -286,11 +286,11 @@ export default function Home({ images, tags, models }) {
     ImagesRender = (
       <NoResultsWrapper>
         <h2>No Images Found for "{searchQuery}"</h2>
-        <Image
-          src="/smiling-face-with-tear.png"
+        <img
+          src={SmileyFaceWithTear.src}
           alt="Smiley cry emoji with single tear"
-          width="1000"
-          height="1000"
+          width="200"
+          height="200"
         />
       </NoResultsWrapper>
     );
