@@ -93,7 +93,7 @@ export default function Home({ content }) {
           content={content}
           postLoadingFinished={postLoadingFinished}
         />
-        <ScrollDownArrowWrapper
+        {/* <ScrollDownArrowWrapper
           postLoadingFinished={postLoadingFinished}
           onClick={() =>
             aboutSectionRef.current.scrollIntoView({
@@ -104,7 +104,7 @@ export default function Home({ content }) {
           }
         >
           <ScrollDownArrow />
-        </ScrollDownArrowWrapper>
+        </ScrollDownArrowWrapper> */}
       </>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,19 +117,19 @@ export default function Home({ content }) {
     postLoadingFinished,
   ]);
 
-  const SectionsRender = useMemo(() => {
-    if (!isSunMode && postLoadingFinished) {
-      return (
-        <>
-          <AboutSection innerRef={aboutSectionRef} content={content} />
-          <UsageSection content={content} />
-          <ContactSection content={content} />
-          <Copyright invertColors />
-        </>
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postLoadingFinished, isSunMode]);
+  // const SectionsRender = useMemo(() => {
+  //   if (!isSunMode && postLoadingFinished) {
+  //     return (
+  //       <>
+  //         <AboutSection innerRef={aboutSectionRef} content={content} />
+  //         <UsageSection content={content} />
+  //         <ContactSection content={content} />
+  //         <Copyright invertColors />
+  //       </>
+  //     );
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [postLoadingFinished, isSunMode]);
 
   return (
     <PageWrapper doneLoading={introLoadFinished} isSunMode={isSunMode}>
@@ -137,7 +137,6 @@ export default function Home({ content }) {
         {PageRender}
         <BackgroundImage postLoadingFinished={postLoadingFinished} />
       </PageHeader>
-      {SectionsRender}
     </PageWrapper>
   );
 }
