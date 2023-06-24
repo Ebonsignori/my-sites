@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
-import Copyright from "../../shared/components/copyright";
+// import Copyright from "../../shared/components/copyright";
 import { setEachBreakpoint } from "../../shared/utils/breakpoints";
 import {
   getImageSetSrc,
@@ -10,17 +10,17 @@ import {
 import ShootingStars from "../src/components/shooting-stars";
 import SocialIcons from "../src/components/social-icons";
 import WaveHand from "../src/components/wave-hand";
-import AboutSection from "../src/sections/about-section";
-import ContactSection from "../src/sections/contact-section";
+// import AboutSection from "../src/sections/about-section";
+// import ContactSection from "../src/sections/contact-section";
 import SunMode from "../src/sections/sun-mode";
-import UsageSection from "../src/sections/usage-section";
+// import UsageSection from "../src/sections/usage-section";
 import fetchContent from "../src/utils/fetch-content";
 
 // Total time in ms to show wave intro before displaying full page
 const LOAD_TIME = 2000;
 
 export default function Home({ content }) {
-  const aboutSectionRef = useRef(null);
+  // const aboutSectionRef = useRef(null);
   const [introLoadFinished, setIntroLoadFinished] = useState(false);
   const [postLoadingFinished, setPostLoadingFinished] = useState(false);
   const [imageClickCount, setImageClickCount] = useState(0);
@@ -513,71 +513,71 @@ const PageLink = styled.a`
   }
 `;
 
-const ScrollDownArrowWrapperBreakpoints = setEachBreakpoint({
-  xs: `
-    display: none;
-  `,
-  sm: `
-    left: 80%;
-  `,
-});
-const ScrollDownArrowWrapper = styled.div`
-  ${OPACITY_TRANSITION}
-  ${ScrollDownArrowWrapperBreakpoints}
-  bottom: 1%;
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  left: 49%;
-  min-width: 5rem;
-  min-height: 5rem;
-  z-index: 5;
-  :hover {
-    cursor: pointer;
-    span {
-      border-left: 1px solid rgb(95, 145, 255);
-      border-bottom: 1px solid rgb(95, 145, 255);
-    }
-  }
-`;
-const ScrollDownArrow = styled.span`
-  position: absolute;
-  width: 3rem;
-  height: 3rem;
-  border-left: 1px solid #fff;
-  border-bottom: 1px solid #fff;
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  -webkit-animation: sdb05 1s infinite;
-  animation: sdb05 1s infinite;
-  box-sizing: border-box;
-  @-webkit-keyframes sdb05 {
-    0% {
-      -webkit-transform: rotate(-45deg) translate(0, 0);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      -webkit-transform: rotate(-45deg) translate(-20px, 20px);
-      opacity: 0;
-    }
-  }
-  @keyframes sdb05 {
-    0% {
-      transform: rotate(-45deg) translate(0, 0);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(-45deg) translate(-20px, 20px);
-      opacity: 0;
-    }
-  }
-`;
+// const ScrollDownArrowWrapperBreakpoints = setEachBreakpoint({
+//   xs: `
+//     display: none;
+//   `,
+//   sm: `
+//     left: 80%;
+//   `,
+// });
+// const ScrollDownArrowWrapper = styled.div`
+//   ${OPACITY_TRANSITION}
+//   ${ScrollDownArrowWrapperBreakpoints}
+//   bottom: 1%;
+//   display: flex;
+//   justify-content: center;
+//   position: absolute;
+//   left: 49%;
+//   min-width: 5rem;
+//   min-height: 5rem;
+//   z-index: 5;
+//   :hover {
+//     cursor: pointer;
+//     span {
+//       border-left: 1px solid rgb(95, 145, 255);
+//       border-bottom: 1px solid rgb(95, 145, 255);
+//     }
+//   }
+// `;
+// const ScrollDownArrow = styled.span`
+//   position: absolute;
+//   width: 3rem;
+//   height: 3rem;
+//   border-left: 1px solid #fff;
+//   border-bottom: 1px solid #fff;
+//   -webkit-transform: rotate(-45deg);
+//   transform: rotate(-45deg);
+//   -webkit-animation: sdb05 1s infinite;
+//   animation: sdb05 1s infinite;
+//   box-sizing: border-box;
+//   @-webkit-keyframes sdb05 {
+//     0% {
+//       -webkit-transform: rotate(-45deg) translate(0, 0);
+//       opacity: 0;
+//     }
+//     50% {
+//       opacity: 1;
+//     }
+//     100% {
+//       -webkit-transform: rotate(-45deg) translate(-20px, 20px);
+//       opacity: 0;
+//     }
+//   }
+//   @keyframes sdb05 {
+//     0% {
+//       transform: rotate(-45deg) translate(0, 0);
+//       opacity: 0;
+//     }
+//     50% {
+//       opacity: 1;
+//     }
+//     100% {
+//       transform: rotate(-45deg) translate(-20px, 20px);
+//       opacity: 0;
+//     }
+//   }
+// `;
 
 const StyledSocialIcons = styled(SocialIcons)`
   z-index: 5;
