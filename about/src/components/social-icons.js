@@ -7,25 +7,28 @@ import GoodreadsIcon from "../svgs/social/goodreads";
 import InstagramIcon from "../svgs/social/instagram";
 import LastfmIcon from "../svgs/social/lastfm";
 import LinkedinIcon from "../svgs/social/linkedin";
+import MastodonIcon from "../svgs/social/mastodon";
 
 // Due to issues with styled components and Next.js, these can't be created dynamically
-export default function SocialIcons({ content, className }) {
-  const { socialLinks } = content;
+export default function SocialIcons({ socialLinks, className }) {
   return (
     <IconsWrapper className={className}>
-      <IconLink href={socialLinks.github}>
+      <IconLink rel="me" href={socialLinks.github}>
         <GithubIcon />
       </IconLink>
-      <IconLink href={socialLinks.linkedin}>
+      <IconLink rel="me" href={socialLinks.mastodon}>
+        <MastodonIcon />
+      </IconLink>
+      <IconLink rel="me" href={socialLinks.linkedin}>
         <LinkedinIcon />
       </IconLink>
-      <IconLink href={socialLinks.instagram}>
+      <IconLink rel="me" href={socialLinks.instagram}>
         <InstagramIcon />
       </IconLink>
-      <IconLink href={socialLinks.goodreads}>
+      <IconLink rel="me" href={socialLinks.goodreads}>
         <GoodreadsIcon />
       </IconLink>
-      <IconLink href={socialLinks.lastfm}>
+      <IconLink rel="me" href={socialLinks.lastfm}>
         <LastfmIcon />
       </IconLink>
     </IconsWrapper>
@@ -69,11 +72,11 @@ const IconsWrapper = styled.div`
 
 const IconLinkBreakpoints = setEachBreakpoint({
   xs: `
-  margin: 0 .75rem;
-  margin-bottom: 3%;
+  margin: 0 .6rem;
+  margin-bottom: 2%;
   svg {
-    width: 2.35rem;
-    height: 2.35rem;
+    width: 2.25rem;
+    height: 2.25rem;
   }
   `,
   sm: `

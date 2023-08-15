@@ -90,7 +90,7 @@ export default function Home({ content }) {
           <PageLink href={process.env.MUSIC_PAGE_URL}>Music</PageLink>
         </PageLinks>
         <StyledSocialIcons
-          content={content}
+          socialLinks={content.socialLinks}
           postLoadingFinished={postLoadingFinished}
         />
         {/* <ScrollDownArrowWrapper
